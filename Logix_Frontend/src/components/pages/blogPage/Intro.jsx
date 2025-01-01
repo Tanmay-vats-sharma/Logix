@@ -2,8 +2,8 @@ import React from 'react';
 import { TextEffect } from '../../motion-ui/TextEffect';
 const Intro = () => {
     return (
-        <div className='w-svw h-2/5 p-4'>
-            <div className='text-center  text-2xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl  '>
+        <div className='w-full h-2/5 p-4   mt-12'>
+            <div className=' flex  flex-col  justify-center text-center   sm:text-4xl md:text-5xl lg:text-7xl xl:text-7xl tracking-tighter '>
                 <TextEffect
                     per='char'
                     delay={0.5}
@@ -74,7 +74,7 @@ const Intro = () => {
                     from us
                 </TextEffect>
             </div>
-            <div className='hidden w-2/6 mx-auto sm:flex justify-center mt-3'>
+            <div className='hidden w-2/3 mx-auto sm:flex justify-center text-center text-[#7d7d7d] mt-3'>
                 <TextEffect 
                 className='text-sm hebrew-text text-wrap p-2'
                 preset='fade-in-blur'
