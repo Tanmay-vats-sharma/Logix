@@ -3,7 +3,7 @@ import Button from "./button";
 import Logo from "../../assets/logix.png";
 import HamburgerMenu from "./Hamburger";
 
-const Navbar = () => {
+const Navbar = ({id}) => {
   const [activeIndex, setActiveIndex] = useState(null);
   const [hoverStyle, setHoverStyle] = useState({
     left: 0,
@@ -47,7 +47,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed w-full px-2 flex items-center z-[1] text-white animate-navbar bg-zinc-800/40 border-gray-50">
+    <div id={id} className="fixed w-full px-2 flex items-center z-[1] text-white animate-navbar bg-zinc-800/40 border-gray-50">
       <div className="w-11/12 h-full flex items-center justify-between md:justify-start">
         <div className="h-14 w-28 mr-10 ml-3">
           <img src={Logo} alt="Logo" className="h-[100%] w-[100%]" />

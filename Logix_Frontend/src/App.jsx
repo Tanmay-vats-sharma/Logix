@@ -1,21 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import BlogPage from "./components/pages/blogPage/BlogPage";
-import Header from "./components/common/Header"
+import Layout from "./components/Layout";
 
-
-
-// Layout component
-function Layout({ children }) {
-  return (
-    <div className="flex flex-col">
-      <Header />
-      <main className="flex-grow flex items-center justify-center gap-3">
-        {children}
-      </main>
-    </div>
-  );
-}
 
 function App() {
   return (
