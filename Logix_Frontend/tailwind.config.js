@@ -20,7 +20,7 @@ export default {
           "rgba(255,255,255,0.1) 0px 0px 1px 4px, rgba(104,63,234,0.4) 0px 8px 250px 70px",
       },
       animation: {
-        navbar: "navbar 300ms ease-in-out forwards",
+        navbar: "navbar 500ms ease-in-out forwards",
         wordScale: "wordScale 0.5s ease-in-out forwards",
         wordScaleDelay200: "wordScale 0.5s ease-in-out 0.1s forwards",
         wordScaleDelay400: "wordScale 0.5s ease-in-out 0.2s forwards",
@@ -33,7 +33,7 @@ export default {
         },
         navbar: {
           "0%": { height: "0px" },
-          "100%": { height: "50px" },
+          "100%": { height: "11%" },
         },
       },
     },
