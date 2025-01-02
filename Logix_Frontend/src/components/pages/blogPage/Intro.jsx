@@ -2,8 +2,8 @@ import React from 'react';
 import { TextEffect } from '../../motion-ui/TextEffect';
 const Intro = () => {
     return (
-        <div className='w-full h-2/5 p-4   mt-12'>
-            <div className=' flex  flex-col  justify-center text-center   sm:text-4xl md:text-5xl lg:text-7xl xl:text-7xl tracking-tighter '>
+        <div className='w-full h-2/5 p-4 mt-12'>
+            <div className=' flex  flex-col  justify-center text-center text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl tracking-tighter '>
                 <TextEffect
                     per='char'
                     delay={0.5}

@@ -27,10 +27,6 @@ export default {
         wordScaleDelay600: "wordScale 0.5s ease-in-out 0.3s forwards",
       },
       keyframes: {
-        wordScale: {
-          "0%": { transform: "scale(0)", opacity: 0 },
-          "100%": { transform: "scale(1)", opacity: 1 },
-        },
         navbar: {
           "0%": { height: "0px" },
           "100%": { height: "11%" },
