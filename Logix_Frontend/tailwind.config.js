@@ -15,9 +15,7 @@ export default {
       },
       boxShadow: {
         customShadow:
-          // 'rgba(255,255,255,0.25) 0px 2px 1px 0px inset, rgba(0,0,0,0.25) 0px -4px 4px 0px inset, rgba(255,255,255,0.1) 0px 0px 1px 4px, rgba(104,63,234,0.4) 0px 2px 60px 0px',
-          // ' rgba(255,255,255,0.1) 0px 0px 1px 4px, rgba(104,63,234,0.4) 0px 4px 120px 0px',
-          "rgba(255,255,255,0.1) 0px 0px 1px 4px, rgba(104,63,234,0.4) 0px 8px 250px 70px",
+          " rgba(104,63,234,0.6) 0px 8px 250px 70px",
       },
       animation: {
         navbar: "navbar 500ms ease-in-out forwards",
@@ -57,6 +55,10 @@ export default {
           neonUtilities[`.neon-${color}-text`] = {
             textShadow: `0 0 5px ${color1}, 0 0 30px ${color2}`,
           };
+          // // Rounded Neon Shadow for Transparent Background
+          // neonUtilities[`.neon-${color}-drop-shadow`] = {
+          //   filter: `drop-shadow(0 0 15px ${colors[color]["300"]}) drop-shadow(0 0 30px ${colors[color]["400"]})`
+          // };
         }
       }
       addUtilities(neonUtilities);

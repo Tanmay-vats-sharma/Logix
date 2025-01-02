@@ -8,7 +8,7 @@ import Header from "./components/common/Header"
 // Layout component
 function Layout({ children }) {
   return (
-    <div className="h-screen flex flex-col">
+    <div className="flex flex-col">
       <Header />
       <main className="flex-grow flex items-center justify-center gap-3">
         {children}

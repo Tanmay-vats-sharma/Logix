@@ -1,12 +1,18 @@
 import React from 'react';
 import Intro from './Intro';
+import SubscribeCTA from './SubscribeCTA';
+import SearchPaginator from './SearchPaginator';
+import BlogCardGrid from './BlogCardGrid';
 
 const BlogPage = () => {
     return (
-        <div className='h-full flex flex-col items-center mt-8 '>
+        <div className=' flex flex-col items-center mt-8 gap-12 '>
             <Intro/>
-            {/* <h1 className='neon-purple-text text-9xl'>Blog Page</h1> */}
-            {/* <p className='neon-red-text'>Welcome to the blog page!</p> */}
+            {/* <SearchPaginator /> */}
+            {/* <BlogCardGrid /> */}
+            {/* FeaturedBlogs (Optional) */}
+            {/* PopularBlogs (Optional) */}
+            <SubscribeCTA />
         </div>
     );
 };

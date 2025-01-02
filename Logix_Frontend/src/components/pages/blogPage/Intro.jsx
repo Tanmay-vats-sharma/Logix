@@ -81,7 +81,9 @@ const Intro = () => {
                 delay={1.4}
                 speedReveal={2} 
                 speedSegment={0.8}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris id nunc odio. Aliquam et tellus urna. Phasellus eget
+                    Stay updated with the most recent blogs and articles from the Logix Society.
+                    <br />
+                    Expand your coding knowledge with insights and tutorials crafted just for you!
                 </TextEffect>
 
             </div>

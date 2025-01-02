@@ -78,10 +78,26 @@ const presetVariants = {
 };
 
 // Helper function to split text
+// Original Library Function
+// const splitText = (text, per) => {
+//   if (per === 'line') return text.split('\n');
+//   return text.split(/(\s+)/);
+// };
+
+// Custom Function To Support JSX Elements
 const splitText = (text, per) => {
-  if (per === 'line') return text.split('\n');
-  return text.split(/(\s+)/);
-};
+  if (per === 'line') {
+    return text.split('\n');
+  }
+
+  // Check if the text includes JSX elements
+  if (typeof text === 'string') {
+    return text.split(/(\s+)/);
+  }
+
+  // Return as-is if it's not a string
+  return React.Children.toArray(text);
+}
 
 // Animation Component (unchanged)
 const AnimationComponent = React.memo(({ segment, variants, per, segmentWrapperClassName }) => {
