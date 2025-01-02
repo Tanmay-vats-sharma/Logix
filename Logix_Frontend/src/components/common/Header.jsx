@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./button";
 import Logo from "../../assets/logix.png";
+import HamburgerMenu from "./Hamburger";
 
 const Navbar = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -9,8 +10,21 @@ const Navbar = () => {
     width: 0,
     opacity: 0,
   });
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  const menuItems = ["home", "about", "event", "contact"];
+  const menuItems = ["home", "about", "event", "contact","leaderboard"];
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); 
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleMouseEnter = (e, index) => {
     const { left, width } = e.target.getBoundingClientRect();
@@ -28,28 +42,32 @@ const Navbar = () => {
     setActiveIndex(index);
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="fixed w-full px-2 flex items-center z-[1] text-white animate-navbar bg-zinc-800/40 border-gray-50">
-      <div className="w-11/12 h-full flex items-center">
-        <div className="h-14 w-28">
-          <img src={Logo} alt="" className="h-[100%] w-[100%]" />
+      <div className="w-11/12 h-full flex items-center justify-between md:justify-start">
+        <div className="h-14 w-28 mr-10 ml-3">
+          <img src={Logo} alt="Logo" className="h-[100%] w-[100%]" />
         </div>
-        <div className="navbar w-3/6 z-[10] h-full flex justify-evenly items-center relative">
-        
+
+        <div className="navbar h-full hidden md:flex w-4/6 justify-evenly items-center relative">
           <div
-            className="hover-bg absolute h-8 bg-purple-500 rounded-lg neon-purple-shadow transition-all duration-300 pointer-events-none"
+            className="hover-bg hover:h-8 absolute h-8 bg-purple-500 rounded-lg neon-purple-shadow transition-all duration-300 pointer-events-none"
             style={{
               left: hoverStyle.left,
               width: hoverStyle.width,
               opacity: hoverStyle.opacity,
-              zIndex: 1, 
+              zIndex: 1,
             }}
           ></div>
           {menuItems.map((item, index) => (
             <a
               key={index}
               href="#"
-              className={`item h-8 rounded-lg w-24 flex justify-center items-center text-white text-lg cursor-pointer relative z-20 ${
+              className={`item  rounded-lg w-28 flex justify-center items-center text-white text-lg cursor-pointer relative z-20 ${
                 activeIndex === index
                   ? "h-[100%] rounded-none border-b-2 border-purple-500"
                   : ""
@@ -62,9 +80,17 @@ const Navbar = () => {
             </a>
           ))}
         </div>
+
+        <div className="md:hidden">
+          <button className="text-white text-4xl" onClick={toggleMenu}>
+            {isMenuOpen ? "☰" : "☰"}
+          </button>
+        </div>
       </div>
 
-      <Button height="30px" width="80px" value="Join us" />
+      {!isMobile && <Button height="30px" width="100px" value="Join us" />}
+
+      {isMenuOpen && <HamburgerMenu isMenuOpen={isMenuOpen} menuItems={menuItems} toggleMenu={toggleMenu} ></HamburgerMenu>}
     </div>
   );
 };
