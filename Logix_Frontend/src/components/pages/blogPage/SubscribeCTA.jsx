@@ -16,7 +16,7 @@ const SubscribeCTA = () => {
     }, [submit]);
 
     return (
-        <div className="w-full h-svh flex items-center justify-center">
+        <div className="w-[99vw] h-[99vh] flex items-center justify-center">
             <div className='bg-[#1b1c1d] w-11/12 h-3/5 rounded-xl relative overflow-hidden flex items-center justify-center'>
                 {/* Left Circle */}
                 <div className='absolute top-auto bottom-[-32%] left-[-15%] w-full z-0 motion-translate-x-in-[-89%] motion-translate-y-in-[61%] motion-ease-spring-smooth motion-duration-[900ms]  '>

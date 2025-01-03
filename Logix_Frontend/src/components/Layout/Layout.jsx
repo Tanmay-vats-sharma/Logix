@@ -1,9 +1,9 @@
 import React from "react";
-import Cursor from "../components/Cursor.jsx";
-import Header from "../components/common/Header/Header.jsx";
-import Dotsbox from "./common/Dots.jsx";
+import Cursor from "./Cursor.jsx";
+import Header from "../common/Header/Header.jsx";
+import Dotsbox from "../common/Dots.jsx";
 import { Outlet } from "react-router-dom";
-import BackToTopButton from "../components/BackToTopButton"; 
+import BackToTopButton from "./BackToTopButton.jsx";
 function Layout() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -13,7 +13,7 @@ function Layout() {
       <main className="flex-grow flex items-center justify-center gap-3">
         <Outlet />
       </main>
-      <BackToTopButton /> 
+      <BackToTopButton />
     </div>
   );
 }
