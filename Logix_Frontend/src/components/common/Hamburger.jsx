@@ -10,11 +10,11 @@ const HamburgerMenu = ({ isMenuOpen, toggleMenu, menuItems }) => {
           {menuItems.map((item, index) => (
             <Link
               key={index}
-              to={`/${item.path}`} 
+              to={item.path} 
               className="flex justify-center py-2 text-xl border-b border-gray-700 last:border-b-0 mb-2"
               onClick={toggleMenu}
             >
-              {item}
+              {item.name} 
             </Link>
           ))}
           <div className="mt-4 flex justify-center">
