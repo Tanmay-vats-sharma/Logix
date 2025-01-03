@@ -1,4 +1,5 @@
 import React from "react";
+import Contactbg from "../../../assets/contact-bg.png"
 import { TextEffect } from "../../motion-ui/TextEffect";
 const ContactUs = () => {
   return (
@@ -42,6 +43,16 @@ const ContactUs = () => {
           >
             We are here when you need us
           </TextEffect>{" "}
+        </div>
+        <div className="bg-[#1b1c1d] w-2/4 h-3/5 rounded-xl neon-neutral-shadow  flex justify-around items-center p-2">
+          <div
+            className="h-[90%] rounded-xl w-[30%] bg-cover bg-center flex flex-col p-4  "
+            style={{ backgroundImage: `url(${Contactbg})` }}
+          >
+            <div className="text-purple-300">Contact us</div>
+          </div>
+
+          <div className="h-[90%] border-2 w-[65%]"></div>
         </div>
       </section>
     </>

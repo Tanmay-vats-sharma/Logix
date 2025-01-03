@@ -1,6 +1,6 @@
 import React from "react";
 import Cursor from "../components/Cursor.jsx";
-import Header from "../components/common/Header";
+import Header from "../components/common/Header/Header.jsx";
 import Dotsbox from "./common/Dots.jsx";
 import { Outlet } from "react-router-dom";
 import BackToTopButton from "../components/BackToTopButton"; 
