@@ -29,7 +29,7 @@ const SubscribeCTA = () => {
 
                     {/* Input */}
                     <div>
-                        <input type="text" className='w-full h-10 bg-[#333] text-[#fff] rounded-lg px-3 z-10' placeholder='Enter your email address' />
+                        <input type="text" className='relative outline-none w-full h-10 bg-[#333] text-[#fff] rounded-lg px-3 z-10' placeholder='Enter your email address' />
                     </div>
                     
 

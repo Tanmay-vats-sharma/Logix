@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const plugin = require('tailwindcss/plugin');
+const plugin = require("tailwindcss/plugin");
 
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -14,8 +14,7 @@ export default {
           "radial-gradient(circle at 50% 50%, rgb(164,124,243), rgb(104,63,234))",
       },
       boxShadow: {
-        customShadow:
-          " rgba(104,63,234,0.6) 0px 8px 250px 70px",
+        customShadow: "rgba(104,63,234,0.6) 0px 8px 250px 70px",
       },
       animation: {
         navbar: "navbar 500ms ease-in-out forwards",
@@ -33,6 +32,7 @@ export default {
     },
   },
   plugins: [
+    require("tailwindcss-motion"), // Fixed placement for the plugin
     plugin(({ theme, addUtilities }) => {
       const neonUtilities = {};
       const colors = theme("colors");
@@ -55,14 +55,9 @@ export default {
           neonUtilities[`.neon-${color}-text`] = {
             textShadow: `0 0 5px ${color1}, 0 0 30px ${color2}`,
           };
-          // // Rounded Neon Shadow for Transparent Background
-          // neonUtilities[`.neon-${color}-drop-shadow`] = {
-          //   filter: `drop-shadow(0 0 15px ${colors[color]["300"]}) drop-shadow(0 0 30px ${colors[color]["400"]})`
-          // };
         }
       }
       addUtilities(neonUtilities);
     }),
   ],
 };
-

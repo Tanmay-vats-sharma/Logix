@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Button from "./button";
 import Logo from "../../assets/logix.png";
 import HamburgerMenu from "./Hamburger";
 
-const Navbar = ({id}) => {
-  const [activeIndex, setActiveIndex] = useState(null);
+const Navbar = ({ id }) => {
+  const [activeIndex, setActiveIndex] = useState(0);
   const [hoverStyle, setHoverStyle] = useState({
     left: 0,
     width: 0,
@@ -13,12 +14,17 @@ const Navbar = ({id}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
-  const menuItems = ["home", "about", "event", "contact","leaderboard"];
-
+  const menuItems = [
+    { name: "Home", path: "/" },
+    { name: "Blog", path: "/blog" },
+    { name: "Events", path: "/events" },
+    { name: "About", path: "/about" },
+    { name: "Leaderboard", path: "/leaderboard" },
+  ];
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); 
+      setIsMobile(window.innerWidth <= 768);
     };
 
     window.addEventListener("resize", handleResize);
@@ -47,7 +53,10 @@ const Navbar = ({id}) => {
   };
 
   return (
-    <div id={id} className="fixed w-full px-2 flex items-center z-[1] text-white animate-navbar bg-zinc-800/40 border-gray-50">
+    <div
+      id={id}
+      className="fixed w-full px-2 flex items-center z-[1] text-white animate-navbar bg-zinc-800/40 border-gray-50"
+    >
       <div className="w-11/12 h-full flex items-center justify-between md:justify-start">
         <div className="h-14 w-28 mr-10 ml-3">
           <img src={Logo} alt="Logo" className="h-[100%] w-[100%]" />
@@ -64,9 +73,9 @@ const Navbar = ({id}) => {
             }}
           ></div>
           {menuItems.map((item, index) => (
-            <a
+            <Link
               key={index}
-              href="#"
+              to={item.path}
               className={`item  rounded-lg w-28 flex justify-center items-center text-white text-lg cursor-pointer relative z-20 ${
                 activeIndex === index
                   ? "h-[100%] rounded-none border-b-2 border-purple-500"
@@ -76,8 +85,8 @@ const Navbar = ({id}) => {
               onMouseLeave={handleMouseLeave}
               onClick={() => handleClick(index)}
             >
-              {item}
-            </a>
+              {item.name}
+            </Link>
           ))}
         </div>
 
@@ -90,7 +99,13 @@ const Navbar = ({id}) => {
 
       {!isMobile && <Button height="30px" width="100px" value="Join us" />}
 
-      {isMenuOpen && <HamburgerMenu isMenuOpen={isMenuOpen} menuItems={menuItems} toggleMenu={toggleMenu} ></HamburgerMenu>}
+      {isMenuOpen && (
+        <HamburgerMenu
+          isMenuOpen={isMenuOpen}
+          menuItems={menuItems}
+          toggleMenu={toggleMenu}
+        />
+      )}
     </div>
   );
 };
