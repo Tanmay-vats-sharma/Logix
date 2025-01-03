@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import Button from "../Button";
+import { Link, useLocation } from "react-router-dom";
+import Button from "../button";
 import Logo from "../../../assets/logix.png";
 import HamburgerMenu from "./Hamburger";
 import ProgressBar from "./ProgressScrollbar";
 
 const Navbar = ({ id }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const location = useLocation();
   const [hoverStyle, setHoverStyle] = useState({
     left: 0,
     width: 0,
@@ -33,7 +33,7 @@ const Navbar = ({ id }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleMouseEnter = (e, index) => {
+  const handleMouseEnter = (e) => {
     const { left, width } = e.target.getBoundingClientRect();
     const navbarLeft = document
       .querySelector(".navbar")
@@ -45,13 +45,11 @@ const Navbar = ({ id }) => {
     setHoverStyle({ ...hoverStyle, opacity: 0 });
   };
 
-  const handleClick = (index) => {
-    setActiveIndex(index);
-  };
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const isActive = (path) => location.pathname === path;
 
   return (
     <div>
@@ -78,14 +76,13 @@ const Navbar = ({ id }) => {
               <Link
                 key={index}
                 to={item.path}
-                className={`item  rounded-lg w-28 flex justify-center items-center text-white text-lg cursor-pointer relative z-20 ${
-                  activeIndex === index
+                className={`item rounded-lg w-28 flex justify-center items-center text-white text-lg cursor-pointer relative z-20 ${
+                  isActive(item.path)
                     ? "h-[100%] rounded-none border-b-2 border-purple-500"
                     : ""
                 }`}
-                onMouseEnter={(e) => handleMouseEnter(e, index)}
+                onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                onClick={() => handleClick(index)}
               >
                 {item.name}
               </Link>
