@@ -5,7 +5,7 @@ import SendMail from "./SendMail";
 const ContactUs = () => {
   return (
     <>
-      <section className="flex mt-16 p-1 flex-col items-center justify-evenly h-[100vh]  w-svw ">
+      <section className="flex mt-16 p-1 flex-col items-center justify-evenly h-[100vh]  w-svw  motion-scale-in-[0.04] motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[800ms] motion-delay-[100ms] motion-delay-[0ms]/scale motion-delay-[0ms]/translate">
         <div className="bg-[#333] text-purple-300 neon-purple-text h-7 w-56 rounded-xl flex justify-center items-center ">
           Contact the Logix Help Team
         </div>
