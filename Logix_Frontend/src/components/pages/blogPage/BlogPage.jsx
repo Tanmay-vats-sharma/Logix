@@ -7,12 +7,20 @@ import BlogCardGrid from './BlogCardGrid';
 const BlogPage = () => {
     return (
         <div className=' flex flex-col items-center mt-8 gap-12 '>
-            <Intro/>
-            {/* <SearchPaginator /> */}
+            <section id='intro'>
+
+                <Intro selector={"#intro"} />
+            </section>
+            <section id='searchPaginator'>
+                <SearchPaginator selector={"#searchPaginator"} /> 
+            </section>
             {/* <BlogCardGrid /> */}
             {/* FeaturedBlogs (Optional) */}
             {/* PopularBlogs (Optional) */}
-            <SubscribeCTA />
+            <section id='subscribeCTA' className='min-h-[80vh] min-w-[99vw]'>
+
+                <SubscribeCTA selector={"#subscribeCTA"} />
+            </section>
         </div>
     );
 };
