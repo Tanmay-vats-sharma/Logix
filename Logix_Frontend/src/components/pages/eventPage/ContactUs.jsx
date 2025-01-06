@@ -3,6 +3,9 @@ import Contactbg from "../../../assets/contact-bg.png"
 import { TextEffect } from "../../motion-ui/TextEffect";
 import SendMail from "./SendMail";
 import useIntersectionObserver from "../../Layout/useIntersectionObserver";
+import CallButton from "./CallButton";
+import AddressButton from "./AddressButton";
+import Button from "../../common/button";
 const ContactUs = ({ selector }) => {
   const isIntersecting = useIntersectionObserver({ selector });
 
@@ -63,12 +66,21 @@ const ContactUs = ({ selector }) => {
                   Get in touch and let us know how we can help
                 </div>
               </div>
-              <div className="border-2 h-[80%] flex flex-col items-center justify-center p-2">
+              <div className=" h-[80%] flex flex-col items-center justify-around p-2">
                 <SendMail></SendMail>
+                <CallButton></CallButton>
+                <AddressButton></AddressButton>
               </div>
             </div>
 
-            <div className="h-[90%]  w-[60%]"></div>
+            <div className="h-[93%]  w-[60%] ">
+            <div className="h-20 w-[100%] "></div>
+            <div className="h-20 w-[100%] "></div>
+            <div className="h-40 w-[100%] "></div>
+              <div className="p-2 flex flex-col items-start h-[50px] w-[100%] justify-start">
+                <Button height="35px" width="150px" value="Submit"></Button>
+              </div>  
+            </div>
           </div>
         </div>
       )}
