@@ -17,7 +17,7 @@ const BlogPage = () => {
             {/* <BlogCardGrid /> */}
             {/* FeaturedBlogs (Optional) */}
             {/* PopularBlogs (Optional) */}
-            <section id='subscribeCTA' className='min-h-[80vh] min-w-[99vw]'>
+            <section id='subscribeCTA' className='min-h-[60vh] sm:min-h-[80vh] min-w-[99vw]'>
 
                 <SubscribeCTA selector={"#subscribeCTA"} />
             </section>
