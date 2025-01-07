@@ -20,7 +20,7 @@ const CallButton = () => {
   return (
     <button
       onClick={handleCall}
-      className="border-2 border-purple-300 text-purple-200 w-[105%] text-[15px] h-12 items-center font-semibold px-1 rounded-sm shadow-md outline-none flex"
+      className="border-2 border-purple-300 text-purple-200 w-[105%] text-[15px]  h-16 lg:h-12 items-center font-semibold px-3 lg:px-1  rounded-sm shadow-md outline-none flex"
     >
       <Phone size={20} color="Wheat" strokeWidth={2} className="mr-2" />
       {phoneNumber}
