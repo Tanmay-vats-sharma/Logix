@@ -55,7 +55,7 @@ const Navbar = ({ id }) => {
     <div>
       <div
         id={id}
-        className="fixed w-full px-2 flex items-center z-[1] text-white animate-navbar bg-[#1b1c1d]/40 sm:bg-zinc-800/40 border-gray-50"
+        className="fixed w-full px-2 flex items-center z-[1] text-white animate-navbar bg-[#1b1c1d] sm:bg-zinc-800/40 border-gray-50"
       >
         <div className="w-11/12 h-full flex items-center justify-between md:justify-start">
           <div className="h-14 w-28 mr-10 ml-3">
