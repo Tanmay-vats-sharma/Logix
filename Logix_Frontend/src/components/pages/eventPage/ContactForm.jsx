@@ -3,7 +3,7 @@ import Button from "../../common/button";
 const ContactForm = () => {
   return (
     <>
-      <div className="h-[93%]  w-[60%] border-2">
+      <div className="h-[93%]  w-[60%] ">
         <div className="h-20 w-[100%]  flex">
           <div className="w-[50%] h-[100%]  flex flex-col p-2 ">
             <label className="text-[17px] text-purple-300 mb-[3px] neon-purple-text">

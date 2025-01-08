@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useIntersectionObserver = (options = { threshold: 0.50 }) => {
+const useIntersectionObserver = (options = { threshold: 0.25 }) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {

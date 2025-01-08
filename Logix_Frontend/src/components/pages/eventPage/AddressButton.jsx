@@ -14,9 +14,9 @@ const AddressButton = () => {
   return (
     <button
       onClick={handleOpenMaps}
-      className="border-2 border-purple-300 text-purple-200 w-[105%] lg:text-[15px] h-16 lg:h-12 items-center font-semibold px-1 rounded-sm shadow-md outline-none flex"
+      className="border-2 border-purple-300 text-purple-200 w-[105%] text-[18px] lg:text-[15px] h-16 lg:h-12 items-center font-semibold px-4 rounded-sm shadow-md outline-none flex"
     >
-      <MapPin size={20} color="Wheat" strokeWidth={2} className="mr-2" />
+      <MapPin size={20} color="violet" strokeWidth={2} className="mr-2" />
       {address}
     </button>
   );
