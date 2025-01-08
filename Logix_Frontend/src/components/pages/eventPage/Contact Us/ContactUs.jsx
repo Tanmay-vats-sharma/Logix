@@ -1,6 +1,6 @@
 import React from "react";
-import { TextEffect } from "../../motion-ui/TextEffect";
-import useIntersectionObserver from "../../Layout/useIntersectionObserver";
+import { TextEffect } from "../../../motion-ui/TextEffect";
+import useIntersectionObserver from "../../../Layout/useIntersectionObserver";
 import ContactForm from "./ContactForm";
 import ContactCard from "./ContactCard";
 

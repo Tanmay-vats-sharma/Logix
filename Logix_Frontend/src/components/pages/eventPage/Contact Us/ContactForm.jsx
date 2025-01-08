@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../../common/button";
+import Button from "../../../common/button";
 const ContactForm = () => {
   return (
     <>
@@ -65,6 +65,6 @@ const ContactForm = () => {
       </div>
     </>
   );
-}
+};
 
 export default ContactForm;

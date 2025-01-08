@@ -1,7 +1,7 @@
 import React from "react";
 import CallButton from "./CallButton";
 import AddressButton from "./AddressButton";
-import Contactbg from "../../../assets/contact-bg.png";
+import Contactbg from "../../../../assets/contact-bg.png";
 import SendMail from "./SendMail";
 
 const ContactCard = () => {
@@ -29,6 +29,6 @@ const ContactCard = () => {
       </div>
     </>
   );
-}
+};
 
 export default ContactCard;

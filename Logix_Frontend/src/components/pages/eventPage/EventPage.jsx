@@ -1,5 +1,5 @@
 import React from "react";
-import ContactUs from "./ContactUs";
+import ContactUs from "./Contact Us/ContactUs";
 const EventPage = () => {
   return (
     <div className="flex flex-col items-center justify-evenly">
@@ -9,7 +9,6 @@ const EventPage = () => {
       </section>
     </div>
   );
-
-}
+};
 
 export default EventPage;
