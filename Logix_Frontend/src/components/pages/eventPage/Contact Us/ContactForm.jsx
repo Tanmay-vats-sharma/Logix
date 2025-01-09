@@ -6,7 +6,7 @@ const ContactForm = () => {
       <div className="lg:h-[93%]  lg:w-[60%]">
         <div className="h-20 w-[100%]  flex">
           <div className="w-[50%] h-[100%]  flex flex-col p-2 ">
-            <label className="text-[22px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
+            <label className="text-[20px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
               First Name
             </label>
             <input
@@ -16,7 +16,7 @@ const ContactForm = () => {
             />
           </div>
           <div className="w-[50%] h-[100%]  flex flex-col p-2 ">
-            <label className="text-[22px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
+            <label className="text-[20px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
               Last Name
             </label>
             <input
@@ -28,7 +28,7 @@ const ContactForm = () => {
         </div>
         <div className="h-20 w-[100%] flex">
           <div className="w-[50%] h-[100%]  flex flex-col p-2 ">
-            <label className="text-[22px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
+            <label className="text-[20px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
               Email Address
             </label>
             <input
@@ -38,7 +38,7 @@ const ContactForm = () => {
             />
           </div>
           <div className="w-[50%] h-[100%]  flex flex-col p-2 ">
-            <label className="text-[22px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
+            <label className="text-[20px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
               Subject
             </label>
             <input
@@ -49,7 +49,7 @@ const ContactForm = () => {
           </div>
         </div>
         <div className="h-40 w-[100%] p-2 flex flex-col">
-          <label className="text-[25px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
+          <label className="text-[20px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
             Comment
           </label>
           <textarea

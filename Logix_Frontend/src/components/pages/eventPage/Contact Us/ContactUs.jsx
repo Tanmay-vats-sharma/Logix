@@ -10,12 +10,12 @@ const ContactUs = ({ selector }) => {
   return (
     <>
       {isIntersecting && (
-        <div className="flex flex-col items-center justify-evenly lg:justify-center h-auto w-[500px] md:w-[63vw] max-w-screen-sm md:max-w-screen-md lg:max-w-full px-4 py-10 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[3000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0 ">
-          <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-2xl sm:text-3xl lg:text-lg mb-6">
+        <div className="flex flex-col items-center justify-evenly lg:justify-center h-auto w-[100%] sm:w-[63vw] max-w-screen-sm md:max-w-screen-md lg:max-w-full px-4 py-10 ">
+          <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6  box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[4000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0 ">
             Contact the Logix Help Team
           </div>
 
-          <div className="text-3xl sm:text-4xl lg:text-5xl text-center mb-8 neon-neutral-text">
+          <div className="text-[1.5rem] sm:text-4xl lg:text-5xl text-center mb-8 neon-neutral-text">
             <TextEffect
               per="char"
               delay={0.5}
@@ -33,7 +33,7 @@ const ContactUs = ({ selector }) => {
                     opacity: 1,
                     rotateX: 0,
                     y: 0,
-                    transition: { duration: 0.2 },
+                    transition: { duration: 0.3 },
                   },
                 },
               }}
@@ -42,7 +42,7 @@ const ContactUs = ({ selector }) => {
             </TextEffect>
           </div>
 
-          <div className=" bg-[]  bg-[#1b1c1d] w-[97%] sm:w-[95%] md:w-[70%] lg:w-full max-w-screen-lg rounded-xl neon-neutral-shadow flex flex-col lg:flex-row items-center justify-center gap-6 p-6 min-h-[90%] h-auto overflow-hidden">
+          <div className="  bg-[#1b1c1d] w-[97%] sm:w-[95%] md:w-[70%] lg:w-full max-w-screen-lg rounded-xl neon-neutral-shadow flex flex-col lg:flex-row items-center justify-center gap-8 p-2 sm:p-6 lg:gap-6 lg:p-6 min-h-[90%] h-auto overflow-hidden  box-border motion-translate-x-in-[4%] motion-translate-y-in-[50%] motion-opacity-in-[0%] motion-duration-[2500ms] motion-delay-[100ms] motion-delay-[0ms]/translate motion-duration-[3000ms]/opacity motion-delay-[100ms]/opacity motion-ease-linear">
             <ContactCard />
             <ContactForm />
           </div>

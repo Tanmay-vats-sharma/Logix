@@ -23,7 +23,7 @@ const SendMail = () => {
   return (
     <button
       onClick={handleSendMail}
-      className="border-2 border-purple-300 text-purple-200 w-[105%] text-[18px] lg:text-[12px] h-16 lg:h-12 items-center font-semibold px-4 rounded-sm shadow-md outline-none flex"
+      className="border-2 border-purple-300 text-purple-200 w-[105%] text-[0.82em] lg:text-[12px] h-16 lg:h-12 items-center font-semibold px-3 rounded-sm shadow-md outline-none flex"
     >
       <Mail size={20} color="violet" strokeWidth={2} className="mr-2" />
       {email}

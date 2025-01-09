@@ -8,7 +8,7 @@ const ContactCard = () => {
   return (
     <>
       <div
-        className="h-[500px] sm:h-[600px] lg:h-[397px] w-[99%] sm:w-[80%] md:w-[70%] lg:w-[35%] rounded-xl bg-cover bg-center flex flex-col p-6 sm:p-4 md:p-8 lg:p-4"
+        className="h-auto sm:h-[auto] lg:h-[397px] w-full sm:w-[75%] md:w-[70%] lg:w-[35%] rounded-xl bg-cover bg-center flex flex-col p-6 sm:p-4 md:p-8 lg:p-4"
         style={{ backgroundImage: `url(${Contactbg})` }}
       >
         <div className="flex flex-col justify-evenly mb-6 sm:mb-4">
