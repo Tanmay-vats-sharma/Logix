@@ -5,7 +5,10 @@ const EventPage = () => {
   return (
     <div className="flex flex-col items-center justify-evenly">
       <div className="h-[1000px] w-full"></div>
-      <PastEvents></PastEvents>
+      <section id="pastEvents" className="min-h-[100vh] max-w-[100vw] ">
+        <PastEvents selector={"#pastEvents"}></PastEvents>
+      </section>
+
       <section id="intro" className="min-h-[100vh] max-w-[100vw]">
         <ContactUs selector={"#intro"} />
       </section>

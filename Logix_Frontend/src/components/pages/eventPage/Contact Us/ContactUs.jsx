@@ -42,7 +42,7 @@ const ContactUs = ({ selector }) => {
             </TextEffect>
           </div>
 
-          <div className="  bg-[#1b1c1d] w-[97%] sm:w-[95%] md:w-[70%] lg:w-full max-w-screen-lg rounded-xl neon-neutral-shadow flex flex-col lg:flex-row items-center justify-center gap-8 p-2 sm:p-6 lg:gap-6 lg:p-6 min-h-[90%] h-auto overflow-hidden  box-border motion-translate-x-in-[4%] motion-translate-y-in-[50%] motion-opacity-in-[0%] motion-duration-[2500ms] motion-delay-[100ms] motion-delay-[0ms]/translate motion-duration-[3000ms]/opacity motion-delay-[100ms]/opacity motion-ease-linear">
+          <div className="  bg-[#1b1c1d] w-[97%] sm:w-[95%] md:w-[70%] lg:w-full max-w-screen-lg rounded-xl neon-neutral-shadow flex flex-col lg:flex-row items-center justify-center gap-8 p-2 sm:p-6 lg:gap-6 lg:p-6 min-h-[90%] h-auto overflow-hidden  box-border motion-translate-x-in-[0%] motion-translate-y-in-[50%] motion-opacity-in-[0%] motion-duration-[2500ms] motion-delay-[100ms] motion-delay-[0ms]/translate motion-duration-[3000ms]/opacity motion-delay-[100ms]/opacity motion-ease-linear">
             <ContactCard />
             <ContactForm />
           </div>
