@@ -1,21 +1,19 @@
-import {useState} from "react";
+import { useState } from "react";
 import { TextEffect } from "../../../motion-ui/TextEffect";
-import useIntersectionObserver from "../../../Layout/useIntersectionObserver";
-const PastEvents = ({ selector }) => {
+import useObserver from "../../../Layout/useObserver";
+const PastEvents = () => {
+  const { ref, isVisible } = useObserver();
   const [isModelOpen, setIsModelOpen] = useState(false);
-   
+
   const handleOpenModel = () => {
     console.log(1);
     
     setIsModelOpen(true);
   }
 
-  
-
-  const isIntersecting = useIntersectionObserver({ selector });
   return (
-    <>
-      {isIntersecting && (
+    <section ref={ref} className="min-h-[100vh] max-w-[100vw] mt-10">
+      {isVisible && (
         <div className="h-[160vh] w-[100%] border-2">
           <div className="h-[80vh] w-[90vw] lg:w-[75vw] flex flex-col justify-center items-center">
             <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6  box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[4000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0 ">
@@ -49,15 +47,14 @@ const PastEvents = ({ selector }) => {
             </div>
           </div>
 
-          <div  className="flex flex-col justify-around items-center h-auto w-[100%]">
-               <div onClick={handleOpenModel} className="h-[100px] w-[100px] border-2"></div>
-               <div onClick={handleOpenModel} className=""></div>
-               <div onClick={handleOpenModel} className=""></div>
+          <div className="flex flex-col justify-around items-center h-auto w-[100%]">
+            <div onClick={handleOpenModel} className="h-[100px] w-[100px] border-2"></div>
+            <div onClick={handleOpenModel} className=""></div>
+            <div onClick={handleOpenModel} className=""></div>
           </div>
         </div>
       )}
-      
-    </>
+    </section>
   );
 }
 

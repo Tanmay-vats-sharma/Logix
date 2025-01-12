@@ -2,10 +2,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import LOGO from '../../../assets/logix.png';
 import Button from '../../common/button';
-import useIntersectionObserver from "../../Layout/useIntersectionObserver"
+import useObserver from '../../Layout/useObserver';
 
-const SubscribeCTA = ({ selector }) => {
-    const isIntersecting = useIntersectionObserver({ selector });
+const SubscribeCTA = () => {
+    const { ref, isVisible } = useObserver({ once: false });
     const [submit, setSubmit] = useState(false);
 
     const handleSubmit = () => {
@@ -17,8 +17,8 @@ const SubscribeCTA = ({ selector }) => {
     }, [submit]);
 
     return (
-            <div>
-            {isIntersecting && (
+        <section ref={ref} className='min-h-[60vh] sm:min-h-[80vh] min-w-[99vw]'>
+            {isVisible && (
                 <div className='flex items-center justify-center'>
                     <div className='bg-[#1b1c1d] w-9/12 h-4/5 rounded-xl relative overflow-hidden flex items-center justify-center'>
                         {/* Left Circle */}
@@ -75,7 +75,7 @@ const SubscribeCTA = ({ selector }) => {
                     </div>
                 </div>
             )}
-            </div>
+        </section>
     );
 };
 
