@@ -1,7 +1,15 @@
-import React from "react";
+import {useState} from "react";
 import { TextEffect } from "../../../motion-ui/TextEffect";
 import useIntersectionObserver from "../../../Layout/useIntersectionObserver";
-const PastEvents = ({selector}) => {
+const PastEvents = ({ selector }) => {
+  const [isModelOpen, setIsModelOpen] = useState(false);
+   
+  const handleOpenModel = () => {
+    setIsModelOpen(true);
+  }
+
+  
+
   const isIntersecting = useIntersectionObserver({ selector });
   return (
     <>
@@ -39,11 +47,14 @@ const PastEvents = ({selector}) => {
             </div>
           </div>
 
-          <div className="flex flex-col justify-around items-center">
-
+          <div  className="flex flex-col justify-around items-center h-auto w-[100%]">
+               <div onClick={handleOpenModel} className=""></div>
+               <div onClick={handleOpenModel} className=""></div>
+               <div onClick={handleOpenModel} className=""></div>
           </div>
         </div>
       )}
+      
     </>
   );
 }
