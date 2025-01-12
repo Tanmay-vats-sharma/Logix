@@ -5,6 +5,8 @@ const PastEvents = ({ selector }) => {
   const [isModelOpen, setIsModelOpen] = useState(false);
    
   const handleOpenModel = () => {
+    console.log(1);
+    
     setIsModelOpen(true);
   }
 
@@ -48,7 +50,7 @@ const PastEvents = ({ selector }) => {
           </div>
 
           <div  className="flex flex-col justify-around items-center h-auto w-[100%]">
-               <div onClick={handleOpenModel} className=""></div>
+               <div onClick={handleOpenModel} className="h-[100px] w-[100px] border-2"></div>
                <div onClick={handleOpenModel} className=""></div>
                <div onClick={handleOpenModel} className=""></div>
           </div>

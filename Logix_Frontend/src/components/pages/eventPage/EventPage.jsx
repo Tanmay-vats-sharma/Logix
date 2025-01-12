@@ -5,7 +5,7 @@ const EventPage = () => {
   return (
     <div className="flex flex-col items-center justify-evenly ">
       <div className="h-[1000px] w-full"></div>
-      <section id="pastEvents" className="min-h-[100vh] max-w-[100vw] mt-10">
+      <section id="pastEvents" className="min-h-[160vh]  max-w-[100vw] mt-10">
         <PastEvents selector={"#pastEvents"}></PastEvents>
       </section>
 
