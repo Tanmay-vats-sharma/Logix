@@ -51,10 +51,10 @@ const PastEvents = () => {
   };
 
   return (
-    <section ref={ref} className="min-h-[160vh] max-w-[100vw] mt-10">
+    <section ref={ref} className="min-h-[160vh]  max-w-[100vw] mt-10">
       {isVisible && (
-        <div className="h-[160vh] w-[100%] border-2 flex flex-col ">
-          <div className="h-[80vh] w-[90vw] lg:w-[75vw] flex flex-col justify-center items-center">
+        <div className="h-[160vh] lg:h-[125vh] w-[100%] border-2 flex  flex-col justify-center items-center ">
+          <div className="h-[35vh] w-[99vw] lg:w-[75vw] flex flex-col justify-center items-center">
             <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[4000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0">
               Visit our previous Events Gallery
             </div>
@@ -87,12 +87,12 @@ const PastEvents = () => {
             </div>
           </div>
 
-          <div className="flex-col gap-4 justify-center items-center p-8">
+          <div className=" flex flex-col lg:flex-row h-[125vh] lg:h-[90vh] border-2 w-[99vw] lg:w-[80vw] gap-4 justify-center items-center p-8">
             {events.map((event) => (
               <div
                 key={event.id}
                 onClick={() => handleOpenModel(event)}
-                className="cursor-pointer bg-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                className="h-[60%] w-[100%] cursor-pointer bg-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
                 <img
                   src={event.thumbnail}
@@ -102,12 +102,6 @@ const PastEvents = () => {
                 <p className="text-center p-2">{event.title}</p>
               </div>
             ))}
-
-            {/* <SliderModal
-              isOpen={isOpen}
-              activeEvent={activeEvent}
-              onClose={closeModal}
-            /> */}
           </div>
         </div>
       )}
