@@ -40,7 +40,7 @@ const SliderModal = ({
           onClick={handelCloseModel}
         >
           <div
-            className="bg-black rounded-lg p-4 w-full max-w-lg flex items-center justify-center"
+            className="h-[60vh] w-[90vw] lg:h-[80vh]  bg-gray-200 rounded-lg   max-w-lg flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
@@ -48,7 +48,7 @@ const SliderModal = ({
             <img
               src={activeEvent.images[currentIndex]}
               alt={`${activeEvent.title} Slide ${currentIndex + 1}`}
-              className="w-full h-auto object-contain cursor-pointer"
+              className="w-full h-full border-2 border-black object-contain cursor-pointer rounded-lg"
               onClick={handleNextImage} 
             />
           </div>
