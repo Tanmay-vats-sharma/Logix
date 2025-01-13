@@ -6,16 +6,54 @@ import SliderModal from "./Slidermodal";
 const PastEvents = () => {
   const { ref, isVisible } = useObserver({ once: false });
   const [isModelOpen, setIsModelOpen] = useState(false);
+  const [activeEvent, setActiveEvent] = useState(null);
 
-  const handleOpenModel = () => {
+
+  const events = [
+    {
+      id: 1,
+      thumbnail: "https://via.placeholder.com/150", 
+      images: [
+        "https://via.placeholder.com/300",
+        "https://via.placeholder.com/301",
+        "https://via.placeholder.com/302",
+      ],
+      title: "Event 1",
+    },
+    {
+      id: 2,
+      thumbnail: "https://via.placeholder.com/150",
+      images: [
+        "https://via.placeholder.com/303",
+        "https://via.placeholder.com/304",
+        "https://via.placeholder.com/305",
+      ],
+      title: "Event 2",
+    },
+    {
+      id: 3,
+      thumbnail: "https://via.placeholder.com/150",
+      images: [
+        "https://via.placeholder.com/306",
+        "https://via.placeholder.com/307",
+        "https://via.placeholder.com/308",
+      ],
+      title: "Event 3",
+    },
+  ];
+
+  
+
+  const handleOpenModel = (event) => {
     console.log("Opening Modal");
     setIsModelOpen(true);
+    setActiveEvent(event);
   };
 
   return (
     <section ref={ref} className="min-h-[160vh] max-w-[100vw] mt-10">
       {isVisible && (
-        <div className="h-[160vh] w-[100%] border-2">
+        <div className="h-[160vh] w-[100%] border-2 flex flex-col ">
           <div className="h-[80vh] w-[90vw] lg:w-[75vw] flex flex-col justify-center items-center">
             <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[4000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0">
               Visit our previous Events Gallery
@@ -49,18 +87,39 @@ const PastEvents = () => {
             </div>
           </div>
 
-          <div className="flex flex-col justify-around items-center h-auto w-[100%]">
-            <div
-              onClick={handleOpenModel}
-              className="h-[100px] w-[100px] border-2"
-            ></div>
-            <div onClick={handleOpenModel}></div>
-            <div onClick={handleOpenModel}></div>
+          <div className="flex-col gap-4 justify-center items-center p-8">
+            {events.map((event) => (
+              <div
+                key={event.id}
+                onClick={() => handleOpenModel(event)}
+                className="cursor-pointer bg-gray-200 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <img
+                  src={event.thumbnail}
+                  alt={event.title}
+                  className="w-48 h-48 object-cover"
+                />
+                <p className="text-center p-2">{event.title}</p>
+              </div>
+            ))}
+
+            {/* <SliderModal
+              isOpen={isOpen}
+              activeEvent={activeEvent}
+              onClose={closeModal}
+            /> */}
           </div>
         </div>
       )}
 
-      {isModelOpen && <SliderModal ismodelOpen={isModelOpen} setIsModelOpen={setIsModelOpen}/>}
+      {isModelOpen && (
+        <SliderModal
+          ismodelOpen={isModelOpen}
+          setIsModelOpen={setIsModelOpen}
+          activeEvent={activeEvent}
+          setActiveEvent={setActiveEvent}
+        />
+      )}
     </section>
   );
 };
