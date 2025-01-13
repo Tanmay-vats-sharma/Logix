@@ -13,7 +13,7 @@ const PastEvents = () => {
   };
 
   return (
-    <section ref={ref} className="min-h-[100vh] max-w-[100vw] mt-10">
+    <section ref={ref} className="min-h-[160vh] max-w-[100vw] mt-10">
       {isVisible && (
         <div className="h-[160vh] w-[100%] border-2">
           <div className="h-[80vh] w-[90vw] lg:w-[75vw] flex flex-col justify-center items-center">
