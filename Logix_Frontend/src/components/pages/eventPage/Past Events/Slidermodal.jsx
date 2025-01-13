@@ -31,14 +31,12 @@ const SliderModal = ({
   const handelCloseModel = () => {
     setIsModelOpen(false);
     setActiveEvent(null);
-    document.getElementById("content").classList.remove("pointer-events-none");
   };
   return (
     <>
       {ismodelOpen && (
         <div
-          id="content"
-          className=" fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
           onClick={handelCloseModel}
         >
           <div
