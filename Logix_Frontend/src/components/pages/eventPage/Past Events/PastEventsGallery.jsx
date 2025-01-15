@@ -98,7 +98,7 @@ const PastEvents = () => {
               <div
                 key={events[0].id}
                 onClick={() => handleOpenModel(events[0])}
-                className="h-[100%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[100ms]/opacity motion-translate-y-in-[35%] motion motion-ease-linear"
+                className="h-[100%] w-[100%] lg:h-[95%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[100ms]/opacity motion-translate-y-in-[35%] motion motion-ease-linear"
               >
                 <img
                   src={events[0].thumbnail}
@@ -115,7 +115,7 @@ const PastEvents = () => {
               <div
                 key={events[1].id}
                 onClick={() => handleOpenModel(events[1])}
-                className="h-[100%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[100ms]/opacity motion-translate-y-in-[35%] motion motion-ease-linear"
+                className="h-[100%] w-[100%] lg:h-[95%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[100ms]/opacity motion-translate-y-in-[35%] motion motion-ease-linear"
               >
                 <img
                   src={events[1].thumbnail}
@@ -132,7 +132,7 @@ const PastEvents = () => {
               <div
                 key={events[2].id}
                 onClick={() => handleOpenModel(events[2])}
-                className="h-[100%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[200ms]/opacity motion-translate-y-in-[55%] motion motion-ease-linear"
+                className="h-[100%] w-[100%] lg:h-[95%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[200ms]/opacity motion-translate-y-in-[35%] motion motion-ease-linear"
               >
                 <img
                   src={events[2].thumbnail}
