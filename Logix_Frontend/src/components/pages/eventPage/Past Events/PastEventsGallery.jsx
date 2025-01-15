@@ -92,8 +92,8 @@ const PastEvents = () => {
           )}
         </div>
 
-        <div className=" flex flex-col lg:flex-row h-[125vh] lg:h-[85vh] w-[99vw] lg:w-[99vw] gap-4 justify-center items-center p-4">
-          <div ref={block2.ref} className="h-[60%] w-[100%] lg:h-[95%]">
+        <div className=" flex flex-col lg:flex-row h-[125vh] lg:h-[85vh] w-[99vw] lg:w-[99vw] gap-5 justify-center items-center p-4">
+          <div ref={block2.ref} className="w-[100%] h-[100%]">
             {block2.isVisible && (
               <div
                 key={events[0].id}
@@ -110,7 +110,7 @@ const PastEvents = () => {
             )}
           </div>
 
-          <div ref={block3.ref} className="h-[60%] w-[100%] lg:h-[95%]">
+          <div ref={block3.ref} className="w-[100%] h-[100%]">
             {block3.isVisible && (
               <div
                 key={events[1].id}
@@ -127,7 +127,7 @@ const PastEvents = () => {
             )}
           </div>
 
-          <div ref={block4.ref} className="h-[60%] w-[100%] lg:h-[95%]">
+          <div ref={block4.ref} className=" w-[100%] h-[100%]">
             {block3.isVisible && (
               <div
                 key={events[2].id}
