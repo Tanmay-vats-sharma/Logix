@@ -50,21 +50,21 @@ const PastEvents = () => {
   };
 
   return (
-    <section className="min-h-[160vh] lg:min-h-[100vh] max-w-[100vw] mt-10">
-      <div className="h-[160vh] lg:h-[100vh] w-[100%]  flex  flex-col justify-evenly items-center ">
+    <section className="min-h-[170vh] lg:min-h-[100vh] max-w-[100vw] mt-10 flex justify-between">
+      <div className="h-[160vh] lg:h-[100vh] w-[100%]  flex  flex-col justify-evenly items-center overflow-hidden">
         <div
           ref={block1.ref}
           className="h-[35vh] w-[99vw] lg:w-[75vw] flex flex-col justify-center items-center"
         >
           {block1.isVisible && (
             <>
-              <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[4000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0">
+              <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[2000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0">
                 Visit our previous Events Gallery
               </div>
               <div className="text-[1.5rem] sm:text-3xl lg:text-4xl text-center mb-8 neon-neutral-text">
                 <TextEffect
                   per="char"
-                  delay={0.5}
+                  delay={0.3}
                   variants={{
                     container: {
                       hidden: { opacity: 0 },
@@ -79,7 +79,7 @@ const PastEvents = () => {
                         opacity: 1,
                         rotateX: 0,
                         y: 0,
-                        transition: { duration: 0.3 },
+                        transition: { duration: 0.1 },
                       },
                     },
                   }}
@@ -98,7 +98,7 @@ const PastEvents = () => {
               <div
                 key={events[0].id}
                 onClick={() => handleOpenModel(events[0])}
-                className="h-[60%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow"
+                className="h-[100%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[100ms]/opacity motion-translate-y-in-[35%] motion motion-ease-linear"
               >
                 <img
                   src={events[0].thumbnail}
@@ -115,7 +115,7 @@ const PastEvents = () => {
               <div
                 key={events[1].id}
                 onClick={() => handleOpenModel(events[1])}
-                className="h-[60%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow"
+                className="h-[100%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[100ms]/opacity motion-translate-y-in-[35%] motion motion-ease-linear"
               >
                 <img
                   src={events[1].thumbnail}
@@ -132,7 +132,7 @@ const PastEvents = () => {
               <div
                 key={events[2].id}
                 onClick={() => handleOpenModel(events[2])}
-                className="h-[60%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow"
+                className="h-[100%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-opacity-in-[0%] motion-duration-[900ms] motion-delay-[0ms] motion-duration-[1000ms]/opacity motion-delay-[200ms]/opacity motion-translate-y-in-[55%] motion motion-ease-linear"
               >
                 <img
                   src={events[2].thumbnail}
