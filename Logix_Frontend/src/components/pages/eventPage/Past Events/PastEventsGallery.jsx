@@ -6,14 +6,15 @@ import SliderModal from "./Slidermodal";
 const PastEvents = () => {
   const block1 = useObserver({ once: false });
   const block2 = useObserver({ once: false });
+  const block3 = useObserver({ once: false });
+  const block4 = useObserver({ once: false });
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [activeEvent, setActiveEvent] = useState(null);
-
 
   const events = [
     {
       id: 1,
-      thumbnail: "https://via.placeholder.com/150", 
+      thumbnail: "https://via.placeholder.com/150",
       images: [
         "https://via.placeholder.com/300",
         "https://via.placeholder.com/301",
@@ -43,10 +44,7 @@ const PastEvents = () => {
     },
   ];
 
-  
-
   const handleOpenModel = (event) => {
-    console.log("Opening Modal");
     setIsModelOpen(true);
     setActiveEvent(event);
   };
@@ -95,26 +93,56 @@ const PastEvents = () => {
         </div>
 
         <div className=" flex flex-col lg:flex-row h-[125vh] lg:h-[85vh] w-[99vw] lg:w-[99vw] gap-4 justify-center items-center p-4">
-          {events.map((event) => (
-            <div ref={block2.ref} className="h-[60%] w-[100%] lg:h-[95%]">
-              {block2.isVisible && (
-                <div
-                  key={event.id}
-                  onClick={() => handleOpenModel(event)}
-                  className="h-[60%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow motion-translate-x-in-[-105%] motion-translate-y-in-[0%] motion-duration-[1000ms] motion-delay-[200ms] motion-delay-[0ms]/translate motion-ease-linear"
-                >
-                  <>
-                    <img
-                      src={event.thumbnail}
-                      alt={event.title}
-                      className="w-48 h-48 object-cover"
-                    />
-                    <p className="text-center p-2">{event.title}</p>
-                  </>
-                </div>
-              )}
-            </div>
-          ))}
+          <div ref={block2.ref} className="h-[60%] w-[100%] lg:h-[95%]">
+            {block2.isVisible && (
+              <div
+                key={events[0].id}
+                onClick={() => handleOpenModel(events[0])}
+                className="h-[60%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow"
+              >
+                <img
+                  src={events[0].thumbnail}
+                  alt={events[0].title}
+                  className="w-48 h-48 object-cover"
+                />
+                <p className="text-center p-2">{events[0].title}</p>
+              </div>
+            )}
+          </div>
+
+          <div ref={block3.ref} className="h-[60%] w-[100%] lg:h-[95%]">
+            {block3.isVisible && (
+              <div
+                key={events[1].id}
+                onClick={() => handleOpenModel(events[1])}
+                className="h-[60%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow"
+              >
+                <img
+                  src={events[1].thumbnail}
+                  alt={events[1].title}
+                  className="w-48 h-48 object-cover"
+                />
+                <p className="text-center p-2">{events[1].title}</p>
+              </div>
+            )}
+          </div>
+
+          <div ref={block4.ref} className="h-[60%] w-[100%] lg:h-[95%]">
+            {block3.isVisible && (
+              <div
+                key={events[2].id}
+                onClick={() => handleOpenModel(events[2])}
+                className="h-[60%] w-[100%] lg:h-[85%] cursor-pointer bg-gray-200 neon-neutral-shadow rounded-lg overflow-hidden shadow-xl transition-shadow"
+              >
+                <img
+                  src={events[2].thumbnail}
+                  alt={events[2].title}
+                  className="w-48 h-48 object-cover"
+                />
+                <p className="text-center p-2">{events[2].title}</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
