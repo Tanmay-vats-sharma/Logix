@@ -37,7 +37,7 @@ const ContactForm = () => {
               className=" w-[100%] lg:w-[80%] outline-none  bg-[rgb(51,51,51)] text-[20px] lg:text-[16px] rounded-sm px-2 h-10 lg:h-8"
             />
           </div>
-          <div className="w-[80%] h-[100%]  flex flex-col p-2 ">
+          <div className="w-[80%] lg:w-[50%] h-[100%]  flex flex-col p-2 ">
             <label className="text-[25px] lg:text-[19px] text-purple-300 mb-[3px] neon-purple-text">
               Subject
             </label>
