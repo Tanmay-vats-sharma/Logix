@@ -1,5 +1,5 @@
 import React from "react";
-import Button from "../common/button";
+import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import GIF from "../../assets/404.gif"
 

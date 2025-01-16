@@ -61,31 +61,37 @@ const PastEvents = () => {
               <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[2000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0">
                 Visit our previous Events Gallery
               </div>
-              <div className="text-[1.5rem] sm:text-3xl lg:text-4xl text-center mb-8 neon-neutral-text">
+              <div className="text-[1.4rem] sm:text-3xl lg:text-4xl text-center mb-8 neon-neutral-text">
                 <TextEffect
-                  per="char"
-                  delay={0.3}
+                  per="line"
+                  delay={0.5}
+                  as="p"
+                  segmentWrapperClassName="overflow-hidden block"
                   variants={{
                     container: {
                       hidden: { opacity: 0 },
                       visible: {
                         opacity: 1,
-                        transition: { staggerChildren: 0.05 },
+                        transition: { staggerChildren: 0.2 },
                       },
                     },
                     item: {
-                      hidden: { opacity: 0, rotateX: 90, y: 10 },
+                      hidden: {
+                        opacity: 0,
+                        y: 40,
+                      },
                       visible: {
                         opacity: 1,
-                        rotateX: 0,
                         y: 0,
-                        transition: { duration: 0.1 },
+                        transition: {
+                          duration: 0.9,
+                        },
                       },
                     },
                   }}
                 >
-                  Relive the best moments from the Logix 2024 through videos and
-                  photos in our gallery
+                  {`Relive the best moments from the Conference 2022
+through video and photos in our gallery`}
                 </TextEffect>
               </div>
             </>
