@@ -7,7 +7,7 @@ const Loader = () => {
       <div className="relative w-52 h-52 rounded-full flex items-center neon-purple-shadow justify-center">
         <div className="absolute w-full h-full border-[6px] border-purple-500 neon-purple-shadow border-b-transparent border-l-transparent rounded-full animate-spin-reverse"></div>
 
-        <img src={Logo} alt="Logo" className="w-40 h-32" />
+        <img src={Logo} alt="Logo" className="w-48 h-32" />
       </div>
     </div>
   );
