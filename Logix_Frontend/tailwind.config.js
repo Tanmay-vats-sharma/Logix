@@ -17,6 +17,7 @@ export default {
         customShadow: "rgba(104,63,234,0.6) 0px 8px 250px 70px",
       },
       animation: {
+        "spin-reverse": "spin 1s linear infinite reverse",
         navbar: "navbar 500ms ease-in-out forwards",
         wordScale: "wordScale 0.5s ease-in-out forwards",
         wordScaleDelay200: "wordScale 0.5s ease-in-out 0.1s forwards",
