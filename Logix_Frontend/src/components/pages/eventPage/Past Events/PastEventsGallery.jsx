@@ -14,11 +14,16 @@ const PastEvents = () => {
   const events = [
     {
       id: 1,
-      thumbnail: "https://via.placeholder.com/150",
+      thumbnail: new URL("../../../../assets/Event/img1.jpeg", import.meta.url)
+        .href,
       images: [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/301",
-        "https://via.placeholder.com/302",
+        new URL("../../../../assets/Event/img2.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img3.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img4.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img5.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img6.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img7.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img8.jpeg", import.meta.url).href,
       ],
       title: "Event 1",
     },
@@ -109,7 +114,7 @@ through video and photos in our gallery`}
                 <img
                   src={events[0].thumbnail}
                   alt={events[0].title}
-                  className="w-48 h-48 object-cover"
+                  className="w-full h-full object-cover"
                 />
                 <p className="text-center p-2">{events[0].title}</p>
               </div>

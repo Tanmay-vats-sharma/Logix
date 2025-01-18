@@ -40,10 +40,10 @@ const SliderModal = ({
       {ismodelOpen && (
         <div
           id="content"
-          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
         >
           <div
-            className="h-[50vh] w-[90vw] lg:h-[80vh] bg-gray-200 rounded-lg max-w-lg flex items-center justify-center"
+            className="h-[auto] w-[auto] lg:h-[80vh] bg-black neon-neutral-shadow rounded-lg max-w-lg flex items-center justify-center"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
           >
@@ -54,12 +54,12 @@ const SliderModal = ({
               onClick={handleNextImage}
             />
           </div>
-          
+
           <Button
             onClick={handelCloseModel}
             value="close"
-            height='35px'
-            width='100px'
+            height="35px"
+            width="100px"
             className="absolute top-4 right-4 text-xl"
           ></Button>
         </div>
