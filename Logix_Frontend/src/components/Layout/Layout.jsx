@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Cursor from "./Cursor.jsx";
 import Header from "../common/Header/Header.jsx";
-import Dotsbox from "../common/Dots.jsx";
+import Dotsbox from "./Dots.jsx";
 import { Outlet } from "react-router-dom";
 import BackToTopButton from "./BackToTopButton.jsx";
 import Loader from "./Loader.jsx";
