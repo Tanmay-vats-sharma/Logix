@@ -43,7 +43,7 @@ const SliderModal = ({
           className="fixed inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50"
         >
           <div
-            className="h-[auto] w-[auto] lg:h-[80vh] bg-black neon-neutral-shadow rounded-lg max-w-lg flex items-center justify-center"
+            className="h-[auto] w-[auto] lg:h-[80vh] bg-white neon-neutral-shadow rounded-lg max-w-lg flex items-center justify-center"
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
           >
