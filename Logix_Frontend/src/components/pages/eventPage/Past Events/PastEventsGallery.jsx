@@ -65,7 +65,7 @@ const PastEvents = () => {
   };
 
   return (
-    <section className="min-h-[164vh] lg:min-h-[100vh] max-w-[100vw] mt-8 flex justify-between border-b-[1px] border-neutral-800">
+    <section className="min-h-[164vh] lg:min-h-[100vh] max-w-[100vw] mt-8 flex justify-between ">
       <div className="h-[160vh] lg:h-[100vh] w-[100%]  flex  flex-col justify-evenly items-center overflow-hidden">
         <div
           ref={block1.ref}
