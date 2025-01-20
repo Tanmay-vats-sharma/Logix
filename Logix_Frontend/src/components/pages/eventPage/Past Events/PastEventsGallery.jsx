@@ -29,21 +29,31 @@ const PastEvents = () => {
     },
     {
       id: 2,
-      thumbnail: "https://via.placeholder.com/150",
+      thumbnail: new URL("../../../../assets/Event/img1.jpeg", import.meta.url)
+        .href,
       images: [
-        "https://via.placeholder.com/303",
-        "https://via.placeholder.com/304",
-        "https://via.placeholder.com/305",
+        new URL("../../../../assets/Event/img2.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img3.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img4.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img5.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img6.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img7.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img8.jpeg", import.meta.url).href,
       ],
-      title: "Event 2",
+      title: "Event2",
     },
     {
       id: 3,
-      thumbnail: "https://via.placeholder.com/150",
+      thumbnail: new URL("../../../../assets/Event/img1.jpeg", import.meta.url)
+        .href,
       images: [
-        "https://via.placeholder.com/306",
-        "https://via.placeholder.com/307",
-        "https://via.placeholder.com/308",
+        new URL("../../../../assets/Event/img2.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img3.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img4.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img5.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img6.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img7.jpeg", import.meta.url).href,
+        new URL("../../../../assets/Event/img8.jpeg", import.meta.url).href,
       ],
       title: "Event 3",
     },
@@ -55,7 +65,7 @@ const PastEvents = () => {
   };
 
   return (
-    <section className="min-h-[170vh] lg:min-h-[100vh] max-w-[100vw] mt-10 flex justify-between">
+    <section className="min-h-[164vh] lg:min-h-[100vh] max-w-[100vw] mt-8 flex justify-between border-b-[1px] border-neutral-800">
       <div className="h-[160vh] lg:h-[100vh] w-[100%]  flex  flex-col justify-evenly items-center overflow-hidden">
         <div
           ref={block1.ref}
@@ -103,8 +113,8 @@ through video and photos in our gallery`}
           )}
         </div>
 
-        <div className=" flex flex-col lg:flex-row h-[125vh] lg:h-[85vh] w-[99vw] lg:w-[99vw] gap-5 justify-center items-center p-4">
-          <div ref={block2.ref} className="w-[100%] h-[100%]">
+        <div className=" flex flex-col lg:flex-row h-[125vh] lg:h-[85vh] w-[99vw] lg:w-[99vw] gap-8 lg:gap-5 justify-around items-center p-4">
+          <div ref={block2.ref} className="w-[95%] h-[100%] lg:w-[90%]">
             {block2.isVisible && (
               <div
                 key={events[0].id}
@@ -121,7 +131,7 @@ through video and photos in our gallery`}
             )}
           </div>
 
-          <div ref={block3.ref} className="w-[100%] h-[100%]">
+          <div ref={block3.ref} className="w-[95%] lg:w=[90%] h-[100%]">
             {block3.isVisible && (
               <div
                 key={events[1].id}
@@ -131,14 +141,14 @@ through video and photos in our gallery`}
                 <img
                   src={events[1].thumbnail}
                   alt={events[1].title}
-                  className="w-48 h-48 object-cover"
+                  className="w-full h-full object-cover"
                 />
                 <p className="text-center p-2">{events[1].title}</p>
               </div>
             )}
           </div>
 
-          <div ref={block4.ref} className=" w-[100%] h-[100%]">
+          <div ref={block4.ref} className=" w-[95%] lg:w-[90%] h-[100%]">
             {block3.isVisible && (
               <div
                 key={events[2].id}
@@ -148,7 +158,7 @@ through video and photos in our gallery`}
                 <img
                   src={events[2].thumbnail}
                   alt={events[2].title}
-                  className="w-48 h-48 object-cover"
+                  className="w-full h-full object-cover"
                 />
                 <p className="text-center p-2">{events[2].title}</p>
               </div>

@@ -8,7 +8,7 @@ const ContactUs = () => {
   const { ref, isVisible } = useObserver({ once: false });
 
   return (
-    <section ref={ref} className="min-h-[100vh] max-w-[100vw] mt-10">
+    <section ref={ref} className="min-h-[90vh] max-w-[100vw] ">
       {isVisible && (
         <div className="flex flex-col items-center justify-evenly lg:justify-center h-auto w-[100%] sm:w-[63vw] max-w-screen-sm md:max-w-screen-md lg:max-w-full px-4 py-10 ">
           <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6  box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[4000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0 ">
