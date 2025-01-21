@@ -1,10 +1,11 @@
 import React from "react";
+import LearnMore from "./LearnMore";
 
 const Faq = () => {
   return (
-    <section className="min-h-[175vh] lg:min-h-[75vh] max-w-[100vw] min-w-[99vw]  mt-10 flex flex-col lg:flex-row justify-evenly  bg-[#1b1c1d] rounded-md items-center lg:justify-around  ">
-        <div className="h-[80vh] w-[97vw] lg:w-[47%] lg:h-[70vh]  lg:bg-transparent "></div>
-        <div className="h-[80vh] w-[97vw] lg:w-[47%] lg:h-[70vh]  lg:bg-transparent "></div>
+    <section className="h-[175vh] lg:h-[75vh]  w-[99vw] lg:w-[85vw] mt-10 flex flex-col lg:flex-row justify-evenly  bg-[#1b1c1d] rounded-lg items-center  ">
+      <LearnMore></LearnMore>
+      <div className="h-[80vh] w-[97vw] lg:w-[47%] lg:h-[70vh] border-2"></div>
     </section>
   );
 }
