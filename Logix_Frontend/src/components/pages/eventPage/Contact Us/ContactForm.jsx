@@ -60,7 +60,10 @@ const ContactForm = () => {
           ></textarea>
         </div>
         <div className="p-2 flex flex-col items-start lg:h-[50px] w-[100%] justify-start">
-          <Button height="30px" width="130px" value="Submit"></Button>
+          <Button
+            value="Submit"
+            className="text-xl h-10 w-36 lg:w-40"
+          ></Button>
         </div>
       </div>
     </>
