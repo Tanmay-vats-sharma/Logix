@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { TextEffect } from "../../../motion-ui/TextEffect";
-import useObserver from "../../../Layout/useObserver";
+import { TextEffect } from "../../../../motion-ui/TextEffect";
+import useObserver from "../../../../Layout/useObserver";
 import SliderModal from "./Slidermodal";
 
 const PastEvents = () => {
