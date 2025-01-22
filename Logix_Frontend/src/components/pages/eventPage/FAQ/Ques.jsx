@@ -41,7 +41,7 @@ const Ques = () => {
   return (
     <div ref={block.ref} className="h-[48vh] w-[97vw] lg:w-[47%] lg:h-[70vh]">
       {block.isVisible && (
-        <div className="h-[100%] w-[100%] lg:w-[100%] lg:h-[100%] flex flex-col justify-evenly items-center motion-translate-x-in-[25%] motion-translate-y-in-[0%]  motion-delay-[0ms]/translate motion-ease-linear motion-opacity-in-[0%] motion-duration-[800ms] motion-delay-[100ms] motion-duration-[800ms]/opacity motion-delay-[0ms]/opacity">
+        <div className="h-[100%] w-[100%] lg:w-[100%] lg:h-[100%] flex flex-col justify-evenly items-center motion-translate-x-in-[25%] motion-translate-y-in-[0%]  motion-delay-[0ms]/translate motion-ease-linear motion-opacity-in-[0%] motion-duration-[800ms] motion-delay-[100ms] motion-duration-[1900ms]/opacity motion-delay-[0ms]/opacity">
           {faqs.map((faq, index) => (
             <div key={index} className="border-b border-purple-500 w-[95%]">
               <button

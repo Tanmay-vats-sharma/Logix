@@ -7,7 +7,7 @@ const LearnMore = () => {
   return (
     <div ref={block.ref} className="h-[60vh] w-[97vw] lg:w-[47%] lg:h-[70vh] ">
       {block.isVisible && (
-        <div className="h-[100%] w-[100%] lg:w-[100%] lg:h-[100%]  flex flex-col justify-around p-4 motion-translate-x-in-[-25%] motion-translate-y-in-[0%]  motion-delay-[0ms]/translate motion-ease-linear motion-opacity-in-[0%] motion-duration-[800ms] motion-delay-[100ms] motion-duration-[800ms]/opacity motion-delay-[0ms]/opacity ">
+        <div className="h-[100%] w-[100%] lg:w-[100%] lg:h-[100%]  flex flex-col justify-around p-4 motion-translate-x-in-[-25%] motion-translate-y-in-[0%]  motion-delay-[0ms]/translate motion-ease-linear motion-opacity-in-[0%] motion-duration-[800ms] motion-delay-[100ms] motion-duration-[1900ms]/opacity motion-delay-[0ms]/opacity ">
           <div className="text-3xl lg:text-4xl neon-slate-text text-wrap h-[20%] w-[98%] ">
             Frequently asked questions, about the {event}.
           </div>
