@@ -1,6 +1,6 @@
 import React from "react";
 import ContactUs from "./Contact Us/ContactUs";
-import PastEvents from "./Past Events/PastEventsGallery";
+import PastEvents from "./Past_Events/PastEventGallery/PastEventsGallery";
 import Faq from "./FAQ/FAQ";
 const EventPage = () => {
   return (

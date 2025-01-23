@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Button from "../button";
+import Button from "../Button";
 import Logo from "../../../assets/logix.png";
 import HamburgerMenu from "./Hamburger";
 import ProgressBar from "./ProgressScrollbar";
@@ -96,7 +96,7 @@ const Navbar = ({ id }) => {
           </div>
         </div>
 
-        {!isMobile && <Button height="30px" width="100px" value="Join us" />}
+        {!isMobile && <Button value="Join us" className="h-8 w-24 lg:w-28" />}
 
         {isMenuOpen && (
           <HamburgerMenu
