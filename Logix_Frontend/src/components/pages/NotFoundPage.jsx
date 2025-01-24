@@ -23,8 +23,7 @@ const NotFoundPage = () => {
             <h3 className="text-4xl mb-4 neon-purple-text">Look like you're lost</h3>
             <p className="mb-4 neon-purple-text">The page you are looking for is not available!</p>
             <Button 
-              onClick={handleGoHome}
-              height="40px" width="150px" value="Go to Home" className="link_404 text-white  px-4 py-2 rounded-md hover:bg-green-70 text-lg" />
+              onClick={handleGoHome} value="Go to Home"/>
           </div>
         </div>
       </div>

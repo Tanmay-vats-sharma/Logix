@@ -1,26 +1,26 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useState, useEffect, useRef } from "react";
 
-const useObserver = ({ once = true, options = {} } = {}) => {
-  const [isVisible, setisVisible] = useState(false);
+const useObserver = ({ options = {} } = {}) => {
+  const [isVisible, setIsVisible] = useState(false);
   const elementRef = useRef(null);
+  const prevScrollY = useRef(window.scrollY); // Track previous scroll position
 
-  // Memoize options to prevent unnecessary re-creation
-  const memoizedOptions = useMemo(() => options, [options.root, options.rootMargin, options.threshold]);
+  const memoizedOptions = useMemo(
+    () => options,
+    [options.root, options.rootMargin, options.threshold]
+  );
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry], observerInstance) => {
-        if (entry.isIntersecting) {
-          setisVisible(true);
-          if (once) {
-            observerInstance.disconnect();
-          }
-        } else if (!once) {
-          setisVisible(false);
-        }
-      },
-      memoizedOptions
-    );
+    const observer = new IntersectionObserver(([entry]) => {
+      const currentScrollY = window.scrollY;
+      const isScrollingDown = currentScrollY > prevScrollY.current;
+
+      if (entry.isIntersecting && isScrollingDown) {
+        setIsVisible(true); // Trigger animation when scrolling down
+      }
+
+      prevScrollY.current = currentScrollY; // Update previous scroll position
+    }, memoizedOptions);
 
     if (elementRef.current) {
       observer.observe(elementRef.current);
@@ -29,7 +29,7 @@ const useObserver = ({ once = true, options = {} } = {}) => {
     return () => {
       if (elementRef.current) observer.disconnect();
     };
-  }, [once, memoizedOptions]);
+  }, [memoizedOptions]);
 
   return { ref: elementRef, isVisible };
 };
