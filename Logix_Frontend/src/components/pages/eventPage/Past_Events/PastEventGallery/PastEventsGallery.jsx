@@ -4,10 +4,10 @@ import useObserver from "../../../../Layout/useObserver";
 import SliderModal from "./Slidermodal";
 
 const PastEvents = () => {
-  const block1 = useObserver({ once: false });
-  const block2 = useObserver({ once: false });
-  const block3 = useObserver({ once: false });
-  const block4 = useObserver({ once: false });
+  const block1 = useObserver();
+  const block2 = useObserver();
+  const block3 = useObserver();
+  const block4 = useObserver();
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [activeEvent, setActiveEvent] = useState(null);
 
