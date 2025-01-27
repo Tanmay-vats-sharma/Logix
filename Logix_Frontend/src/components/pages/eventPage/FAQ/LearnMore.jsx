@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../../../common/Button"
 import useObserver from "../../../Layout/useObserver";
 const LearnMore = () => {
-  const block = useObserver({ once: false });
+  const block = useObserver({ once: true });
   const event = "Code Clashers"
   return (
     <div ref={block.ref} className="h-[60vh] w-[97vw] lg:w-[47%] lg:h-[70vh] ">

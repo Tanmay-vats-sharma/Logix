@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Plus } from "lucide-react"
 import useObserver from "../../../Layout/useObserver";
 const Ques = () => {
-  const block = useObserver({ once: false })
+  const block = useObserver({ once: true })
   const [openIndex, setOpenIndex] = useState(null);
   const [isAnimating, setIsAnimating] = useState(false);
 

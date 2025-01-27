@@ -2,7 +2,7 @@ import React from 'react';
 import { TextEffect } from '../../motion-ui/TextEffect';
 import useObserver from '../../Layout/useObserver';
 const Intro = () => {
-    const { ref, isVisible } = useObserver({ once: false });
+    const { ref, isVisible } = useObserver({ once: true });
     return (
         <section ref={ref} >
             {isVisible && (

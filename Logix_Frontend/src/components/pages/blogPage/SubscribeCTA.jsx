@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import LOGO from '../../../assets/logix.png';
-import Button from '../../common/button';
+import Button from '../../common/Button';
 import useObserver from '../../Layout/useObserver';
 
 const SubscribeCTA = () => {
-    const { ref, isVisible } = useObserver({ once: false });
+    const { ref, isVisible } = useObserver({ once: true });
     const [submit, setSubmit] = useState(false);
 
     const handleSubmit = () => {
