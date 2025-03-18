@@ -5,7 +5,7 @@ import ContactForm from "./ContactForm";
 import ContactCard from "./ContactCard";
 
 const ContactUs = () => {
-  const { ref, isVisible } = useObserver({ once: false });
+  const { ref, isVisible } = useObserver({ once: true });
 
   return (
     <section ref={ref} className="min-h-[90vh] max-w-[100vw] ">
