@@ -1,30 +1,24 @@
-import React from 'react';
-
-const BlogCard = ({ title, description, image }) => {
-    return (
-        <div
-            className="shadow-md rounded-2xl overflow-hidden min-h-96"
-          >
-            <div className="relative group overflow-hidden">
-              <img
-                src={image}
-                alt={title}
-                className="w-full h-64 object-cover object-center transition-transform duration-300 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg shadow-black">
-                  <span className="text-md font-semibold text-black">View</span>
-                </div>
-              </div>
-            </div>
-            <div className="py-4 ">
-              <h2 className="text-xl font-semibold mb-2">
-                {title}
-              </h2>
-              <p className="text-sm text-[#7d7d7d]">{description}</p>
-            </div>
-          </div>
-    );
+import React from "react";
+import { Link } from "react-router-dom";  
+const BlogCard = () => {
+  return (
+    <Link className="max-w-lg rounded-lg overflow-hidden shadow-lg transform transition-transform duration-300 lg:hover:scale-105 text-white">
+      <img
+        className="w-full"
+        src="/images/Event/img7.jpeg" // Replace this with the correct image path
+        alt="Blog Cover"
+      />
+      <div className=" py-4">
+        <div className="font-bold text-xl mb-2 neon-slate-text">
+          How to Build Strong Relationships in a Digital Age
+        </div>
+        <p className="text-gray-400 text-base">
+          Aut omnis repudiandae et. Minima et deleniti et. Ut aut voluptatibus
+          corporis aliquam in praesentium a officiis aut.
+        </p>
+      </div>
+    </Link>
+  );
 };
 
 export default BlogCard;

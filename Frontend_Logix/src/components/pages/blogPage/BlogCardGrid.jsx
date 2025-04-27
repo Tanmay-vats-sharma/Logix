@@ -31,7 +31,7 @@ const BlogCardGrid = () => {
 
   return (
     <div className="w-screen h-auto p-4 flex items-center justify-center ">
-      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 max-w-5xl">
+      <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 lg:max-w-7xl">
         {blogs.map((blog) => (
             <BlogCard
                 key={blog.id}
