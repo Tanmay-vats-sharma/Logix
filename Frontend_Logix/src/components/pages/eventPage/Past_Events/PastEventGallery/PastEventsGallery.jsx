@@ -4,10 +4,10 @@ import useObserver from "../../../../Layout/useObserver";
 import SliderModal from "./Slidermodal";
 
 const PastEvents = () => {
-  const block1 = useObserver();
-  const block2 = useObserver();
-  const block3 = useObserver();
-  const block4 = useObserver();
+  const block1 = useObserver({ once: false });
+  const block2 = useObserver({ once: false });
+  const block3 = useObserver({ once: false });
+  const block4 = useObserver({ once: false });
   const [isModelOpen, setIsModelOpen] = useState(false);
   const [activeEvent, setActiveEvent] = useState(null);
 
@@ -70,7 +70,7 @@ const PastEvents = () => {
         >
           {block1.isVisible && (
             <>
-              <div className="bg-[#333] text-purple-300 neon-purple-text py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[2000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0">
+              <div className="bg-purple-600/80  py-1 lg:py-0 px-4 rounded-xl flex justify-center items-center text-xl sm:text-3xl lg:text-lg mb-6 box-border motion-scale-in-[0.05] sm:motion-scale-in-[0.06] md:motion-scale-in-[0.08] lg:motion-translate-x-in-[-3%] motion-translate-y-in-[-4%] motion-duration-[2000ms] motion-delay-[100ms] lg:motion-translate-x-0 sm:translate-x-0">
                 Visit our previous Events Gallery
               </div>
               <div className="text-[1.4rem] sm:text-3xl lg:text-4xl text-center mb-8 neon-neutral-text">

@@ -1,9 +1,11 @@
 import React from "react";
 import Button from "../../../common/Button"
 import useObserver from "../../../Layout/useObserver";
+import { useNavigate } from "react-router-dom";
 const LearnMore = () => {
-  const block = useObserver({ once: true });
+  const block = useObserver({ once: false });
   const event = "Code Clashers"
+  const navigate = useNavigate();
   return (
     <div ref={block.ref} className="h-[60vh] w-[97vw] lg:w-[47%] lg:h-[70vh] ">
       {block.isVisible && (
@@ -20,7 +22,7 @@ const LearnMore = () => {
             </p>
           </div>
           <div className="h-[10%] lg:h-[10%]">
-            <Button value="Learn More" className="text-xl h-10 w-36 lg:w-40" />
+            <Button value="Learn More" className="text-xl h-10 w-36 lg:w-40" onClick={() => {navigate("/event-details")}}/>
           </div>
         </div>
       )}

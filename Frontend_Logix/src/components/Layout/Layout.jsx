@@ -32,7 +32,7 @@ function Layout() {
         <>
           <Dotsbox />
           <Cursor />
-          <Header id="Header" />
+          {/* <Header id="Header" /> */}
           <main className="flex-grow flex items-center justify-center gap-3">
             <Outlet />
           </main>
