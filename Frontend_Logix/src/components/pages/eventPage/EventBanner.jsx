@@ -80,7 +80,7 @@ const EventBanner = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative py-4 h-auto md:h-[500px] w-full overflow-hidden min-w-[98svw]"
+      className="relative py-4 h-[94svh]  w-full overflow-hidden min-w-[98svw]"
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/70 z-10"></div>
@@ -110,7 +110,7 @@ const EventBanner = () => {
             variants={itemVariants}
           >
             <FaCalendarAlt className="mr-2" />
-            <span className="text-sm font-medium">Annual Event</span>
+            <span className="text-sm font-medium">Logix Event</span>
           </motion.div>
           
           {/* Event Title */}
