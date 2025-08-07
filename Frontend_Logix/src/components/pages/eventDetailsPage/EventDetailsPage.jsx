@@ -74,8 +74,8 @@ const EventDetailsPage = () => {
   const refs = steps.map(() => useRef(null));
   
   return (
-    <div className="bg-gray-900 text-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+    <div className="bg-gray-900 text-gray-100 min-h-screen w-[99svw] sm:w-auto py-12 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      <div className="">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
