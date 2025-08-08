@@ -199,7 +199,7 @@ const EventDetailsPage = () => {
           transition={{ delay: 0.3 }}
           className="mt-16 text-center"
         >
-          <h2 className="text-3xl font-bold mb-6 text-white">Ready to Showcase Your Innovation?</h2>
+          <h2 className="text-3xl font-bold mb-6 text-white">Not Registered yet?</h2>
           <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
           onClick={()=>{navigate("/register")}}>
             Register Your Team Now

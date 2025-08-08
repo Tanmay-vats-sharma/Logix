@@ -7,6 +7,7 @@ import HomePage from "./components/pages/homePage/HomePage";
 import NotFoundPage from "./components/pages/NotFoundPage";
 import EventDetailsPage from "./components/pages/eventDetailsPage/EventDetailsPage";
 import Registeration from "./components/pages/registrationPage/Registration";
+import EventDayUI from "./components/pages/eventPage/eventDayPage/EventDayUi.jsx";
 function App() {
   return (
     <Router>
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<EventPage />} />
           <Route path="/event-details" element={<EventDetailsPage  />} />
           <Route path="/register" element={<Registeration />} />
+          <Route path="/event-day" element={<EventDayUI />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
