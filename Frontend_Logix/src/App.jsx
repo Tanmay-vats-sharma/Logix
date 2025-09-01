@@ -8,6 +8,7 @@ import NotFoundPage from "./components/pages/NotFoundPage";
 import EventDetailsPage from "./components/pages/eventDetailsPage/EventDetailsPage";
 import Registeration from "./components/pages/registrationPage/Registration";
 import EventDayUI from "./components/pages/eventPage/eventDayPage/EventDayUi.jsx";
+import AdminDashboard from "./components/pages/adminPage/AdminPanel.jsx";
 function App() {
   return (
     <Router>
@@ -19,6 +20,7 @@ function App() {
           <Route path="/event-details" element={<EventDetailsPage  />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/event-day" element={<EventDayUI />} />
+          <Route path="/test" element={<AdminDashboard />}></Route>
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
