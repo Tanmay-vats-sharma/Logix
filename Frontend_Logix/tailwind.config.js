@@ -34,6 +34,7 @@ export default {
   },
   plugins: [
     require("tailwindcss-motion"), // Fixed placement for the plugin
+    require('tailwind-scrollbar'),
     plugin(({ theme, addUtilities }) => {
       const neonUtilities = {};
       const colors = theme("colors");
