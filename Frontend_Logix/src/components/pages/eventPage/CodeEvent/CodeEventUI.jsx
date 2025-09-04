@@ -188,7 +188,7 @@ const CodeEventDayUI = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Main Editor */}
           <div className="rounded-xl border border-gray-700 shadow-lg bg-gray-800/40 p-2 h-[70vh] w-[45vw]">
-            <CodeEditorPage code={code} onCodeChange={setCode} />
+            <CodeEditorPage code={code} onCodeChange={setCode} isLocked={!isRunning}/>
           </div>
 
           {/* Live Render */}
