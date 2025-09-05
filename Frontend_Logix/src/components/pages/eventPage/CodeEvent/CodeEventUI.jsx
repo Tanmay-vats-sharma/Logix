@@ -3,8 +3,7 @@ import CodeEditorPage from "./CodeEditor";
 import RenderingComponent from "./RenderingComponent";
 
 const CodeEventDayUI = () => {
-  const [code, setCode] = useState(`
-    <div class="waiting-screen">
+  const [code, setCode] = useState(`<div class="waiting-screen">
   <div class="overlay">
     <h1 class="title">Welcome to <span class="highlight">Logix</span></h1>
     <p class="subtitle">Ultimate Code Battle</p>
