@@ -15,8 +15,12 @@ const EventBanner = () => {
     seconds: 0
   });
 
+  const eventName = "Style Sprint"
+  const year = "2025"
+  const tagline = "Race against time in Logix’s front-end showdown! Fix HTML & CSS fast and style your way to victory."
+
   // Set your event date here (YYYY, MM-1, DD)
-  const eventDate = new Date(2025, 11, 15); // December 15, 2025
+  const eventDate = new Date(2025, 8, 16); // December 15, 2025
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -80,7 +84,7 @@ const EventBanner = () => {
   return (
     <div 
       ref={containerRef}
-      className="relative py-4 h-[94svh]  w-full overflow-hidden min-w-[98svw]"
+      className="relative py-4 h-[99svh]  w-full overflow-hidden min-w-[98svw]"
     >
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/70 z-10"></div>
@@ -118,7 +122,7 @@ const EventBanner = () => {
             className="text-4xl md:text-6xl font-bold text-white mb-4"
             variants={itemVariants}
           >
-            InnovateX <span className="text-purple-400">2025</span>
+            {eventName} <span className="text-purple-400">{year}</span>
           </motion.h1>
           
           {/* Event Description */}
@@ -126,7 +130,7 @@ const EventBanner = () => {
             className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
             variants={itemVariants}
           >
-            Join us for the biggest tech showcase of the year. Witness groundbreaking projects from our brightest minds.
+            {tagline}
           </motion.p>
           
           {/* Countdown Timer */}

@@ -9,7 +9,7 @@ const EventPage = () => {
       <EventBanner/>
       <Faq/>
       <PastEvents/>
-      <ContactUs/>
+      {/* <ContactUs/> */}
     </div>
   );
 };
