@@ -6,6 +6,7 @@ import EventDetailsPage from "./components/pages/eventDetailsPage/EventDetailsPa
 import Registeration from "./components/pages/registrationPage/Registration";
 import EventDayUI from "./components/pages/eventPage/BidEvent/EventDayUi.jsx";
 import CodeEventUI from "./components/pages/eventPage/CodeEvent/CodeEventUI.jsx";
+import Login from "./components/pages/registrationPage/Login";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<EventPage />} />
           <Route path="/event-details" element={<EventDetailsPage />} />
           <Route path="/register" element={<Registeration />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/event-day" element={<CodeEventUI />} />
            {/* <Route path="/event-day" element={<EventDayUI />} /> */}
         </Route>

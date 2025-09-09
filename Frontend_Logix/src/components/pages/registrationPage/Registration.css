@@ -1,4 +1,3 @@
-/* Registration.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 * {
@@ -16,7 +15,7 @@
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-  padding: 20px;
+  padding: 25px;
 }
 
 /* Animated background elements */
@@ -79,14 +78,15 @@
   background: rgba(18, 18, 30, 0.9);
   backdrop-filter: blur(10px);
   border-radius: 15px;
-  padding: 30px;
-  width: 100%;
-  max-width: 500px;
+  padding: 40px 35px;
+  width: 90%;
+  max-width: 750px; /* Increased width for laptops */
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   z-index: 2;
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
+  transition: max-width 0.3s ease-in-out;
 }
 
 .registration-card::before {
@@ -108,12 +108,8 @@
 }
 
 @keyframes shine {
-  0% {
-    left: -50%;
-  }
-  100% {
-    left: 150%;
-  }
+  0% { left: -50%; }
+  100% { left: 150%; }
 }
 
 .registration-card h2 {
@@ -124,6 +120,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   position: relative;
+  font-size: 1.6rem;
 }
 
 .registration-card h2::after {
@@ -171,10 +168,6 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-.form-group input::placeholder {
-  color: #555;
-}
-
 .form-group input.error,
 .form-group select.error {
   border-color: #ff3860;
@@ -187,7 +180,11 @@
   display: block;
 }
 
-.submit-btn {
+.submit-btn,
+.next-btn,
+.back-btn,
+.add-btn,
+.remove-btn {
   width: 100%;
   padding: 12px;
   background: linear-gradient(90deg, #6a11cb, #2575fc);
@@ -201,78 +198,251 @@
   margin-top: 10px;
 }
 
-.submit-btn:hover {
+.submit-btn:hover,
+.next-btn:hover,
+.back-btn:hover,
+.add-btn:hover,
+.remove-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.submit-btn:active {
+.submit-btn:active,
+.next-btn:active,
+.back-btn:active,
+.add-btn:active,
+.remove-btn:active {
   transform: translateY(0);
 }
 
 /* Responsive design */
+@media (max-width: 1024px) {
+  .registration-card {
+    max-width: 650px;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .registration-card {
+    max-width: 90%;
+    padding: 25px;
+  }
+}
+
 @media (max-width: 576px) {
   .registration-card {
+    max-width: 95%;
     padding: 20px;
   }
 }
 
-/* Dark theme select dropdown styles */
-.form-group select {
-  width: 100%;
-  padding: 12px 15px;
-  background: rgba(30, 30, 45, 0.9);
+/* Review Section */
+.review-section {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   color: #fff;
+  z-index: 5;
+}
+
+.review-section h3 {
+  text-align: center;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Review Details Container */
+.review-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* Each review card */
+.review-card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease-in-out;
+}
+
+.review-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Labels */
+.review-card .label {
+  font-weight: 600;
+  color: #6a11cb;
   font-size: 14px;
-  transition: all 0.3s;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 16px;
+  display: block;
+  margin-bottom: 5px;
 }
 
-.form-group select option {
-  background: rgba(30, 30, 45, 0.95);
+/* Values */
+.review-card .value {
+  font-size: 15px;
   color: #fff;
+  word-wrap: break-word;
+}
+
+/* Team Members Table */
+.review-members {
+  margin-top: 20px;
+}
+
+.review-members h4 {
+  color: #2575fc;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.review-members table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.review-members th,
+.review-members td {
   padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.form-group select:focus {
+.review-members th {
+  background: rgba(255, 255, 255, 0.08);
+  color: #6a11cb;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.review-members tr:last-child td {
+  border-bottom: none;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .review-section {
+    padding: 15px;
+  }
+
+  .review-section h3 {
+    font-size: 20px;
+  }
+
+  .review-card {
+    padding: 12px 15px;
+  }
+
+  .review-members table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Steps Navigation */
+.step-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.next-btn,
+.prev-btn,
+.add-btn,
+.remove-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.next-btn {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  color: #fff;
+}
+
+.prev-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.add-btn {
+  margin-top: 10px;
+  background: rgba(0, 180, 120, 0.7);
+  color: #fff;
+}
+
+.remove-btn {
+  margin-top: 5px;
+  background: rgba(255, 60, 60, 0.7);
+  color: #fff;
+}
+
+/* Member Card */
+.member-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Make form wider on laptops */
+.registration-card {
+  max-width: 650px;
+}
+
+@media (max-width: 768px) {
+  .registration-card {
+    max-width: 100%;
+    padding: 20px;
+  }
+}
+
+/* Dark background for branch select dropdown */
+select {
+  background-color: #1f2937; /* dark grey/charcoal */
+  color: #f9fafb; /* light text */
+  border: 1px solid #374151; /* slightly lighter border */
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover effect */
+select:hover {
+  background-color: #374151; /* slightly lighter on hover */
+  border-color: #60a5fa; /* optional: blue border on hover */
+  cursor: pointer;
+}
+
+/* Optional: focus effect */
+select:focus {
   outline: none;
-  border-color: #6a11cb;
-  box-shadow: 0 0 10px rgba(106, 17, 203, 0.5);
-  background-color: rgba(40, 40, 60, 0.9);
-}
-
-.form-group select.error {
-  border-color: #ff3860;
-}
-
-/* For Firefox */
-@-moz-document url-prefix() {
-  .form-group select {
-    color: #fff;
-    text-shadow: 0 0 0 #fff;
-  }
-  
-  .form-group select option {
-    background: rgba(30, 30, 45, 0.95);
-  }
-}
-
-/* For Internet Explorer */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  .form-group select {
-    color: #fff;
-  }
-  
-  .form-group select option {
-    background: rgba(30, 30, 45, 0.95);
-    color: #fff;
-  }
+  border-color: #3b82f6; /* blue outline on focus */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
