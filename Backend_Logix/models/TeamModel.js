@@ -26,6 +26,7 @@ const memberSchema = new mongoose.Schema({
 
 const teamSchema = new mongoose.Schema(
   {
+    teamId: { type: Number },
     teamName: { type: String, required: true, unique: true },
     leader: { type: memberSchema, required: true },
     members: {
@@ -40,5 +41,17 @@ const teamSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+teamSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    const Team = this.constructor;
+    const lastTeam = await Team.findOne({ event: this.event })
+      .sort({ teamId: -1 })
+      .select("teamId")
+      .lean();
+    this.teamId = lastTeam && lastTeam.teamId ? lastTeam.teamId + 1 : 1;
+  }
+  next();
+});
 
 module.exports = mongoose.model("Team", teamSchema);
