@@ -26,13 +26,15 @@ app.use(cookieParser());
 const studentRoutes = require("./routes/studentRoute");
 const adminLoginRoutes = require("./admin/routes/loginRoute");
 const adminTeamRoutes = require("./admin/routes/teamRoute");
-const eventRoutes = require("./admin/routes/eventRoute");
+const adminEventRoutes = require("./admin/routes/eventRoute");
+const adminStudentRoutes = require("./admin/routes/studentRoute");
 
 // Routes
 app.use("/api/students", studentRoutes);
 app.use("/api/admin/login", adminLoginRoutes);
-app.use("/api/admin/events", eventRoutes);
-app.use("/api/admin/team", adminTeamRoutes);
+app.use("/api/admin/events", adminEventRoutes);
+app.use("/api/admin/teams", adminTeamRoutes);
+app.use("/api/admin/students", adminStudentRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running 🚀");
