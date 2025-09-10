@@ -1,0 +1,24 @@
+const Event = require('../models/eventModel');
+const Team = require('../models/teamModel');
+
+// Get registered teams of the latest event
+exports.getLatestEventTeams = async (req, res) => {
+  try {
+    // Find the latest event (assuming createdAt field exists)
+    const latestEvent = await Event.findOne().sort({ createdAt: -1 });
+
+    if (!latestEvent) {
+      return res.status(404).json({ message: 'No events found.' });
+    }
+
+    // Find teams registered for the latest event
+    const teams = await Team.find({ event: latestEvent._id });
+
+    res.status(200).json({
+      event: latestEvent.name,
+      teams,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};

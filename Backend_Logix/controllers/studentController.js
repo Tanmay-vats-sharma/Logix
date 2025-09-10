@@ -163,7 +163,6 @@ exports.loginTeam = async (req, res) => {
         leader: team.leader,
         members: team.members,
       },
-      token, // also sending token in response (optional)
     });
   } catch (error) {
     console.error("Login Error:", error);
