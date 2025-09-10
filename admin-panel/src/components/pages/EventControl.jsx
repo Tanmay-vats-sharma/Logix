@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Clock, Settings, Play, SkipForward, RefreshCcw } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllRounds } from "../../redux/features/roundsSlice";
 
 const EventControlTab = () => {
-  const questions = [
-    "Question 1: Create a responsive navbar",
-    "Question 2: Style a registration form",
-    "Question 3: Implement a CSS grid layout",
-    "Question 4: Create an animated button",
-    "Question 5: Build a card component",
-  ];
+  const dispatch = useDispatch();
+  const { rounds, loading, error } = useSelector((state) => state.rounds);
 
-  const rounds = ["Round 1", "Round 2", "Round 3", "Round 4", "Round 5"];
+  useEffect(() => {
+    dispatch(getAllRounds());
+  }, [dispatch]);
 
-  const [timeLeft, setTimeLeft] = useState(600);
+  const [timeLeft, setTimeLeft] = useState(600); // in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [activeRound, setActiveRound] = useState("Round 1");
+  const [activeRound, setActiveRound] = useState(rounds[0]);
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+  const [timeInput, setTimeInput] = useState(600); // input also in seconds
 
+  // Timer effect
   useEffect(() => {
     let timer;
     if (isTimerRunning && timeLeft > 0) {
@@ -24,12 +26,24 @@ const EventControlTab = () => {
     return () => clearInterval(timer);
   }, [isTimerRunning, timeLeft]);
 
+  // Format purely in seconds
   const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-      .toString()
-      .padStart(2, "0")}`;
+    return `${seconds.toString().padStart(2, "0")}s`;
+  };
+
+  const handleApplySettings = () => {
+    setTimeLeft(timeInput);
+    setIsTimerRunning(false);
+  };
+
+  const handleStartQuestion = () => {
+    if (!activeRound && !selectedQuestion && selectedQuestion === null) {
+      alert("Please select a round and a question first.");
+      return;
+    }
+    console.log("Starting question:", selectedQuestion);
+    console.log("Active round:", activeRound);
+    setIsTimerRunning(true);
   };
 
   return (
@@ -41,17 +55,17 @@ const EventControlTab = () => {
           <h2 className="text-xl font-semibold">Round Selection</h2>
         </div>
         <div className="flex flex-wrap gap-3">
-          {rounds.map((round) => (
+          {rounds?.map((round) => (
             <button
-              key={round}
+              key={round?._id}
               onClick={() => setActiveRound(round)}
               className={`px-5 py-2 rounded-full transition-all duration-300 text-sm font-semibold shadow-md ${
-                activeRound === round
+                activeRound?._id === round?._id
                   ? "bg-indigo-600 text-white shadow-indigo-500/40 scale-105"
                   : "bg-gray-800 text-gray-300 hover:bg-indigo-500 hover:text-white hover:shadow-lg hover:shadow-indigo-500/40"
               }`}
             >
-              {round}
+              {round?.name}
             </button>
           ))}
         </div>
@@ -76,7 +90,9 @@ const EventControlTab = () => {
           </div>
           <div className="flex gap-4 mt-6">
             <button
-              onClick={() => setIsTimerRunning(true)}
+              onClick={() => {
+                handleStartQuestion();
+              }}
               className="flex items-center gap-2 bg-green-600 hover:bg-green-500 transition-all px-6 py-2.5 rounded-lg shadow-md shadow-green-500/30 font-semibold"
             >
               <Play size={18} /> Start Question
@@ -86,7 +102,7 @@ const EventControlTab = () => {
             </button>
             <button
               onClick={() => {
-                setTimeLeft(600);
+                setTimeLeft(timeInput); // reset to applied seconds
                 setIsTimerRunning(false);
               }}
               className="flex items-center gap-2 bg-red-600 hover:bg-red-500 transition-all px-6 py-2.5 rounded-lg shadow-md shadow-red-500/30 font-semibold"
@@ -107,10 +123,13 @@ const EventControlTab = () => {
           <select
             id="question-select"
             className="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            onChange={(e) => {
+              setSelectedQuestion(e.target.value);
+            }}
           >
-            {questions.map((question, index) => (
-              <option key={index} value={index + 1}>
-                {question}
+            {activeRound?.questions?.map((question, index) => (
+              <option key={index} value={question}>
+                {question?.description}
               </option>
             ))}
           </select>
@@ -122,20 +141,24 @@ const EventControlTab = () => {
             htmlFor="time-input"
             className="block text-sm font-medium text-gray-300 mb-2"
           >
-            Set Time (minutes)
+            Set Time (seconds)
           </label>
           <input
             id="time-input"
             type="number"
             min="1"
-            max="60"
-            defaultValue="10"
+            max="3600"
+            value={timeInput}
+            onChange={(e) => setTimeInput(Number(e.target.value))}
             className="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
           />
         </div>
 
         {/* Apply Settings */}
-        <button className="w-48 bg-indigo-600 hover:bg-indigo-500 transition-all px-5 py-3 rounded-lg shadow-md shadow-indigo-500/30 font-semibold">
+        <button
+          onClick={handleApplySettings}
+          className="w-48 bg-indigo-600 hover:bg-indigo-500 transition-all px-5 py-3 rounded-lg shadow-md shadow-indigo-500/30 font-semibold"
+        >
           Apply Settings
         </button>
       </div>
