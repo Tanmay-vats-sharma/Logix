@@ -24,10 +24,11 @@ app.use(cookieParser());
 
 
 const studentRoutes = require("./routes/studentRoute"); // ⬅ Added student routes
-
+const adminLoginRoutes = require("./admin//routes/loginRoute"); // ⬅ Admin login routes
 
 app.use("/api/students", studentRoutes); // ⬅ Student registration & login APIs
 
+app.use("/api/admin", adminLoginRoutes); // ⬅ Admin login API
 // Default route
 app.get("/", (req, res) => {
   res.send("Backend Server is Running 🚀");

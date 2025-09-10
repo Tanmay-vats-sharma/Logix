@@ -1,6 +1,7 @@
 // import './App.css'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminPanel from './components/pages/AdminPanel';
+import AdminLogin from './components/pages/AdminLogin';
 function App() {
   
 
@@ -9,6 +10,7 @@ function App() {
       <Router>
       <Routes>
         <Route path="/" element={<AdminPanel />} />
+        <Route path="/AdminLogin" element={<AdminLogin />} />
       </Routes>
       </Router>
     </>
