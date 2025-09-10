@@ -15,7 +15,7 @@ connectDB();
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || "http://localhost:5173", // Allow React frontend
-    credentials: true, // Allow cookies if needed
+    credentials: true,
   })
 );
 app.use(express.json());
@@ -23,13 +23,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 
-const studentRoutes = require("./routes/studentRoute"); // ⬅ Added student routes
-const adminLoginRoutes = require("./admin//routes/loginRoute"); // ⬅ Admin login routes
+const studentRoutes = require("./routes/studentRoute");
+const adminLoginRoutes = require("./admin/routes/loginRoute");
+const adminTeamRoutes = require("./admin/routes/teamRoute");
+const eventRoutes = require("./admin/routes/eventRoute");
 
-app.use("/api/students", studentRoutes); // ⬅ Student registration & login APIs
+// Routes
+app.use("/api/students", studentRoutes);
+app.use("/api/admin/login", adminLoginRoutes);
+app.use("/api/admin/events", eventRoutes);
+app.use("/api/admin/team", adminTeamRoutes);
 
-app.use("/api/admin", adminLoginRoutes); // ⬅ Admin login API
-// Default route
 app.get("/", (req, res) => {
   res.send("Backend Server is Running 🚀");
 });

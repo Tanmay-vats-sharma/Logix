@@ -1,8 +1,8 @@
-const Event = require('../models/eventModel');
-const Team = require('../models/teamModel');
+const Event = require('../../models/Event');
+const Team = require('../../models/TeamModel');
 
-// Get registered teams of the latest event
-exports.getLatestEventTeams = async (req, res) => {
+// Get all registered teams
+exports.getAllTeams = async (req, res) => {
   try {
     // Find the latest event (assuming createdAt field exists)
     const latestEvent = await Event.findOne().sort({ createdAt: -1 });

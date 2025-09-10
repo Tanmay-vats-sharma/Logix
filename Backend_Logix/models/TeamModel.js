@@ -35,6 +35,7 @@ const teamSchema = new mongoose.Schema(
         message: "A team can have at most 2 additional members",
       },
     },
+    event: { type: mongoose.Schema.Types.ObjectId, ref: "Event", required: true },
     password: { type: String, required: true },
   },
   { timestamps: true }
