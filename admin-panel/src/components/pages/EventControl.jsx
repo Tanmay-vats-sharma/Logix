@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Clock, Settings, Play, SkipForward, RefreshCcw } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRounds } from "../../redux/features/roundsSlice";
-
+import { getSocket } from "../../utils/socket";
 const EventControlTab = () => {
   const dispatch = useDispatch();
   const { rounds, loading, error } = useSelector((state) => state.rounds);
+
+  const socket = getSocket();
 
   useEffect(() => {
     dispatch(getAllRounds());
@@ -43,6 +45,11 @@ const EventControlTab = () => {
     }
     console.log("Starting question:", selectedQuestion);
     console.log("Active round:", activeRound);
+    socket.emit("start-question", {
+      roundId: activeRound,
+      question: selectedQuestion,
+      time: timeInput,
+    });
     setIsTimerRunning(true);
   };
 

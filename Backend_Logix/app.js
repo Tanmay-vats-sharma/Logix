@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
+const { setupSocket } = require("./socketServer");
+const http = require("http");
 
 dotenv.config();
 const app = express();
@@ -52,7 +54,11 @@ app.get("/", (req, res) => {
 // Port
 const PORT = process.env.PORT || 5000;
 
+const server = http.createServer(app);
+// Setup WebSocket
+setupSocket(server);
+
 // Start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`✅ Server is running on http://localhost:${PORT}`);
 });

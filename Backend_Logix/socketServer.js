@@ -1,19 +1,21 @@
 // src/sockets/index.js
 const { Server } = require('socket.io');
 const http = require('http');
-const adminEventHandler = require('../socket/adminEventHandler');
-const studentEventHandler = require('../socket/studentEventHandler');
+const adminEventHandler = require('./socket/adminEventHandler');
+const studentEventHandler = require('./socket/studentEventHandler');
 
 let io;
 
-const allowedOrigins = process.env.FRONTEND_URL.split(',').map((o) => o.trim());
+const allowedOrigins = process.env.FRONTEND_URL?.split(',') || ['http://localhost:5173', 'http://localhost:5174'];
 
-function setupSocket(app) {
-  const server = http.createServer(app);
+function setupSocket(server) {
+  console.log('Setting up WebSocket server...');
+  console.log('Allowed Origins:', allowedOrigins);
+  // const server = http.createServer(app);
   io = new Server(server, {
     path: '/ws',
     cors: {
-      origin: allowedOrigins,
+      origin: '*',
       credentials: true,
     },
   });
