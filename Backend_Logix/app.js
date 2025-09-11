@@ -4,8 +4,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
-const { setupSocket } = require("./socketServer");
-const http = require("http");
+const morgan = require("morgan");
 
 dotenv.config();
 const app = express();
@@ -30,7 +29,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
+app.use(morgan('dev'));
 
 const studentRoutes = require("./routes/studentRoute");
 const adminLoginRoutes = require("./admin/routes/loginRoute");
@@ -54,11 +53,7 @@ app.get("/", (req, res) => {
 // Port
 const PORT = process.env.PORT || 5000;
 
-const server = http.createServer(app);
-// Setup WebSocket
-setupSocket(server);
-
 // Start server
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`✅ Server is running on http://localhost:${PORT}`);
 });

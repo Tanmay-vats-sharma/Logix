@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Clock, Settings, Play, SkipForward, RefreshCcw } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRounds } from "../../redux/features/roundsSlice";
-import { getSocket } from "../../utils/socket";
+
 const EventControlTab = () => {
   const dispatch = useDispatch();
   const { rounds, loading, error } = useSelector((state) => state.rounds);
-
-  const socket = getSocket();
 
   useEffect(() => {
     dispatch(getAllRounds());
@@ -43,14 +41,12 @@ const EventControlTab = () => {
       alert("Please select a round and a question first.");
       return;
     }
-    console.log("Starting question:", selectedQuestion);
-    console.log("Active round:", activeRound);
-    socket.emit("start-question", {
-      roundId: activeRound,
-      question: selectedQuestion,
+    const questionObj = activeRound?.questions?.find(q => q._id === selectedQuestion);
+    const data = {
+      round: activeRound,
+      question: questionObj,
       time: timeInput,
-    });
-    setIsTimerRunning(true);
+    }
   };
 
   return (
@@ -135,7 +131,7 @@ const EventControlTab = () => {
             }}
           >
             {activeRound?.questions?.map((question, index) => (
-              <option key={index} value={question}>
+              <option key={index} value={question?._id}>
                 {question?.description}
               </option>
             ))}

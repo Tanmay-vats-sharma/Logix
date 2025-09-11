@@ -1,7 +1,7 @@
-const bcrypt = require("bcryptjs");
 const Team = require("../models/TeamModel"); // Single schema
 const Event = require("../models/Event");
 const jwt = require("jsonwebtoken");
+
 exports.registerTeam = async (req, res) => {
   try {
     const {
@@ -90,10 +90,6 @@ exports.registerTeam = async (req, res) => {
       });
     }
 
-    // --- Hash password (leader's roll number) ---
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
     const latestEvent = await Event.findOne().sort({ createdAt: -1 }).lean();
 
     // --- Save team ---
@@ -101,7 +97,7 @@ exports.registerTeam = async (req, res) => {
       teamName,
       leader,
       members: teamMembers || [],
-      password: hashedPassword,
+      password,
       event: latestEvent._id,
     });
 

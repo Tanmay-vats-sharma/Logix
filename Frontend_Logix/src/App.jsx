@@ -9,24 +9,6 @@ import CodeEventUI from "./components/pages/eventPage/CodeEvent/CodeEventUI.jsx"
 import Login from "./components/pages/registrationPage/Login";
 
 function App() {
-  const dummyAdminAction = {
-//   round: {
-//     _id: "68c1d68ee1dd1c002aea01cf",
-//     name: "Preliminary Round",
-//     description: "First round with multiple choice questions.",
-//   },
-//   question: {
-//     description: "Question 1 Center a Div",
-//     text: "What is the output of 2 + 2 in JavaScript?",
-//     starterCode: `<div class="center-me">I should be centered</div>
-// <style>
-//   .center-me {
-//     /* fix this */
-//   }
-// </style>`,
-//   },
-//   time: 600,
-};
 
   return (
     <Router>
@@ -36,7 +18,7 @@ function App() {
           <Route path="/event-details" element={<EventDetailsPage />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/event-day" element={<CodeEventUI adminData={dummyAdminAction} />} />
+          <Route path="/event-day" element={<CodeEventUI/>} />
            {/* <Route path="/event-day" element={<EventDayUI />} /> */}
         </Route>
 

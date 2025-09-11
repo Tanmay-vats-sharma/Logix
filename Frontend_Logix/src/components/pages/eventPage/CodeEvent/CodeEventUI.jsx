@@ -2,23 +2,47 @@
 import React, { useState, useEffect } from "react";
 import CodeEditorPage from "./CodeEditor";
 import RenderingComponent from "./RenderingComponent";
+import CodeEditorData from "../../../../constants/CodeEditor.json"
+/*
+  Changes:
+  - Set initial timeLeft to 0, isLocked to false, isRunning to false, submitted to false.
+  - Added a startTimer function to set timeLeft from CodeEditorData?.time, isRunning to true, submitted to false.
+  - Submit button is disabled unless isRunning is true and submitted is false.
+  - When submit is clicked, submitted is set to true, isRunning to false, button shows "Submitted".
+  - When timer runs out, submitted is set to true, isRunning to false, button shows "Submitted".
+  - Expose startTimer for parent/component to call.
+*/
 
-const CodeEventDayUI = ({ adminData }) => {
-  // Extract props from adminData
-  const [round, setRound] = useState(adminData?.round?.name || "Round");
-  const [question, setQuestion] = useState(adminData?.question?.description || "");
-  const [code, setCode] = useState(adminData?.question?.starterCode || "<!-- Code will appear here -->");
+const CodeEventDayUI = () => {
+  const [round, setRound] = useState(CodeEditorData?.round?.name || "Round");
+  const [question, setQuestion] = useState(CodeEditorData?.question?.description || "");
+  const [code, setCode] = useState(CodeEditorData?.question?.text || "<!-- Code will appear here -->");
 
   // Timer from admin
-  const [timeLeft, setTimeLeft] = useState(adminData?.time || 300);
-  const [isRunning, setIsRunning] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
+  const [lockSubmitButton, setLockSubmitButton] = useState(true);
   const [submitted, setSubmitted] = useState(false);
+
+  // Trigger startTimer after 10 seconds of page load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTimeLeft(CodeEditorData?.time || 30);
+      setIsRunning(true);
+      setSubmitted(false);
+      setLockSubmitButton(false)
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Countdown
   useEffect(() => {
     if (!isRunning || submitted) return;
     if (timeLeft <= 0) {
-      handleAutoSubmit();
+      setIsRunning(false);
+      setLockSubmitButton(true);
+      setIsLocked(true);
       return;
     }
     const interval = setInterval(() => {
@@ -40,13 +64,8 @@ const CodeEventDayUI = ({ adminData }) => {
   const handleSubmit = () => {
     setSubmitted(true);
     setIsRunning(false);
+    setLockSubmitButton(true);
     alert("✅ Code submitted early!");
-  };
-
-  const handleAutoSubmit = () => {
-    setSubmitted(true);
-    setIsRunning(false);
-    alert("⏰ Time’s up! Auto-submitting...");
   };
 
   return (
@@ -71,9 +90,9 @@ const CodeEventDayUI = ({ adminData }) => {
           </div>
           <button
             onClick={handleSubmit}
-            disabled={submitted}
+            disabled={lockSubmitButton || submitted}
             className={`px-6 py-2 rounded-lg font-semibold transition ${
-              submitted
+              lockSubmitButton
                 ? "bg-gray-600 cursor-not-allowed"
                 : "bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90"
             }`}
@@ -89,7 +108,7 @@ const CodeEventDayUI = ({ adminData }) => {
             <CodeEditorPage
               code={code}
               onCodeChange={setCode}
-              isLocked={!isRunning}
+              isLocked={isLocked || submitted}
             />
           </div>
 
