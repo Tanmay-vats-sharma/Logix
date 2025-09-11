@@ -1,3 +1,4 @@
+// CodeEditorPage.jsx
 import React, { useEffect, useRef } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { html } from "@codemirror/lang-html";
@@ -21,27 +22,25 @@ const CodeEditorPage = ({ code, onCodeChange, isLocked }) => {
     const editorEl = editorRef.current?.querySelector(".cm-editor");
     if (!editorEl) return;
 
-    // Disable right click
-    editorEl.addEventListener("contextmenu", (e) => e.preventDefault());
+    const disableEvent = (e) => e.preventDefault();
 
-    // Disable copy/paste/cut events
-    editorEl.addEventListener("copy", (e) => e.preventDefault());
-    editorEl.addEventListener("cut", (e) => e.preventDefault());
-    editorEl.addEventListener("paste", (e) => e.preventDefault());
+    // Disable right click + copy/cut/paste
+    editorEl.addEventListener("contextmenu", disableEvent);
+    editorEl.addEventListener("copy", disableEvent);
+    editorEl.addEventListener("cut", disableEvent);
+    editorEl.addEventListener("paste", disableEvent);
 
-    // 🚨 Disable paste via beforeinput (this catches hidden paste insertions)
+    // Prevent hidden paste insertions
     const handleBeforeInput = (e) => {
-      if (e.inputType === "insertFromPaste") {
-        e.preventDefault();
-      }
+      if (e.inputType === "insertFromPaste") e.preventDefault();
     };
     editorEl.addEventListener("beforeinput", handleBeforeInput);
 
     return () => {
-      editorEl.removeEventListener("contextmenu", (e) => e.preventDefault());
-      editorEl.removeEventListener("copy", (e) => e.preventDefault());
-      editorEl.removeEventListener("cut", (e) => e.preventDefault());
-      editorEl.removeEventListener("paste", (e) => e.preventDefault());
+      editorEl.removeEventListener("contextmenu", disableEvent);
+      editorEl.removeEventListener("copy", disableEvent);
+      editorEl.removeEventListener("cut", disableEvent);
+      editorEl.removeEventListener("paste", disableEvent);
       editorEl.removeEventListener("beforeinput", handleBeforeInput);
     };
   }, []);

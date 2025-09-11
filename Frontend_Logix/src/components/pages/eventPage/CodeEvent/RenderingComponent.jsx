@@ -1,8 +1,8 @@
+// RenderingComponent.jsx
 import React from "react";
 import DOMPurify from "dompurify";
 
 const RenderingComponent = ({ html }) => {
-  // sanitize HTML to prevent XSS
   const cleanHtml = DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
 
   return (
