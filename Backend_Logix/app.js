@@ -5,8 +5,25 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const connectDB = require("./config/db");
 const morgan = require("morgan");
+const rateLimit = require("express-rate-limit");
 
 dotenv.config();
+
+
+// Rate limiter middleware
+const rateLimitHandler = (req, res, next, options) => {
+  console.log(`Rate limit exceeded for IP: ${req.ip}`);
+  res.status(options.statusCode).send(options.message);
+};
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: "Too many requests from this IP, please try again later.",
+  handler: rateLimitHandler,
+});
+
 const app = express();
 
 // Database connection
@@ -29,7 +46,8 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(morgan('dev'));
+app.use(morgan(':remote-addr :method :url :status :response-time ms - :res[content-length] bytes'));
+app.use(limiter);
 
 const studentRoutes = require("./routes/studentRoute");
 const adminLoginRoutes = require("./admin/routes/loginRoute");
