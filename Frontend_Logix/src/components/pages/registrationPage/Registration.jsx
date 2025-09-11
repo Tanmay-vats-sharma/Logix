@@ -153,7 +153,7 @@ const Registration = () => {
   // Handle submit
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
-    if (!validateStep()) return;
+    // if (!validateStep()) return;
 
     try {
       const response = await registerStudent(formData);
@@ -176,7 +176,7 @@ const Registration = () => {
         <img src={logixLogo} alt="Logix Logo" className="h-20 w-32" />
         <h2>Team Registration</h2>
 
-        <form onSubmit={handleSubmit} noValidate>
+        <form noValidate>
           {/* Step 1: Leader Details */}
           {step === 1 && (
             <>
@@ -479,7 +479,7 @@ const Registration = () => {
                 >
                   Skip & Register
                 </button>
-                <button type="submit" className="submit-btn">
+                <button type="submit" className="submit-btn" onClick={handleSubmit}>
                   Register
                 </button>
               </>

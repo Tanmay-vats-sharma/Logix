@@ -1,26 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../../utils/axiosInstance";
 
-// API endpoint
-const API_URL = "http://localhost:5000/api/admin/students";
-
-// Async thunk to fetch students
+// Async thunk to fetch students using axiosInstance
 export const fetchAllStudents = createAsyncThunk(
   "students/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await fetch(API_URL, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axiosInstance.get("/students");
 
-      if (!response.ok) {
+      if (response.status !== 200) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      return data; // array of students
+      return response.data; // array of students
     } catch (error) {
       return rejectWithValue(error.message);
     }

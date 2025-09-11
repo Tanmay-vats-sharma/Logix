@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/admin/teams"; // Change if needed
+import axiosInstance from "../../utils/axiosInstance";
 
 // Fetch all teams
 export const fetchTeams = createAsyncThunk("teams/fetchTeams", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(API_URL, { withCredentials: true });
+    const response = await axiosInstance.get("/teams");
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || "Failed to fetch teams");
