@@ -18,6 +18,18 @@ exports.registerTeam = async (req, res) => {
     } = req.body;
 
     // --- Basic Validation ---
+    if (
+      !leaderName ||
+      !leaderRollNumber ||
+      !leaderBranch ||
+      !leaderSection ||
+      !leaderPhoneNumber ||
+      !leaderCollegeEmail ||
+      !leaderPersonalEmail ||
+      !password
+    ) {
+      return res.status(400).json({ message: "All leader details are required" });
+    }
     if (!teamName) {
       return res.status(400).json({ message: "Team name is required" });
     }
@@ -71,24 +83,24 @@ exports.registerTeam = async (req, res) => {
     }
 
     // --- Check if any member already exists in another team ---
-    const existingTeam = await Team.findOne({
-      $or: [
-        { "leader.rollNumber": { $in: rollNumbers } },
-        { "leader.collegeEmail": { $in: collegeEmails } },
-        { "leader.personalEmail": { $in: personalEmails } },
-        { "leader.phoneNumber": { $in: phoneNumbers } },
-        { "members.rollNumber": { $in: rollNumbers } },
-        { "members.collegeEmail": { $in: collegeEmails } },
-        { "members.personalEmail": { $in: personalEmails } },
-        { "members.phoneNumber": { $in: phoneNumbers } },
-      ],
-    });
+    // const existingTeam = await Team.findOne({
+    //   $or: [
+    //     { "leader.rollNumber": { $in: rollNumbers } },
+    //     { "leader.collegeEmail": { $in: collegeEmails } },
+    //     { "leader.personalEmail": { $in: personalEmails } },
+    //     { "leader.phoneNumber": { $in: phoneNumbers } },
+    //     { "members.rollNumber": { $in: rollNumbers } },
+    //     { "members.collegeEmail": { $in: collegeEmails } },
+    //     { "members.personalEmail": { $in: personalEmails } },
+    //     { "members.phoneNumber": { $in: phoneNumbers } },
+    //   ],
+    // });
 
-    if (existingTeam) {
-      return res.status(400).json({
-        message: "One or more members are already registered in another team",
-      });
-    }
+    // if (existingTeam) {
+    //   return res.status(400).json({
+    //     message: "One or more members are already registered in another team",
+    //   });
+    // }
 
     const latestEvent = await Event.findOne().sort({ createdAt: -1 }).lean();
 
@@ -141,7 +153,7 @@ exports.loginTeam = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: team._id, teamName: team.teamName },
+      { id: team._id, teamName: team.teamName, role: "user" },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );

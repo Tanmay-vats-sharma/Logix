@@ -17,17 +17,7 @@ const Registration = () => {
     leaderPhoneNumber: "",
     leaderCollegeEmail: "",
     leaderPersonalEmail: "",
-    teamMembers: [
-      {
-        name: "",
-        rollNumber: "",
-        branch: "",
-        section: "",
-        phoneNumber: "",
-        collegeEmail: "",
-        personalEmail: "",
-      },
-    ],
+    teamMembers: [],
   });
 
   const [errors, setErrors] = useState({});
@@ -108,11 +98,11 @@ const Registration = () => {
         !/^\d{10}$/.test(formData.leaderPhoneNumber)
       )
         newErrors.leaderPhoneNumber = "Valid phone number required";
-      if (
-        !formData.leaderCollegeEmail ||
-        !formData.leaderCollegeEmail.endsWith("@rkgit.edu.in")
-      )
-        newErrors.leaderCollegeEmail = "Must be a valid RKGIT email";
+      // if (
+      //   !formData.leaderCollegeEmail ||
+      //   !formData.leaderCollegeEmail.endsWith("@rkgit.edu.in")
+      // )
+      //   newErrors.leaderCollegeEmail = "Must be a valid RKGIT email";
       if (
         !formData.leaderPersonalEmail ||
         !/\S+@\S+\.\S+/.test(formData.leaderPersonalEmail)
@@ -121,23 +111,26 @@ const Registration = () => {
     }
 
     if (step === 2) {
-      formData.teamMembers.forEach((member, index) => {
-        if (!member.name) newErrors[`name-${index}`] = "Name is required";
-        if (!member.rollNumber)
-          newErrors[`roll-${index}`] = "Roll number is required";
-        if (!member.branch) newErrors[`branch-${index}`] = "Branch is required";
-        if (!member.section)
-          newErrors[`section-${index}`] = "Section is required";
-        if (!member.phoneNumber || !/^\d{10}$/.test(member.phoneNumber))
-          newErrors[`phone-${index}`] = "Valid phone number required";
-        if (
-          !member.collegeEmail ||
-          !member.collegeEmail.endsWith("@rkgit.edu.in")
-        )
-          newErrors[`college-${index}`] = "Must be a valid RKGIT email";
-        if (!member.personalEmail || !/\S+@\S+\.\S+/.test(member.personalEmail))
-          newErrors[`personal-${index}`] = "Personal email invalid";
-      });
+      // formData.teamMembers.forEach((member, index) => {
+      //   // Validate only if any field is filled
+      //   if (member.name || member.rollNumber || member.collegeEmail) {
+      //     if (!member.name) newErrors[`name-${index}`] = "Name is required";
+      //     if (!member.rollNumber)
+      //       newErrors[`roll-${index}`] = "Roll number is required";
+      //     if (!member.branch) newErrors[`branch-${index}`] = "Branch is required";
+      //     if (!member.section)
+      //       newErrors[`section-${index}`] = "Section is required";
+      //     if (!member.phoneNumber || !/^\d{10}$/.test(member.phoneNumber))
+      //       newErrors[`phone-${index}`] = "Valid phone number required";
+      //     if (
+      //       !member.collegeEmail ||
+      //       !member.collegeEmail.endsWith("@rkgit.edu.in")
+      //     )
+      //       newErrors[`college-${index}`] = "Must be a valid RKGIT email";
+      //     if (!member.personalEmail || !/\S+@\S+\.\S+/.test(member.personalEmail))
+      //       newErrors[`personal-${index}`] = "Personal email invalid";
+      //   }
+      // });
 
       if (hasDuplicateMembers()) {
         toast.error("Team members' roll numbers and emails must be unique.");
@@ -159,7 +152,7 @@ const Registration = () => {
 
   // Handle submit
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!validateStep()) return;
 
     try {
@@ -187,6 +180,10 @@ const Registration = () => {
           {/* Step 1: Leader Details */}
           {step === 1 && (
             <>
+              <p style={{ color: "#f5b400", marginBottom: "10px" }}>
+                Note: Laptop is Mandatory per team
+              </p>
+
               <div className="form-group">
                 <label>Team Name</label>
                 <input
@@ -318,7 +315,7 @@ const Registration = () => {
           {step === 2 && (
             <>
               <h3 style={{ color: "#fff", marginBottom: "10px" }}>
-                Team Members
+                Team Members (Optional)
               </h3>
               {formData.teamMembers.map((member, index) => (
                 <div key={index} className="member-card">
@@ -454,11 +451,7 @@ const Registration = () => {
               ))}
 
               {formData.teamMembers.length < 2 && (
-                <button
-                  type="button"
-                  className="add-btn"
-                  onClick={addMember}
-                >
+                <button type="button" className="add-btn" onClick={addMember}>
                   + Add Member
                 </button>
               )}
@@ -468,26 +461,28 @@ const Registration = () => {
           {/* Buttons */}
           <div className="step-buttons">
             {step > 1 && (
-              <button
-                type="button"
-                className="prev-btn"
-                onClick={prevStep}
-              >
+              <button type="button" className="prev-btn" onClick={prevStep}>
                 Previous
               </button>
             )}
-            {step < 2 ? (
-              <button
-                type="button"
-                className="next-btn"
-                onClick={nextStep}
-              >
+            {step === 1 && (
+              <button type="button" className="next-btn" onClick={nextStep}>
                 Next
               </button>
-            ) : (
-              <button type="submit" className="submit-btn">
-                Register
-              </button>
+            )}
+            {step === 2 && (
+              <>
+                <button
+                  type="button"
+                  className="skip-btn"
+                  onClick={handleSubmit}
+                >
+                  Skip & Register
+                </button>
+                <button type="submit" className="submit-btn">
+                  Register
+                </button>
+              </>
             )}
           </div>
         </form>

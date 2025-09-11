@@ -50,19 +50,12 @@ app.use(morgan(':remote-addr :method :url :status :response-time ms - :res[conte
 app.use(limiter);
 
 const studentRoutes = require("./routes/studentRoute");
-const adminLoginRoutes = require("./admin/routes/loginRoute");
-const adminTeamRoutes = require("./admin/routes/teamRoute");
-const adminEventRoutes = require("./admin/routes/eventRoute");
-const adminStudentRoutes = require("./admin/routes/studentRoute");
-const adminRoundRoutes = require("./admin/routes/roundRoute");
+const adminRouter = require("./admin/router");
 
 // Routes
 app.use("/api/students", studentRoutes);
-app.use("/api/admin/login", adminLoginRoutes);
-app.use("/api/admin/events", adminEventRoutes);
-app.use("/api/admin/teams", adminTeamRoutes);
-app.use("/api/admin/students", adminStudentRoutes);
-app.use("/api/admin/rounds", adminRoundRoutes);
+app.use("/api/admin", adminRouter);
+
 
 app.get("/", (req, res) => {
   res.send("Backend Server is Running 🚀");

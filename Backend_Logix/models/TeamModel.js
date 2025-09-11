@@ -1,24 +1,21 @@
 const mongoose = require("mongoose");
 
 const memberSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  rollNumber: { type: String, required: true, trim: true },
-  branch: { type: String, required: true },
-  section: { type: String, required: true },
+  name: { type: String,},
+  rollNumber: { type: String },
+  branch: { type: String },
+  section: { type: String },
   phoneNumber: {
     type: String,
-    required: true,
     match: [/^\d{10}$/, "Phone number must be 10 digits"],
   },
   collegeEmail: {
     type: String,
-    required: true,
     lowercase: true,
     match: [/^[a-zA-Z0-9._%+-]+@rkgit\.edu\.in$/, "Must be a valid RKGIT email"],
   },
   personalEmail: {
     type: String,
-    required: true,
     lowercase: true,
     match: [/^\S+@\S+\.\S+$/, "Invalid email format"],
   },
