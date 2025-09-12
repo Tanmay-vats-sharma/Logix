@@ -3,6 +3,16 @@ import React, { useState, useEffect } from "react";
 import CodeEditorPage from "./CodeEditor";
 import RenderingComponent from "./RenderingComponent";
 import CodeEditorData from "../../../../constants/CodeEditor.json";
+import useAbly from "../../../../hooks/useAbly";
+/*
+  Changes:
+  - Set initial timeLeft to 0, isLocked to false, isRunning to false, submitted to false.
+  - Added a startTimer function to set timeLeft from CodeEditorData?.time, isRunning to true, submitted to false.
+  - Submit button is disabled unless isRunning is true and submitted is false.
+  - When submit is clicked, submitted is set to true, isRunning to false, button shows "Submitted".
+  - When timer runs out, submitted is set to true, isRunning to false, button shows "Submitted".
+  - Expose startTimer for parent/component to call.
+*/
 
 const CodeEventDayUI = () => {
   const [round, setRound] = useState(CodeEditorData?.round?.name || "Round");
@@ -36,10 +46,22 @@ const CodeEventDayUI = () => {
   //     setTimeLeft(CodeEditorData?.time || 30);
   //     setIsRunning(true);
   //     setSubmitted(false);
-  //     setLockSubmitButton(false);
+  //     setLockSubmitButton(false)
   //   }, 10000);
   //   return () => clearTimeout(timer);
   // }, []);
+
+  useAbly("event-control", "start-question", (data) => {
+    console.log("Received start-question data:", data);
+    setRound(data?.round?.name || "Round");
+    setQuestion(data?.question?.description || "");
+    setCode(data?.question?.text || "<!-- Code will appear here -->");
+    setTimeLeft(data?.time || 30);
+    setIsRunning(true);
+    setIsLocked(false);
+    setSubmitted(false);
+    setLockSubmitButton(false);
+  });
 
   // Countdown
   useEffect(() => {

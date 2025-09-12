@@ -6,7 +6,7 @@ const channels = {};
 export const initAbly = () => {
   if (!ablyClient) {
     ablyClient = new Ably.Realtime({
-      authUrl: `${import.meta.env.VITE_ADMIN_API_URL}/api/ably/token` || "http://localhost:5000/api/ably/token"
+      authUrl: `${import.meta.env.VITE_API_URL}/api/ably/token` || "https://y84kkwcocgcs888ks4s4cg48.ircollab.com/api/ably/token"
     });
 
     ablyClient.connection.on((stateChange) => {

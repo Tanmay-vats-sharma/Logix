@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Clock, Settings, Play, SkipForward, RefreshCcw } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllRounds } from "../../redux/features/roundsSlice";
+import { getChannel } from "../../utils/ably";
 
 const EventControlTab = () => {
   const dispatch = useDispatch();
   const { rounds, loading, error } = useSelector((state) => state.rounds);
+
+  const channel = getChannel("event-control");
 
   useEffect(() => {
     dispatch(getAllRounds());
@@ -36,18 +39,35 @@ const EventControlTab = () => {
     setIsTimerRunning(false);
   };
 
-  const handleStartQuestion = () => {
-    if (!activeRound && !selectedQuestion && selectedQuestion === null) {
-      alert("Please select a round and a question first.");
-      return;
-    }
-    const questionObj = activeRound?.questions?.find(q => q._id === selectedQuestion);
-    const data = {
-      round: activeRound,
-      question: questionObj,
-      time: timeInput,
-    }
+const handleStartQuestion = () => {
+  console.log("handleStartQuestion triggered");
+  console.log("activeRound:", activeRound);
+  console.log("selectedQuestion:", selectedQuestion);
+
+  if (!activeRound || !selectedQuestion) {
+    alert("Please select a round and a question first.");
+    return;
+  }
+
+  const questionObj = activeRound?.questions?.find(
+    q => String(q._id) === String(selectedQuestion)
+  );
+
+  if (!questionObj) {
+    console.error("Question not found in active round questions");
+    return;
+  }
+
+  const data = {
+    round: activeRound,
+    question: questionObj,
+    time: timeInput,
   };
+
+  console.log("Publishing start-question with data:", data);
+  channel.publish("start-question", data);
+};
+
 
   return (
     <div className="p-6 min-h-screen bg-gray-950 text-gray-100">
@@ -130,6 +150,7 @@ const EventControlTab = () => {
               setSelectedQuestion(e.target.value);
             }}
           >
+            <option>Select question</option>
             {activeRound?.questions?.map((question, index) => (
               <option key={index} value={question?._id}>
                 {question?.description}
