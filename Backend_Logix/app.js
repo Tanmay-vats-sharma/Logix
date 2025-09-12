@@ -14,18 +14,18 @@ console.log("✅ ABLY_API_KEY loaded:", !!process.env.ABLY_API_KEY);
 const app = express();
 
 // Rate limiter middleware
-const rateLimitHandler = (req, res, next, options) => {
-  console.log(`Rate limit exceeded for IP: ${req.ip}`);
-  res.status(options.statusCode).send(options.message);
-};
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: "Too many requests from this IP, please try again later.",
-  handler: rateLimitHandler,
-});
+// const rateLimitHandler = (req, res, next, options) => {
+//   console.log(`Rate limit exceeded for IP: ${req.ip}`);
+//   res.status(options.statusCode).send(options.message);
+// };
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100,
+//   standardHeaders: true,
+//   legacyHeaders: false,
+//   message: "Too many requests from this IP, please try again later.",
+//   handler: rateLimitHandler,
+// });
 
 app.set("trust proxy", 1);
 
