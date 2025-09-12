@@ -438,7 +438,7 @@ const Registration = () => {
                     )}
                   </div>
 
-                  {index > 0 && (
+                  {index >= 0 && (
                     <button
                       type="button"
                       className="remove-btn"
@@ -472,13 +472,6 @@ const Registration = () => {
             )}
             {step === 2 && (
               <>
-                <button
-                  type="button"
-                  className="skip-btn"
-                  onClick={handleSubmit}
-                >
-                  Skip & Register
-                </button>
                 <button type="submit" className="submit-btn" onClick={handleSubmit}>
                   Register
                 </button>

@@ -2,21 +2,26 @@
 import React, { useState, useEffect } from "react";
 import CodeEditorPage from "./CodeEditor";
 import RenderingComponent from "./RenderingComponent";
-import CodeEditorData from "../../../../constants/CodeEditor.json"
-/*
-  Changes:
-  - Set initial timeLeft to 0, isLocked to false, isRunning to false, submitted to false.
-  - Added a startTimer function to set timeLeft from CodeEditorData?.time, isRunning to true, submitted to false.
-  - Submit button is disabled unless isRunning is true and submitted is false.
-  - When submit is clicked, submitted is set to true, isRunning to false, button shows "Submitted".
-  - When timer runs out, submitted is set to true, isRunning to false, button shows "Submitted".
-  - Expose startTimer for parent/component to call.
-*/
+import CodeEditorData from "../../../../constants/CodeEditor.json";
 
 const CodeEventDayUI = () => {
   const [round, setRound] = useState(CodeEditorData?.round?.name || "Round");
-  const [question, setQuestion] = useState(CodeEditorData?.question?.description || "");
-  const [code, setCode] = useState(CodeEditorData?.question?.text || "<!-- Code will appear here -->");
+  const [question, setQuestion] = useState(
+    CodeEditorData?.question?.description || ""
+  );
+  const [code, setCode] = useState(
+    CodeEditorData?.question?.text || "<!-- Code will appear here -->"
+  );
+
+  // ✅ Team info from localStorage
+  const [team, setTeam] = useState(null);
+
+  useEffect(() => {
+    const savedTeam = localStorage.getItem("team");
+    if (savedTeam) {
+      setTeam(JSON.parse(savedTeam));
+    }
+  }, []);
 
   // Timer from admin
   const [timeLeft, setTimeLeft] = useState(0);
@@ -26,15 +31,15 @@ const CodeEventDayUI = () => {
   const [submitted, setSubmitted] = useState(false);
 
   // Trigger startTimer after 10 seconds of page load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(CodeEditorData?.time || 30);
-      setIsRunning(true);
-      setSubmitted(false);
-      setLockSubmitButton(false)
-    }, 10000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setTimeLeft(CodeEditorData?.time || 30);
+  //     setIsRunning(true);
+  //     setSubmitted(false);
+  //     setLockSubmitButton(false);
+  //   }, 10000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   // Countdown
   useEffect(() => {
@@ -72,12 +77,27 @@ const CodeEventDayUI = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100 p-4 md:p-8">
       <div className="max-w-[1600px] mx-auto">
         {/* Header */}
-        <header className="mb-6 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-            InnovateX Code Battle
+        <header className="mb-6 text-center flex justify-around">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
+            Style Sprint
           </h1>
           <p className="text-gray-400 mt-2">{round}</p>
           <p className="text-gray-300">{question}</p>
+          </div>
+          
+
+          {/* ✅ Show team info */}
+          {team && (
+            <div className="mt-4 text-gray-200">
+              <p className="text-2xl">
+                <span className="font-bold text-violet-500 text-2xl">Team Name:</span>   {team?.team?.teamName}
+              </p>
+              <p className="text-2xl">
+                <span className="font-bold text-violet-500 text-2xl">Team ID:</span>   {team?.team?.teamId}
+              </p>
+            </div>
+          )}
         </header>
 
         {/* Round & Timer */}

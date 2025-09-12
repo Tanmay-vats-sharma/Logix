@@ -169,12 +169,7 @@ exports.loginTeam = async (req, res) => {
     // Send success response
     return res.status(200).json({
       message: "Login successful",
-      team: {
-        id: team._id,
-        teamName: team.teamName,
-        leader: team.leader,
-        members: team.members,
-      },
+      team,
     });
   } catch (error) {
     console.error("Login Error:", error);

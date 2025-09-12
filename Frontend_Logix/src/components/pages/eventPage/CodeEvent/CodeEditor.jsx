@@ -3,8 +3,8 @@ import React, { useEffect, useRef } from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { html } from "@codemirror/lang-html";
 import { css } from "@codemirror/lang-css";
-import { keymap } from "@codemirror/view";
-import { EditorState } from "@codemirror/state";
+import { keymap, EditorView} from "@codemirror/view";
+import { EditorState} from "@codemirror/state";
 import { autocompletion } from "@codemirror/autocomplete";
 
 // Block keyboard shortcuts
@@ -48,7 +48,7 @@ const CodeEditorPage = ({ code, onCodeChange, isLocked }) => {
   return (
     <div
       ref={editorRef}
-      className="h-full rounded-xl overflow-hidden border border-gray-700 shadow-lg"
+      className="h-full rounded-xl overflow-x-hidden overflow-y-auto  whitespace-pre-wrap break-words scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-transparent border border-gray-700 shadow-lg"
     >
       <CodeMirror
         value={code}
@@ -56,6 +56,7 @@ const CodeEditorPage = ({ code, onCodeChange, isLocked }) => {
         extensions={[
           html(),
           css(),
+          EditorView.lineWrapping,
           blockClipboardExtension,
           EditorState.readOnly.of(isLocked),
           autocompletion({ override: [] }),

@@ -184,7 +184,8 @@
 .next-btn,
 .back-btn,
 .add-btn,
-.remove-btn {
+.remove-btn,
+.prev-btn {
   width: 100%;
   padding: 12px;
   background: linear-gradient(90deg, #6a11cb, #2575fc);

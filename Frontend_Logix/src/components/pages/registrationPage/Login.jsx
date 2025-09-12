@@ -1,10 +1,13 @@
 import React, { useState } from "react";
-import "./Registration.css"; // Reusing the same CSS and animations
+import "./Registration.css";
 import logixLogo from "../../../assets/logix.png";
 import { toast } from "react-toastify";
 import { loginStudent } from "../../../services/studentService";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     teamName: "",
     leaderRollNumber: "",
@@ -41,21 +44,21 @@ const Login = () => {
 
     setLoading(true);
     try {
-      // Update your API call to match new structure
       const response = await loginStudent(formData);
       toast.success(response.message || "Login successful!");
 
-      // Optionally store token
-      if (response.token) {
-        localStorage.setItem("token", response.token);
-      }
+     
+      localStorage.setItem("team", JSON.stringify(response));
+
+      // Navigate to event-day
+      navigate("/event-day");
 
       setFormData({
         teamName: "",
         leaderRollNumber: "",
       });
     } catch (error) {
-      toast.error(error.message || "Invalid credentials!");
+      toast.error(error.response?.data?.message || "Invalid credentials!");
     } finally {
       setLoading(false);
     }
@@ -63,19 +66,16 @@ const Login = () => {
 
   return (
     <div className="registration-container w-[55svw]">
-      {/* Background animation */}
       <div className="background-animation">
         <div className="stars"></div>
         <div className="twinkling"></div>
         <div className="clouds"></div>
       </div>
 
-      {/* Login card */}
       <div className="registration-card flex flex-col items-center w-[45svw]">
         <img src={logixLogo} alt="Logix Logo" className="h-24 w-44" />
         <h2>Team Login</h2>
         <form onSubmit={handleSubmit}>
-          {/* Team Name */}
           <div className="form-group w-[25svw]">
             <label htmlFor="teamName">Team Name</label>
             <input
@@ -91,7 +91,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Leader Roll Number (Password) */}
           <div className="form-group">
             <label htmlFor="leaderRollNumber">Leader Roll Number</label>
             <input
@@ -107,7 +106,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Submit button */}
           <button type="submit" className="submit-btn" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
           </button>
