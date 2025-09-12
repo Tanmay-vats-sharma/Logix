@@ -4,15 +4,7 @@ import CodeEditorPage from "./CodeEditor";
 import RenderingComponent from "./RenderingComponent";
 import CodeEditorData from "../../../../constants/CodeEditor.json";
 import useAbly from "../../../../hooks/useAbly";
-/*
-  Changes:
-  - Set initial timeLeft to 0, isLocked to false, isRunning to false, submitted to false.
-  - Added a startTimer function to set timeLeft from CodeEditorData?.time, isRunning to true, submitted to false.
-  - Submit button is disabled unless isRunning is true and submitted is false.
-  - When submit is clicked, submitted is set to true, isRunning to false, button shows "Submitted".
-  - When timer runs out, submitted is set to true, isRunning to false, button shows "Submitted".
-  - Expose startTimer for parent/component to call.
-*/
+import { submitSubmission } from "../../../../services/submissionService";
 
 const CodeEventDayUI = () => {
   const [round, setRound] = useState(CodeEditorData?.round?.name || "Round");
@@ -34,6 +26,7 @@ const CodeEventDayUI = () => {
   }, []);
 
   // Timer from admin
+  const [time, setTime] = useState(CodeEditorData?.time || 30);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
@@ -56,6 +49,7 @@ const CodeEventDayUI = () => {
     setRound(data?.round?.name || "Round");
     setQuestion(data?.question?.description || "");
     setCode(data?.question?.text || "<!-- Code will appear here -->");
+    setTime(data?.time || 30);
     setTimeLeft(data?.time || 30);
     setIsRunning(true);
     setIsLocked(false);
@@ -88,10 +82,12 @@ const CodeEventDayUI = () => {
   };
 
   // Submissions
-  const handleSubmit = () => {
+  const handleSubmit =  async () => {
     setSubmitted(true);
     setIsRunning(false);
     setLockSubmitButton(true);
+    const response = await submitSubmission({timeTaken: time - timeLeft});
+    console.log("Submission response:", response);
     alert("✅ Code submitted early!");
   };
 

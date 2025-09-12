@@ -2,11 +2,10 @@ const mongoose = require('mongoose');
 
 const TeamResponseSchema = new mongoose.Schema({
   team: { type: mongoose.Schema.Types.ObjectId, ref: 'Team', required: true },
-  round: { type: mongoose.Schema.Types.ObjectId, ref: 'Round', required: true },
-  question: { type: String, required: true }, // or ObjectId if you want
-  // answer: { type: String },
-  timeTaken: { type: Number, required: true }, // in milliseconds
-  // submittedAt: { type: Date, default: Date.now }
+  event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event', required: true },
+  submission: { type: Number, default: 0 },
+  timeTaken: { type: Number, required: true },
+  correctSubmission: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('TeamResponse', TeamResponseSchema);

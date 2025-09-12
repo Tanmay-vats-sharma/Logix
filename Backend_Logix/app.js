@@ -55,11 +55,13 @@ app.use(limiter);
 // Routes
 const studentRoutes = require("./routes/studentRoute");
 const adminRouter = require("./admin/router");
-const ablyRoutes = require("./routes/ablyRoute"); // your existing Ably token route
+const ablyRoutes = require("./routes/ablyRoute");
+const submissionRoute = require("./routes/submissionRoute");
 
 app.use("/api/students", studentRoutes);
 app.use("/api/admin", adminRouter);
 app.use("/api/ably", ablyRoutes);
+app.use("/api/submission", submissionRoute);
 
 // Root
 app.get("/", (req, res) => {
