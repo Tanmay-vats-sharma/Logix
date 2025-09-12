@@ -50,7 +50,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan(":remote-addr :method :url :status :response-time ms - :res[content-length] bytes"));
-app.use(limiter);
+// app.use(limiter);
 
 // Routes
 const studentRoutes = require("./routes/studentRoute");
