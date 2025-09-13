@@ -103,20 +103,20 @@ const EventDetailsPage = () => {
           <h2 className="text-2xl font-bold mb-4 text-violet-500">Important Notes</h2>
           <ul className="space-y-4 text-gray-300">
             <li>
-              • <span className="font-medium">Who can participate?</span>
+              • <span className="font-medium">Who can participate? </span>
               Open to all students passionate about front-end.
             </li>
             <li>
-              • <span className="font-medium">How does the timer work?</span>
+              • <span className="font-medium">How does the timer work? </span>
               Each round has a fixed countdown. Submit before time runs out!
             </li>
             <li>
-              • <span className="font-medium">Do I need prior experience?</span>
+              • <span className="font-medium">Do I need prior experience? </span>
               Basic HTML & CSS knowledge is enough.
             </li>
             <li>
-              • <span className="font-medium">Is it a team or solo event?</span>
-              Solo participation only.
+              • <span className="font-medium">Is it a team or solo event? </span>
+              It's a Team Event (3 members) but Individual participation is also allowed.
             </li>
           </ul>
 
@@ -132,6 +132,12 @@ const EventDetailsPage = () => {
               </li>
               <li>
                 • <span className="font-medium">Technical Head:</span> Tanmay Sharma — 8076917248
+              </li>
+              <li>
+                • <span className="font-medium">Secretary:</span> Kaishav — 8800510890
+              </li>
+              <li>
+                • <span className="font-medium">JOIN WHATSAPP GROUP</span> — <a href="https://chat.whatsapp.com/KJNbu7NZHfE5dP9V96nTcV" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Click Here</a> 👈👈
               </li>
             </ul>
           </div>

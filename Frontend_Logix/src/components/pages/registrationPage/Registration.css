@@ -447,3 +447,43 @@ select:focus {
   border-color: #3b82f6; /* blue outline on focus */
   box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
 }
+
+/* Stylish Select Dropdown */
+select {
+  background: rgba(255, 255, 255, 0.05); /* subtle glass effect */
+  color: #f9fafb;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  appearance: none; /* removes default browser arrow */
+  background-image: linear-gradient(90deg, #6a11cb, #2575fc); /* gradient border illusion */
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep text visible inside */
+select option {
+  background: #1e1e2f; /* matches card background */
+  color: #fff;
+  padding: 10px;
+}
+
+/* Hover */
+select:hover {
+  border-color: #6a11cb;
+  box-shadow: 0 0 10px rgba(106, 17, 203, 0.4);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Focus */
+select:focus {
+  outline: none;
+  border-color: #2575fc;
+  box-shadow: 0 0 12px rgba(37, 117, 252, 0.5);
+  background: rgba(255, 255, 255, 0.1);
+}
