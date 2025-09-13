@@ -6,7 +6,7 @@ import CodeEditorData from "../../../../constants/CodeEditor.json";
 import useAbly from "../../../../hooks/useAbly";
 import { submitSubmission } from "../../../../services/submissionService";
 
-const CodeEventDayUI = () => {
+const CodeEventDayUI = ({ isPublic }) => {
   const [round, setRound] = useState(CodeEditorData?.round?.name || "Round");
   const [question, setQuestion] = useState(
     CodeEditorData?.question?.description || ""
@@ -19,13 +19,15 @@ const CodeEventDayUI = () => {
   const [team, setTeam] = useState(null);
 
   useEffect(() => {
-    const savedTeam = localStorage.getItem("team");
-    if (savedTeam) {
-      setTeam(JSON.parse(savedTeam));
+    if (!isPublic) {
+      const savedTeam = localStorage.getItem("team");
+      if (savedTeam) {
+        setTeam(JSON.parse(savedTeam));
+      }
     }
-  }, []);
+  }, [isPublic]);
 
-  // Timer from admin
+  // Timer states (only if not public)
   const [time, setTime] = useState(CodeEditorData?.time || 30);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -33,18 +35,9 @@ const CodeEventDayUI = () => {
   const [lockSubmitButton, setLockSubmitButton] = useState(true);
   const [submitted, setSubmitted] = useState(false);
 
-  // Trigger startTimer after 10 seconds of page load
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setTimeLeft(CodeEditorData?.time || 30);
-  //     setIsRunning(true);
-  //     setSubmitted(false);
-  //     setLockSubmitButton(false)
-  //   }, 10000);
-  //   return () => clearTimeout(timer);
-  // }, []);
-
+  // Ably listener (skip if public)
   useAbly("event-control", "start-question", (data) => {
+    if (isPublic) return;
     console.log("Received start-question data:", data);
     setRound(data?.round?.name || "Round");
     setQuestion(data?.question?.description || "");
@@ -57,8 +50,9 @@ const CodeEventDayUI = () => {
     setLockSubmitButton(false);
   });
 
-  // Countdown
+  // Countdown (only if not public)
   useEffect(() => {
+    if (isPublic) return;
     if (!isRunning || submitted) return;
     if (timeLeft <= 0) {
       setIsRunning(false);
@@ -70,7 +64,7 @@ const CodeEventDayUI = () => {
       setTimeLeft((prev) => prev - 1);
     }, 1000);
     return () => clearInterval(interval);
-  }, [isRunning, submitted, timeLeft]);
+  }, [isPublic, isRunning, submitted, timeLeft]);
 
   // Format seconds → mm:ss
   const formatTime = (seconds) => {
@@ -82,11 +76,12 @@ const CodeEventDayUI = () => {
   };
 
   // Submissions
-  const handleSubmit =  async () => {
+  const handleSubmit = async () => {
+    if (isPublic) return;
     setSubmitted(true);
     setIsRunning(false);
     setLockSubmitButton(true);
-    const response = await submitSubmission({timeTaken: time - timeLeft});
+    const response = await submitSubmission({ timeTaken: time - timeLeft });
     console.log("Submission response:", response);
     alert("✅ Code submitted early!");
   };
@@ -95,49 +90,64 @@ const CodeEventDayUI = () => {
     <div className="min-h-screen bg-gray-900 text-gray-100 p-4 md:p-8">
       <div className="max-w-[1600px] mx-auto">
         {/* Header */}
-        <header className="mb-6 text-center flex justify-around">
-          <div>
+        {isPublic ? (
+          <header className="mb-6 text-center">
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-            Style Sprint
-          </h1>
-          <p className="text-gray-400 mt-2">{round}</p>
-          <p className="text-gray-300">{question}</p>
-          </div>
-          
-
-          {/* ✅ Show team info */}
-          {team && (
-            <div className="mt-4 text-gray-200">
-              <p className="text-2xl">
-                <span className="font-bold text-violet-500 text-2xl">Team Name:</span>   {team?.team?.teamName}
-              </p>
-              <p className="text-2xl">
-                <span className="font-bold text-violet-500 text-2xl">Team ID:</span>   {team?.team?.teamId}
-              </p>
+              Logix
+            </h1>
+          </header>
+        ) : (
+          <header className="mb-6 text-center flex justify-around">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
+                Style Sprint
+              </h1>
+              <p className="text-gray-400 mt-2">{round}</p>
+              <p className="text-gray-300">{question}</p>
             </div>
-          )}
-        </header>
+
+            {/* ✅ Show team info */}
+            {team && (
+              <div className="mt-4 text-gray-200">
+                <p className="text-2xl">
+                  <span className="font-bold text-violet-500 text-2xl">
+                    Team Name:
+                  </span>{" "}
+                  {team?.team?.teamName}
+                </p>
+                <p className="text-2xl">
+                  <span className="font-bold text-violet-500 text-2xl">
+                    Team ID:
+                  </span>{" "}
+                  {team?.team?.teamId}
+                </p>
+              </div>
+            )}
+          </header>
+        )}
 
         {/* Round & Timer */}
-        <div className="flex items-center justify-center gap-6 mb-6">
-          <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
-            <span className="text-lg">🏆 {round}</span>
+        {!isPublic && (
+          <div className="flex items-center justify-center gap-6 mb-6">
+            <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
+              <span className="text-lg">🏆 {round}</span>
+            </div>
+            <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700 font-mono text-xl text-green-400">
+              ⏳ {formatTime(timeLeft)}
+            </div>
+            <button
+              onClick={handleSubmit}
+              disabled={lockSubmitButton || submitted}
+              className={`px-6 py-2 rounded-lg font-semibold transition ${
+                lockSubmitButton
+                  ? "bg-gray-600 cursor-not-allowed"
+                  : "bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90"
+              }`}
+            >
+              {submitted ? "Submitted" : "Submit Early"}
+            </button>
           </div>
-          <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700 font-mono text-xl text-green-400">
-            ⏳ {formatTime(timeLeft)}
-          </div>
-          <button
-            onClick={handleSubmit}
-            disabled={lockSubmitButton || submitted}
-            className={`px-6 py-2 rounded-lg font-semibold transition ${
-              lockSubmitButton
-                ? "bg-gray-600 cursor-not-allowed"
-                : "bg-gradient-to-r from-purple-500 to-blue-500 hover:opacity-90"
-            }`}
-          >
-            {submitted ? "Submitted" : "Submit Early"}
-          </button>
-        </div>
+        )}
 
         {/* Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -146,7 +156,8 @@ const CodeEventDayUI = () => {
             <CodeEditorPage
               code={code}
               onCodeChange={setCode}
-              isLocked={isLocked || submitted}
+              isLocked={isPublic ? false : isLocked || submitted}
+              isPublic={isPublic}
             />
           </div>
 

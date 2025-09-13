@@ -18,10 +18,9 @@ function App() {
           <Route path="/event-details" element={<EventDetailsPage />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/event-day" element={<CodeEventUI/>} />
-           {/* <Route path="/event-day" element={<EventDayUI />} /> */}
+          <Route path="/event-day" element={<CodeEventUI isPublic={false} />} />
+          <Route path="/code-editor" element={<CodeEventUI isPublic={true} />} />
         </Route>
-
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

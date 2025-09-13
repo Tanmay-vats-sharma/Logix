@@ -2,7 +2,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminPanel from './components/pages/AdminPanel';
 import AdminLogin from './components/pages/AdminLogin';
-import "./utils/testAblyConnection";
 
 function App() {
   
