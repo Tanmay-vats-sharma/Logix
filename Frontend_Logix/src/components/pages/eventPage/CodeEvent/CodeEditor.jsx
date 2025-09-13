@@ -29,6 +29,7 @@ const CodeEditorPage = ({ code, onCodeChange, isLocked }) => {
     editorEl.addEventListener("copy", disableEvent);
     editorEl.addEventListener("cut", disableEvent);
     editorEl.addEventListener("paste", disableEvent);
+    editorEl.addEventListener("contextmenu", disableEvent);
 
     // Prevent hidden paste insertions
     const handleBeforeInput = (e) => {
@@ -49,6 +50,8 @@ const CodeEditorPage = ({ code, onCodeChange, isLocked }) => {
     <div
       ref={editorRef}
       className="h-full rounded-xl overflow-x-hidden overflow-y-auto  whitespace-pre-wrap break-words scrollbar-thin scrollbar-thumb-indigo-600 scrollbar-track-transparent border border-gray-700 shadow-lg"
+      onContextMenu={(e) => e.preventDefault()}
+      onContextMenuCapture={(e) => e.preventDefault()}
     >
       <CodeMirror
         value={code}
