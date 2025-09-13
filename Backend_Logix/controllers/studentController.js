@@ -11,7 +11,6 @@ exports.registerTeam = async (req, res) => {
       leaderBranch,
       leaderSection,
       leaderPhoneNumber,
-      leaderCollegeEmail,
       leaderPersonalEmail,
       teamMembers,
       password,
@@ -24,7 +23,6 @@ exports.registerTeam = async (req, res) => {
       !leaderBranch ||
       !leaderSection ||
       !leaderPhoneNumber ||
-      !leaderCollegeEmail ||
       !leaderPersonalEmail ||
       !password
     ) {
@@ -41,7 +39,6 @@ exports.registerTeam = async (req, res) => {
       branch: leaderBranch,
       section: leaderSection,
       phoneNumber: leaderPhoneNumber,
-      collegeEmail: leaderCollegeEmail,
       personalEmail: leaderPersonalEmail,
     };
 
@@ -57,7 +54,6 @@ exports.registerTeam = async (req, res) => {
 
     // --- Check for duplicate data inside submitted team ---
     const rollNumbers = allMembers.map((m) => m.rollNumber);
-    const collegeEmails = allMembers.map((m) => m.collegeEmail);
     const personalEmails = allMembers.map((m) => m.personalEmail);
     const phoneNumbers = allMembers.map((m) => m.phoneNumber);
 
@@ -65,11 +61,6 @@ exports.registerTeam = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Duplicate roll numbers found in the team" });
-    }
-    if (new Set(collegeEmails).size !== collegeEmails.length) {
-      return res
-        .status(400)
-        .json({ message: "Duplicate college emails found in the team" });
     }
     if (new Set(personalEmails).size !== personalEmails.length) {
       return res

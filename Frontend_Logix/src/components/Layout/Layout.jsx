@@ -5,6 +5,7 @@ import Dotsbox from "./Dots.jsx";
 import { Outlet } from "react-router-dom";
 import BackToTopButton from "./BackToTopButton.jsx";
 import Loader from "./Loader.jsx";
+import { ToastContainer } from "react-toastify";
 
 function Layout() {
   const [loading, setLoading] = useState(true);
@@ -26,6 +27,16 @@ function Layout() {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000} // closes in 3s
+        hideProgressBar={false}
+        newestOnTop={true}
+        closeOnClick
+        pauseOnHover
+        draggable
+        theme="colored" // light, dark, colored
+      />
       {loading ? (
         <Loader />
       ) : (
