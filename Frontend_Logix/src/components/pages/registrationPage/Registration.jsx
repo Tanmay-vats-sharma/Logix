@@ -27,9 +27,11 @@ const Registration = () => {
 
     // Leader fields
     if (name === "teamName") {
-      if (!value) error = "Team name is required";
-      else if (!/^[A-Za-z\s]+$/.test(value))
-        error = "Team name must only contain letters and spaces";
+      if (!value) {
+        error = "Team name is required";
+      } else if (!/^[A-Za-z]+$/.test(value)) {
+        error = "Team name must only contain letters (no spaces allowed)";
+      }
     }
 
     if (name === "leaderName") {
@@ -181,13 +183,13 @@ const Registration = () => {
     if (!validateStep()) return;
 
     try {
-      // sanitize teamName before submitting
-      const sanitizedData = {
-        ...formData,
-        teamName: formData.teamName.replace(/\s+/g, "").toLowerCase(),
-      };
+      // // sanitize teamName before submitting
+      // const sanitizedData = {
+      //   ...formData,
+      //   teamName: formData.teamName.replace(/\s+/g, "").toLowerCase(),
+      // };
 
-      const response = await registerStudent(sanitizedData);
+      const response = await registerStudent(formData);
       toast.success(response.message || "Registration successful!");
       navigate("/event-details");
     } catch (error) {
@@ -225,7 +227,7 @@ const Registration = () => {
                   label: "Branch",
                   name: "leaderBranch",
                   type: "select",
-                  options: ["CSE", "IT", "ECE", "EE", "ME", "CE","CSE DS","CSE AIML","CSE IOT","CS"],
+                  options: ["CSE", "IT", "ECE", "EE", "ME", "CE", "CSE DS", "CSE AIML", "CSE IOT", "CS"],
                 },
                 { label: "Section", name: "leaderSection", type: "text" },
                 { label: "Phone Number", name: "leaderPhoneNumber", type: "tel" },
