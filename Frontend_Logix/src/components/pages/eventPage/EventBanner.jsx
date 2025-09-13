@@ -20,7 +20,7 @@ const EventBanner = () => {
   const tagline = "Race against time in Logix’s front-end showdown! Fix HTML & CSS fast and style your way to victory."
 
   // Set your event date here (YYYY, MM-1, DD)
-  const eventDate = new Date(2025, 8, 16); // December 15, 2025
+  const eventDate = new Date(2025, 8, 17); // December 15, 2025
 
   useEffect(() => {
     const timer = setInterval(() => {
