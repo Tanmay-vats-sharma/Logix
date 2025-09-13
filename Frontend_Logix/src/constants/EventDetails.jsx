@@ -30,8 +30,8 @@ export const steps = [
     title: "Step 3: Event Day Schedule",
     description: "Be ready for the Style Sprint challenge.",
     details: [
-      "Date: 16/09/2025",
-      "Time: 10:00 AM – 1:00 PM",
+      "Date: 17/09/2025",
+      "Time: 1:20 PM – 4:30 PM",
       "Venue: Seminar Hall, D Block",
       "Arrive 30 minutes early for check-in"
     ],

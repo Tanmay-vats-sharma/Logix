@@ -95,6 +95,17 @@ exports.registerTeam = async (req, res) => {
 
     const latestEvent = await Event.findOne().sort({ createdAt: -1 }).lean();
 
+    const existingTeam = await Team.findOne({
+      teamName,
+      event: latestEvent._id,
+    });
+
+    if (existingTeam) {
+      return res
+        .status(400)
+        .json({ message: "Team name already taken" });
+    }
+
     // --- Save team ---
     const team = await Team.create({
       teamName,
