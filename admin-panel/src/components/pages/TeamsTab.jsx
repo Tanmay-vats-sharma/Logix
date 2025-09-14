@@ -4,7 +4,9 @@ import { fetchTeams } from "../../redux/features/teamSlice";
 
 const TeamsTab = () => {
   const [teams, setTeams] = useState([]);
-  const [selectedTeam, setSelectedTeam] = useState(null); // for details modal
+  const [filteredTeams, setFilteredTeams] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(""); // search state
   const dispatch = useDispatch();
   const hasFetched = useRef(false);
 
@@ -15,7 +17,9 @@ const TeamsTab = () => {
     const fetchData = async () => {
       try {
         const result = await dispatch(fetchTeams());
-        setTeams(result.payload.teams || []);
+        const teamList = result.payload.teams || [];
+        setTeams(teamList);
+        setFilteredTeams(teamList); // keep backup
       } catch (error) {
         console.error("Error fetching teams:", error);
       }
@@ -24,14 +28,38 @@ const TeamsTab = () => {
     fetchData();
   }, [dispatch]);
 
+  // Search filter (teamName string, teamId number)
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredTeams(teams);
+    } else {
+      const lowerSearch = searchTerm.toLowerCase();
+      const filtered = teams.filter(
+        (team) =>
+          team.teamName?.toLowerCase().includes(lowerSearch) ||
+          String(team.teamId).includes(lowerSearch) // number converted to string
+      );
+      setFilteredTeams(filtered);
+    }
+  }, [searchTerm, teams]);
+
   return (
     <div className="bg-gray-900 text-white shadow-lg rounded-xl p-6">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-3">
         <h2 className="text-xl font-bold">All Registered Teams</h2>
-        <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200">
-          Add New Team
-        </button>
+        <div className="flex gap-3 w-full sm:w-auto">
+          <input
+            type="text"
+            placeholder="Search by Team ID or Name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="px-3 py-2 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-72"
+          />
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg transition-all duration-200">
+            Add New Team
+          </button>
+        </div>
       </div>
 
       {/* Table */}
@@ -47,8 +75,8 @@ const TeamsTab = () => {
             </tr>
           </thead>
           <tbody>
-            {teams.length > 0 ? (
-              teams.map((team) => (
+            {filteredTeams.length > 0 ? (
+              filteredTeams.map((team) => (
                 <tr
                   key={team._id}
                   className="border-t border-gray-700 hover:bg-gray-800 transition duration-200"
@@ -73,7 +101,7 @@ const TeamsTab = () => {
             ) : (
               <tr>
                 <td colSpan="5" className="text-center px-4 py-6 text-gray-400 italic">
-                  No teams registered yet.
+                  No teams found.
                 </td>
               </tr>
             )}
