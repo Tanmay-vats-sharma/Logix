@@ -57,9 +57,11 @@ const studentRoutes = require("./routes/studentRoute");
 const adminRouter = require("./admin/router");
 const ablyRoutes = require("./routes/ablyRoute");
 const submissionRoute = require("./routes/submissionRoute");
+const adminSubmissionRoute = require("./admin/routes/submissionRoute");
 
 app.use("/api/students", studentRoutes);
 app.use("/api/admin", adminRouter);
+app.use("/api/admin", adminSubmissionRoute);
 app.use("/api/ably", ablyRoutes);
 app.use("/api/submission", submissionRoute);
 
