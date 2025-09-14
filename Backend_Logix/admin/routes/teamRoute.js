@@ -1,9 +1,11 @@
 const express = require('express');
 const teamController = require('../controllers/teamController');
+const { checkRole } = require('../../middlewares/auth');
 
 const router = express.Router();
 
 // Get all teams
+router.use(checkRole(['admin','superadmin']));
 router.get('/', teamController.getAllTeams);
 
 // Add a new team

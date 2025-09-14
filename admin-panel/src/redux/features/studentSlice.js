@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axiosInstance";
+import { toast } from "react-toastify";
 
 // Async thunk to fetch students using axiosInstance
 export const fetchAllStudents = createAsyncThunk(
@@ -14,6 +15,7 @@ export const fetchAllStudents = createAsyncThunk(
 
       return response.data; // array of students
     } catch (error) {
+      toast.error(error.message);
       return rejectWithValue(error.message);
     }
   }

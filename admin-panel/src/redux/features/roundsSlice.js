@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import roundsService from '../../services/roundsService';
+import { toast } from 'react-toastify';
 
 // Async thunk to fetch all rounds
 export const getAllRounds = createAsyncThunk(
@@ -9,6 +10,7 @@ export const getAllRounds = createAsyncThunk(
       const response = await roundsService.getAllRounds();
       return response;
     } catch (error) {
+      toast.error(error.response?.data || error.message);
       return rejectWithValue(error.response?.data || error.message);
     }
   }

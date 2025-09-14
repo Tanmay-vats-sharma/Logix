@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FileCheck, Search, X } from "lucide-react";
 import { getSubmissions, updateCorrectSubmission } from "../../services/submissionService";
+import { toast } from "react-toastify";
 
 const SubmissionsTab = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -21,8 +22,9 @@ const SubmissionsTab = () => {
   const fetchData = async () => {
     try {
       const data = await getSubmissions();
-      setSubmissions(data?.submissions || []);
+      setSubmissions(data?.submissions);
     } catch (err) {
+      toast.error(err?.message || "Failed to load submissions");
       console.error("Failed to load submissions:", err?.message);
     } finally {
       setLoading(false);

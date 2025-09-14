@@ -4,6 +4,7 @@ import TeamsTab from "./TeamsTab";
 import StudentsTab from "./StudentsTab";
 import EventControlTab from "./EventControl";
 import SubmissionsTab from "./SubmissionsTab";
+import { ToastContainer } from "react-toastify";
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -21,6 +22,7 @@ const AdminPanel = () => {
 
   return (
     <div style={styles.body}>
+      <ToastContainer />
       {/* Sidebar Navigation */}
       <div style={styles.sidebar}>
         <div style={styles.logo}>

@@ -8,9 +8,6 @@ const connectDB = require("./config/db");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
 
-// Debug: ensure env loaded
-console.log("✅ ABLY_API_KEY loaded:", !!process.env.ABLY_API_KEY);
-
 const app = express();
 
 // Rate limiter middleware

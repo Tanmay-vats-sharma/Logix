@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../utils/axiosInstance";
+import { toast } from "react-toastify";
 
 // Fetch all teams
 export const fetchTeams = createAsyncThunk("teams/fetchTeams", async (_, { rejectWithValue }) => {
@@ -7,6 +8,7 @@ export const fetchTeams = createAsyncThunk("teams/fetchTeams", async (_, { rejec
     const response = await axiosInstance.get("/teams");
     return response.data;
   } catch (error) {
+    toast.error(error.response?.data?.message || "Failed to fetch teams");
     return rejectWithValue(error.response?.data?.message || "Failed to fetch teams");
   }
 });

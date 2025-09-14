@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 function auth(req, res, next) {
   const token = req.cookies && req.cookies.token;
 
-  console.log("Auth Middleware - Token:", req.cookies); // Debugging line
   if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
@@ -21,6 +20,7 @@ function auth(req, res, next) {
 // Role Checking Middleware
 function checkRole(allowedRoles = []) {
   return (req, res, next) => {
+    console.log("User Role:", req.user ? req.user.role : "No user");
     if (!req.user || !allowedRoles.includes(req.user.role)) {
       return res.status(403).json({ message: "Forbidden: insufficient rights" });
     }

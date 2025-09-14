@@ -4,9 +4,6 @@ dotenv.config(); // MUST be first
 
 const Ably = require("ably");
 
-// Debug to check if env loaded
-console.log("ABLY_API_KEY loaded:", !!process.env.ABLY_API_KEY);
-
 if (!process.env.ABLY_API_KEY) {
   console.error("❌ ABLY_API_KEY missing! Please set it in .env at the backend root.");
   process.exit(1); // stop server if key missing
