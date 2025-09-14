@@ -281,7 +281,7 @@ const Registration = () => {
                       label: "Branch",
                       name: "branch",
                       type: "select",
-                      options: ["CSE", "IT", "ECE", "EE", "ME", "CE"],
+                      options: ["CSE", "IT", "ECE", "EE", "ME", "CE", "CSE DS", "CSE AIML", "CSE IOT", "CS"],
                     },
                     { label: "Section", name: "section", type: "text" },
                     { label: "Phone Number", name: "phoneNumber", type: "tel" },
