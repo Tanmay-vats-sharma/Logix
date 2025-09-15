@@ -116,6 +116,16 @@ const TeamsTab = () => {
             )}
           </tbody>
         </table>
+        <div className="flex justify-end mt-4">
+              <span className="text-sm text-gray-400">
+                Total Teams:{" "}
+                <span className="text-blue-400 font-semibold">{filteredTeams?.length > 0 ? (
+                  filteredTeams.length
+                ) : (
+                  0
+                )}</span>
+              </span>
+            </div>
       </div>
 
       {/* Team Details Modal */}
