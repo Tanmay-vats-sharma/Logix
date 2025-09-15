@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { fetchTeams } from "../../redux/features/teamSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTeams, deleteTeam } from "../../redux/features/teamSlice";
 
 const TeamsTab = () => {
-  const [teams, setTeams] = useState([]);
+  // const [teams, setTeams] = useState([]);
   const [filteredTeams, setFilteredTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // search state
   const dispatch = useDispatch();
   const hasFetched = useRef(false);
+  const { teams  } = useSelector((state) => state.teams || {});
 
   useEffect(() => {
     if (hasFetched.current) return;
@@ -18,7 +19,7 @@ const TeamsTab = () => {
       try {
         const result = await dispatch(fetchTeams());
         const teamList = result.payload.teams || [];
-        setTeams(teamList);
+        // setTeams(teamList);
         setFilteredTeams(teamList); // keep backup
       } catch (error) {
         console.error("Error fetching teams:", error);
@@ -34,7 +35,7 @@ const TeamsTab = () => {
       setFilteredTeams(teams);
     } else {
       const lowerSearch = searchTerm.toLowerCase();
-      const filtered = teams.filter(
+      const filtered = teams?.filter(
         (team) =>
           team.teamName?.toLowerCase().includes(lowerSearch) ||
           String(team.teamId).includes(lowerSearch) // number converted to string
@@ -42,6 +43,11 @@ const TeamsTab = () => {
       setFilteredTeams(filtered);
     }
   }, [searchTerm, teams]);
+
+  const handleRemove = (teamId) => {
+    dispatch(deleteTeam(teamId));
+    setFilteredTeams((prev) => prev.filter((team) => team?._id !== teamId));
+  }
 
   return (
     <div className="bg-gray-900 text-white shadow-lg rounded-xl p-6">
@@ -75,8 +81,8 @@ const TeamsTab = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredTeams.length > 0 ? (
-              filteredTeams.map((team) => (
+            {filteredTeams?.length > 0 ? (
+              filteredTeams?.map((team) => (
                 <tr
                   key={team._id}
                   className="border-t border-gray-700 hover:bg-gray-800 transition duration-200"
@@ -92,7 +98,10 @@ const TeamsTab = () => {
                     >
                       Details
                     </button>
-                    <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-sm rounded-md transition-all duration-200">
+                    <button 
+                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 text-sm rounded-md transition-all duration-200"
+                      onClick={() => handleRemove(team?._id)}
+                    >
                       Remove
                     </button>
                   </td>

@@ -13,6 +13,17 @@ export const fetchTeams = createAsyncThunk("teams/fetchTeams", async (_, { rejec
   }
 });
 
+export const deleteTeam = createAsyncThunk("teams/deleteTeam", async (teamId, { rejectWithValue }) => {
+  try {
+    const response = await axiosInstance.delete(`/teams/${teamId}`);
+    toast.success("Team deleted successfully");
+    return teamId;
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Failed to delete team");
+    return rejectWithValue(error.response?.data?.message || "Failed to delete team");
+  }
+});
+
 const teamSlice = createSlice({
   name: "teams",
   initialState: {
@@ -36,7 +47,19 @@ const teamSlice = createSlice({
       .addCase(fetchTeams.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      });
+      })
+      .addCase(deleteTeam.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteTeam.fulfilled, (state, action) => {
+        state.loading = false;
+        state.teams = state.teams.filter(team => team?._id !== action.payload);
+      })
+      .addCase(deleteTeam.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
