@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchTeams, deleteTeam } from "../../redux/features/teamSlice";
 
 const TeamsTab = () => {
-  // const [teams, setTeams] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [filteredTeams, setFilteredTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [searchTerm, setSearchTerm] = useState(""); // search state
   const dispatch = useDispatch();
   const hasFetched = useRef(false);
-  const { teams  } = useSelector((state) => state.teams || {});
 
   useEffect(() => {
     if (hasFetched.current) return;
@@ -19,7 +18,7 @@ const TeamsTab = () => {
       try {
         const result = await dispatch(fetchTeams());
         const teamList = result.payload.teams || [];
-        // setTeams(teamList);
+        setTeams(teamList);
         setFilteredTeams(teamList); // keep backup
       } catch (error) {
         console.error("Error fetching teams:", error);
@@ -35,7 +34,7 @@ const TeamsTab = () => {
       setFilteredTeams(teams);
     } else {
       const lowerSearch = searchTerm.toLowerCase();
-      const filtered = teams?.filter(
+      const filtered = teams.filter(
         (team) =>
           team.teamName?.toLowerCase().includes(lowerSearch) ||
           String(team.teamId).includes(lowerSearch) // number converted to string
@@ -81,8 +80,8 @@ const TeamsTab = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredTeams?.length > 0 ? (
-              filteredTeams?.map((team) => (
+            {filteredTeams.length > 0 ? (
+              filteredTeams.map((team) => (
                 <tr
                   key={team._id}
                   className="border-t border-gray-700 hover:bg-gray-800 transition duration-200"
@@ -116,16 +115,6 @@ const TeamsTab = () => {
             )}
           </tbody>
         </table>
-        <div className="flex justify-end mt-4">
-              <span className="text-sm text-gray-400">
-                Total Teams:{" "}
-                <span className="text-blue-400 font-semibold">{filteredTeams?.length > 0 ? (
-                  filteredTeams.length
-                ) : (
-                  0
-                )}</span>
-              </span>
-            </div>
       </div>
 
       {/* Team Details Modal */}
