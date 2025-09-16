@@ -115,6 +115,11 @@ const TeamsTab = () => {
             )}
           </tbody>
         </table>
+
+      <div className="mt-4 mb-2 text-right text-gray-300 text-sm">
+        Total Teams: <span className="font-semibold text-violet-400">{filteredTeams?.length}</span>
+      </div>
+
       </div>
 
       {/* Team Details Modal */}
