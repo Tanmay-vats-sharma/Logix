@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FileCheck, Search, X } from "lucide-react";
+import { FileCheck, Search, X, ArrowUpDown, Trophy } from "lucide-react";
 import { getSubmissions, updateCorrectSubmission } from "../../services/submissionService";
 import { toast } from "react-toastify";
 
@@ -13,6 +13,11 @@ const SubmissionsTab = () => {
   const [selectedSubmission, setSelectedSubmission] = useState(null);
   const [correctValue, setCorrectValue] = useState("");
   const [error, setError] = useState("");
+
+  // sort & qualify states
+  const [sorted, setSorted] = useState(false);
+  const [qualifyCount, setQualifyCount] = useState("");
+  const [qualifiedTeams, setQualifiedTeams] = useState([]);
 
   // Fetch submissions from API
   useEffect(() => {
@@ -65,13 +70,42 @@ const SubmissionsTab = () => {
   };
 
   // Filter submissions by teamId or teamName
-  const filteredSubmissions = submissions.filter(
+  let filteredSubmissions = submissions.filter(
     (s) =>
       String(s?.teamId || "")
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
       s?.teamName?.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  // Apply sorting
+  if (sorted) {
+    filteredSubmissions = [...filteredSubmissions].sort((a, b) => {
+      if ((b.correctSubmission ?? 0) !== (a.correctSubmission ?? 0)) {
+        return (b.correctSubmission ?? 0) - (a.correctSubmission ?? 0);
+      }
+      return (a.timeTaken ?? 0) - (b.timeTaken ?? 0);
+    });
+  }
+
+  // Handle qualify
+  const handleQualify = () => {
+    const count = Number(qualifyCount);
+    if (!count || count <= 0) {
+      toast.error("Enter a valid number of teams to qualify");
+      return;
+    }
+
+    let sortedTeams = [...filteredSubmissions].sort((a, b) => {
+      if ((b.correctSubmission ?? 0) !== (a.correctSubmission ?? 0)) {
+        return (b.correctSubmission ?? 0) - (a.correctSubmission ?? 0);
+      }
+      return (a.timeTaken ?? 0) - (b.timeTaken ?? 0);
+    });
+
+    setQualifiedTeams(sortedTeams.slice(0, count).map((t) => t.teamId));
+    toast.success(`${count} teams qualified successfully!`);
+  };
 
   return (
     <div className="p-6 min-h-screen bg-gray-900 text-gray-100">
@@ -82,16 +116,46 @@ const SubmissionsTab = () => {
           <h2 className="text-xl font-semibold">Team Submissions</h2>
         </div>
 
-        {/* Search Bar */}
-        <div className="flex items-center gap-2 mb-4">
-          <Search className="text-gray-400" size={18} />
-          <input
-            type="text"
-            placeholder="Search by Team ID or Name..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        {/* Controls */}
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          {/* Search Bar */}
+          <div className="flex items-center gap-2 flex-1 min-w-[250px]">
+            <Search className="text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="Search by Team ID or Name..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-3 py-2 rounded-lg bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/* Sort Button */}
+          <button
+            onClick={() => setSorted((prev) => !prev)}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg text-sm text-white"
+          >
+            <ArrowUpDown size={16} />
+            {sorted ? "Unsort" : "Sort"}
+          </button>
+
+          {/* Qualify Input & Button */}
+          <div className="flex items-center gap-2">
+            <input
+              type="number"
+              placeholder="No. of Teams"
+              value={qualifyCount}
+              onChange={(e) => setQualifyCount(e.target.value)}
+              className="w-28 px-2 py-2 rounded-lg bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+            />
+            <button
+              onClick={handleQualify}
+              className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg text-sm text-white"
+            >
+              <Trophy size={16} />
+              Qualify
+            </button>
+          </div>
         </div>
 
         {/* Table */}
@@ -112,28 +176,33 @@ const SubmissionsTab = () => {
               </thead>
               <tbody>
                 {filteredSubmissions?.length > 0 ? (
-                  filteredSubmissions.map((submission, index) => (
-                    <tr
-                      key={submission?._id || index}
-                      className="border-b border-gray-700 hover:bg-gray-700/50 transition-colors"
-                    >
-                      <td className="px-5 py-3 font-medium text-gray-100">
-                        {submission?.teamName || "Unknown"}
-                      </td>
-                      <td className="px-5 py-3">{submission?.teamId || "N/A"}</td>
-                      <td className="px-5 py-3">{submission?.submission ?? 0}</td>
-                      <td className="px-5 py-3">{submission?.timeTaken ?? 0} sec</td>
-                      <td className="px-5 py-3">{submission?.correctSubmission ?? 0}</td>
-                      <td className="px-5 py-3">
-                        <button
-                          onClick={() => handleModalOpen(submission)}
-                          className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs"
-                        >
-                          Update
-                        </button>
-                      </td>
-                    </tr>
-                  ))
+                  filteredSubmissions.map((submission, index) => {
+                    const isQualified = qualifiedTeams.includes(submission?.teamId);
+                    return (
+                      <tr
+                        key={submission?._id || index}
+                        className={`border-b border-gray-700 hover:bg-gray-700/50 transition-colors ${
+                          isQualified ? "bg-green-900/40" : ""
+                        }`}
+                      >
+                        <td className="px-5 py-3 font-medium text-gray-100">
+                          {submission?.teamName || "Unknown"}
+                        </td>
+                        <td className="px-5 py-3">{submission?.teamId || "N/A"}</td>
+                        <td className="px-5 py-3">{submission?.submission ?? 0}</td>
+                        <td className="px-5 py-3">{submission?.timeTaken ?? 0} sec</td>
+                        <td className="px-5 py-3">{submission?.correctSubmission ?? 0}</td>
+                        <td className="px-5 py-3">
+                          <button
+                            onClick={() => handleModalOpen(submission)}
+                            className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs"
+                          >
+                            Update
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
                 ) : (
                   <tr>
                     <td colSpan="6" className="text-center px-5 py-6 text-gray-400">
