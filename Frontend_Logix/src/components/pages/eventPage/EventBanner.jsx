@@ -168,9 +168,9 @@ const EventBanner = () => {
               className="inline-flex items-center px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-all duration-300 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/login")}
             >
-              Register Now
+              Login Now
               <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
             </motion.button>
             
