@@ -5,7 +5,7 @@ const getSubmissions = async (req, res) => {
   try {
     const submissions = await TeamResponse.find()
       .populate("team", "teamName teamId") // only team name and id
-      .select("submission timeTaken correctSubmission _id"); // only include needed fields
+      .select("submission timeTaken correctSubmission wpm accuracy typos _id"); // only include needed fields
 
     // Format response cleanly
     const formatted = submissions.map((s) => ({
@@ -15,6 +15,9 @@ const getSubmissions = async (req, res) => {
       submission: s.submission,
       timeTaken: s.timeTaken,
       correctSubmission: s.correctSubmission,
+      wpm: s.wpm,
+      accuracy: s.accuracy,
+      typos: s.typos,
     }));
 
     res.status(200).json({

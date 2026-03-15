@@ -81,10 +81,13 @@ const SubmissionsTab = () => {
   // Apply sorting
   if (sorted) {
     filteredSubmissions = [...filteredSubmissions].sort((a, b) => {
-      if ((b.correctSubmission ?? 0) !== (a.correctSubmission ?? 0)) {
-        return (b.correctSubmission ?? 0) - (a.correctSubmission ?? 0);
+      if ((b.wpm ?? 0) !== (a.wpm ?? 0)) {
+        return (b.wpm ?? 0) - (a.wpm ?? 0);
       }
-      return (a.timeTaken ?? 0) - (b.timeTaken ?? 0);
+      if ((b.accuracy ?? 0) !== (a.accuracy ?? 0)) {
+        return (b.accuracy ?? 0) - (a.accuracy ?? 0);
+      }
+      return (a.typos ?? 0) - (b.typos ?? 0); // lower typos better
     });
   }
 
@@ -97,10 +100,13 @@ const SubmissionsTab = () => {
     }
 
     let sortedTeams = [...filteredSubmissions].sort((a, b) => {
-      if ((b.correctSubmission ?? 0) !== (a.correctSubmission ?? 0)) {
-        return (b.correctSubmission ?? 0) - (a.correctSubmission ?? 0);
+      if ((b.wpm ?? 0) !== (a.wpm ?? 0)) {
+        return (b.wpm ?? 0) - (a.wpm ?? 0);
       }
-      return (a.timeTaken ?? 0) - (b.timeTaken ?? 0);
+      if ((b.accuracy ?? 0) !== (a.accuracy ?? 0)) {
+        return (b.accuracy ?? 0) - (a.accuracy ?? 0);
+      }
+      return (a.typos ?? 0) - (b.typos ?? 0);
     });
 
     setQualifiedTeams(sortedTeams.slice(0, count).map((t) => t.teamId));
@@ -171,6 +177,9 @@ const SubmissionsTab = () => {
                   <th className="px-5 py-3 text-left">Submissions</th>
                   <th className="px-5 py-3 text-left">Time Taken</th>
                   <th className="px-5 py-3 text-left">Correct Submissions</th>
+                  <th className="px-5 py-3 text-left">WPM</th>
+                  <th className="px-5 py-3 text-left">Accuracy</th>
+                  <th className="px-5 py-3 text-left">Typos</th>
                   <th className="px-5 py-3 text-left">Actions</th>
                 </tr>
               </thead>
@@ -192,6 +201,9 @@ const SubmissionsTab = () => {
                         <td className="px-5 py-3">{submission?.submission ?? 0}</td>
                         <td className="px-5 py-3">{submission?.timeTaken ?? 0} sec</td>
                         <td className="px-5 py-3">{submission?.correctSubmission ?? 0}</td>
+                        <td className="px-5 py-3">{submission?.wpm ?? 0}</td>
+                        <td className="px-5 py-3">{submission?.accuracy ?? 0}%</td>
+                        <td className="px-5 py-3">{submission?.typos ?? 0}</td>
                         <td className="px-5 py-3">
                           <button
                             onClick={() => handleModalOpen(submission)}
@@ -205,7 +217,7 @@ const SubmissionsTab = () => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="6" className="text-center px-5 py-6 text-gray-400">
+                    <td colSpan="8" className="text-center px-5 py-6 text-gray-400">
                       No submissions found
                     </td>
                   </tr>

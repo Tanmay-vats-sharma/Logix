@@ -5,7 +5,7 @@ import NotFoundPage from "./components/pages/NotFoundPage";
 import EventDetailsPage from "./components/pages/eventDetailsPage/EventDetailsPage";
 import Registeration from "./components/pages/registrationPage/Registration";
 import EventDayUI from "./components/pages/eventPage/BidEvent/EventDayUi.jsx";
-import CodeEventUI from "./components/pages/eventPage/CodeEvent/CodeEventUI.jsx";
+import TypingUI from "./components/pages/eventPage/CodeEvent/TypingUI.jsx";
 import Login from "./components/pages/registrationPage/Login";
 
 function App() {
@@ -18,8 +18,8 @@ function App() {
           <Route path="/event-details" element={<EventDetailsPage />} />
           <Route path="/register" element={<Registeration />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/event-day" element={<CodeEventUI isPublic={false} />} />
-          <Route path="/code-editor" element={<CodeEventUI isPublic={true} />} />
+          <Route path="/event-day" element={<TypingUI isPublic={false} />} />
+          <Route path="/code-editor" element={<TypingUI isPublic={true} />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

@@ -24,10 +24,16 @@ exports.incrementSubmission = async (req, res) => {
         event: latestEvent._id,
         submission: 1,
         timeTaken: req.body.timeTaken,
+        wpm: req.body.wpm || 0,
+        accuracy: req.body.accuracy || 0,
+        typos: req.body.typos || 0,
       });
     } else {
       teamResponse.submission += 1;
       teamResponse.timeTaken += req.body.timeTaken;
+      teamResponse.wpm = Math.max(teamResponse.wpm, req.body.wpm || 0);
+      teamResponse.accuracy = Math.max(teamResponse.accuracy, req.body.accuracy || 0);
+      teamResponse.typos = Math.min(teamResponse.typos, req.body.typos || 0); // lower typos is better
     }
 
     await teamResponse.save();

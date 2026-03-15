@@ -1,24 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Clock, Settings, Play, SkipForward, RefreshCcw } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllRounds } from "../../redux/features/roundsSlice";
 import { getChannel } from "../../utils/ably";
 
 const EventControlTab = () => {
-  const dispatch = useDispatch();
-  const { rounds, loading, error } = useSelector((state) => state.rounds);
-
   const channel = getChannel("event-control");
 
-  useEffect(() => {
-    dispatch(getAllRounds());
-  }, [dispatch]);
-
-  const [timeLeft, setTimeLeft] = useState(600); // in seconds
+  const [timeLeft, setTimeLeft] = useState(60); // default 1 min for typing
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [activeRound, setActiveRound] = useState(rounds[0]);
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-  const [timeInput, setTimeInput] = useState(600); // input also in seconds
+  const [textInput, setTextInput] = useState("");
+  const [timeInput, setTimeInput] = useState(60); // input also in seconds
 
   // Timer effect
   useEffect(() => {
@@ -41,26 +31,15 @@ const EventControlTab = () => {
 
 const handleStartQuestion = () => {
   console.log("handleStartQuestion triggered");
-  console.log("activeRound:", activeRound);
-  console.log("selectedQuestion:", selectedQuestion);
+  console.log("textInput:", textInput);
 
-  if (!activeRound || !selectedQuestion) {
-    alert("Please select a round and a question first.");
-    return;
-  }
-
-  const questionObj = activeRound?.questions?.find(
-    q => String(q._id) === String(selectedQuestion)
-  );
-
-  if (!questionObj) {
-    console.error("Question not found in active round questions");
+  if (!textInput.trim()) {
+    alert("Please enter the text for typing.");
     return;
   }
 
   const data = {
-    round: activeRound,
-    question: questionObj,
+    text: textInput,
     time: timeInput,
   };
 
@@ -71,34 +50,25 @@ const handleStartQuestion = () => {
 
   return (
     <div className="p-6 min-h-screen bg-gray-950 text-gray-100">
-      {/* Round Selection */}
+      {/* Text Input */}
       <div className="bg-gray-900 rounded-2xl shadow-lg p-5 mb-6 border border-gray-800">
         <div className="flex items-center gap-2 mb-4">
           <Settings className="text-indigo-400" size={22} />
-          <h2 className="text-xl font-semibold">Round Selection</h2>
+          <h2 className="text-xl font-semibold">Typing Text</h2>
         </div>
-        <div className="flex flex-wrap gap-3">
-          {rounds?.map((round) => (
-            <button
-              key={round?._id}
-              onClick={() => setActiveRound(round)}
-              className={`px-5 py-2 rounded-full transition-all duration-300 text-sm font-semibold shadow-md ${
-                activeRound?._id === round?._id
-                  ? "bg-indigo-600 text-white shadow-indigo-500/40 scale-105"
-                  : "bg-gray-800 text-gray-300 hover:bg-indigo-500 hover:text-white hover:shadow-lg hover:shadow-indigo-500/40"
-              }`}
-            >
-              {round?.name}
-            </button>
-          ))}
-        </div>
+        <textarea
+          value={textInput}
+          onChange={(e) => setTextInput(e.target.value)}
+          placeholder="Enter the text that participants will type..."
+          className="w-full h-32 p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+        />
       </div>
 
       {/* Question Controls */}
       <div className="bg-gray-900 rounded-2xl shadow-lg p-6 border border-gray-800">
         <div className="flex items-center gap-2 mb-5">
           <Clock className="text-purple-400" size={22} />
-          <h2 className="text-xl font-semibold">Question Controls</h2>
+          <h2 className="text-xl font-semibold">Typing Controls</h2>
         </div>
 
         {/* Timer */}
@@ -118,7 +88,7 @@ const handleStartQuestion = () => {
               }}
               className="flex items-center gap-2 bg-green-600 hover:bg-green-500 transition-all px-6 py-2.5 rounded-lg shadow-md shadow-green-500/30 font-semibold"
             >
-              <Play size={18} /> Start Question
+              <Play size={18} /> Start Typing
             </button>
             <button className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-400 transition-all px-6 py-2.5 rounded-lg shadow-md shadow-yellow-400/30 font-semibold">
               <SkipForward size={18} /> Skip Question
@@ -133,30 +103,6 @@ const handleStartQuestion = () => {
               <RefreshCcw size={18} /> Reset Timer
             </button>
           </div>
-        </div>
-
-        {/* Question Selection */}
-        <div className="mb-5">
-          <label
-            htmlFor="question-select"
-            className="block text-sm font-medium text-gray-300 mb-2"
-          >
-            Select Question
-          </label>
-          <select
-            id="question-select"
-            className="w-full p-3 rounded-lg bg-gray-800 text-gray-200 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-            onChange={(e) => {
-              setSelectedQuestion(e.target.value);
-            }}
-          >
-            <option>Select question</option>
-            {activeRound?.questions?.map((question, index) => (
-              <option key={index} value={question?._id}>
-                {question?.description}
-              </option>
-            ))}
-          </select>
         </div>
 
         {/* Time Input */}

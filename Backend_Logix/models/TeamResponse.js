@@ -6,6 +6,9 @@ const TeamResponseSchema = new mongoose.Schema({
   submission: { type: Number, default: 0 },
   timeTaken: { type: Number, required: true },
   correctSubmission: { type: Number, default: 0 },
+  wpm: { type: Number, default: 0 },
+  accuracy: { type: Number, default: 0 },
+  typos: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('TeamResponse', TeamResponseSchema);
