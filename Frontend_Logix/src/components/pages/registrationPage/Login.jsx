@@ -9,12 +9,13 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    teamName: "",
-    leaderRollNumber: "",
+    rollNumber: "",
+    personalEmail: "",
   });
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [cooldown, setCooldown] = useState(false); // ⬅️ for 20s disable
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,14 +25,16 @@ const Login = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.teamName) {
-      newErrors.teamName = "Team name is required";
+    if (!formData.rollNumber) {
+      newErrors.rollNumber = "Roll number is required";
+    } else if (!/^\d{13}$/.test(formData.rollNumber)) {
+      newErrors.rollNumber = "Roll number must be exactly 13 digits";
     }
 
-    if (!formData.leaderRollNumber) {
-      newErrors.leaderRollNumber = "Leader roll number is required";
-    } else if (!/^[0-9]+$/.test(formData.leaderRollNumber)) {
-      newErrors.leaderRollNumber = "Roll number must be numeric";
+    if (!formData.personalEmail) {
+      newErrors.personalEmail = "Personal email is required";
+    } else if (!/\S+@\S+\.\S+/.test(formData.personalEmail)) {
+      newErrors.personalEmail = "Valid personal email required";
     }
 
     setErrors(newErrors);
@@ -43,20 +46,26 @@ const Login = () => {
     if (!validateForm()) return;
 
     setLoading(true);
+    setCooldown(true); // ⬅️ immediately disable for 20s
+
+    // Reset cooldown after 20 seconds
+    setTimeout(() => {
+      setCooldown(false);
+    }, 10000);
+
     try {
-      const response = await loginStudent(formData);
+      const payload = {
+        rollNumber: formData.rollNumber,
+        personalEmail: formData.personalEmail,
+      };
+
+      const response = await loginStudent(payload);
       toast.success(response.message || "Login successful!");
+      localStorage.setItem("student", JSON.stringify(response));
 
-     
-      localStorage.setItem("team", JSON.stringify(response));
-
-      // Navigate to event-day
       navigate("/event-day");
 
-      setFormData({
-        teamName: "",
-        leaderRollNumber: "",
-      });
+      setFormData({ rollNumber: "", personalEmail: "" });
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid credentials!");
     } finally {
@@ -74,40 +83,48 @@ const Login = () => {
 
       <div className="registration-card flex flex-col items-center w-[45svw]">
         <img src={logixLogo} alt="Logix Logo" className="h-24 w-44" />
-        <h2>Team Login</h2>
+        <h2>Student Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group w-[25svw]">
-            <label htmlFor="teamName">Team Name</label>
+            <label htmlFor="rollNumber">Roll Number</label>
             <input
               type="text"
-              id="teamName"
-              name="teamName"
-              value={formData.teamName}
+              id="rollNumber"
+              name="rollNumber"
+              value={formData.rollNumber}
               onChange={handleChange}
-              className={errors.teamName ? "error w-14" : ""}
+              className={errors.rollNumber ? "error w-14" : ""}
             />
-            {errors.teamName && (
-              <span className="error-text">{errors.teamName}</span>
+            {errors.rollNumber && (
+              <span className="error-text">{errors.rollNumber}</span>
             )}
           </div>
 
           <div className="form-group">
-            <label htmlFor="leaderRollNumber">Leader Roll Number</label>
+            <label htmlFor="personalEmail">Personal Email</label>
             <input
-              type="password"
-              id="leaderRollNumber"
-              name="leaderRollNumber"
-              value={formData.leaderRollNumber}
+              type="email"
+              id="personalEmail"
+              name="personalEmail"
+              value={formData.personalEmail}
               onChange={handleChange}
-              className={errors.leaderRollNumber ? "error" : ""}
+              className={errors.personalEmail ? "error" : ""}
             />
-            {errors.leaderRollNumber && (
-              <span className="error-text">{errors.leaderRollNumber}</span>
+            {errors.personalEmail && (
+              <span className="error-text">{errors.personalEmail}</span>
             )}
           </div>
 
-          <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={loading || cooldown}
+          >
+            {loading
+              ? "Logging in..."
+              : cooldown
+              ? "Please wait 10s..."
+              : "Login"}
           </button>
         </form>
       </div>

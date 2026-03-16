@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Users } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllStudents } from "../../redux/features/studentSlice";
@@ -9,6 +9,13 @@ const StudentsTab = () => {
   // Redux state
   const { list: students = [], loading = false, error = null } =
     useSelector((state) => state.students || {});
+
+  const [search, setSearch] = useState("");
+
+  // Filter students by name
+  const filteredStudents = students.filter((s) =>
+    s.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
     if (students.length === 0) {
@@ -71,13 +78,23 @@ const StudentsTab = () => {
             Copy All Data
           </button>
         </div>
+        {/* Search Input */}
+        <div className="mb-4">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name..."
+            className="bg-gray-700 text-gray-100 px-4 py-2 rounded-md w-full outline-none"
+          />
+        </div>
 
         {/* Table */}
         {loading ? (
           <p className="text-gray-400">Loading students...</p>
         ) : error ? (
           <p className="text-red-500">{error}</p>
-        ) : students.length === 0 ? (
+        ) : filteredStudents.length === 0 ? (
           <p className="text-gray-400">No students found.</p>
         ) : (
           <div className="overflow-x-auto rounded-lg border border-gray-700 shadow-md">
@@ -94,7 +111,7 @@ const StudentsTab = () => {
                 </tr>
               </thead>
               <tbody>
-                {students.map((s) => (
+                {filteredStudents.map((s) => (
                   <tr
                     key={s._id}
                     className="border-b border-gray-700 hover:bg-gray-700/50 transition-colors"
@@ -115,7 +132,7 @@ const StudentsTab = () => {
             <div className="flex justify-end mt-4">
               <span className="text-sm text-gray-400">
                 Total Students:{" "}
-                <span className="text-blue-400 font-semibold">{students.length}</span>
+                <span className="text-blue-400 font-semibold">{filteredStudents.length}</span>
               </span>
             </div>
           </div>

@@ -3,13 +3,19 @@ import axiosInstance from "../utils/axiosInstance";
 // Register a new team
 export const registerStudent = async (formData) => {
   try {
-    // Attach password automatically = leader's roll number
+    // Expect formData to contain individual student fields
     const payload = {
-      ...formData,
-      password: formData.leaderRollNumber, // ✅ Leader's roll number is password
+      name: formData.name,
+      rollNumber: formData.rollNumber,
+      branch: formData.branch,
+      section: formData.section,
+      phoneNumber: formData.phoneNumber,
+      personalEmail: formData.personalEmail,
+      participantType: formData.participantType || "individual",
+      eventId: formData.eventId,
     };
 
-    const { data } = await axiosInstance.post("/students/register", payload);
+    const { data } = await axiosInstance.post("/students/register/student", payload);
     return data;
   } catch (error) {
     throw (
@@ -19,6 +25,6 @@ export const registerStudent = async (formData) => {
 };
 
 export const loginStudent = async (formData) => {
-  const { data } = await axiosInstance.post("/students/login", formData);
+  const { data } = await axiosInstance.post("/students/login/student", formData);
   return data;
 };

@@ -1,6 +1,7 @@
 const Team = require("../models/TeamModel"); // Single schema
 const Event = require("../models/Event");
 const jwt = require("jsonwebtoken");
+const Registration = require("../models/Registration");
 
 exports.registerTeam = async (req, res) => {
   try {
@@ -175,6 +176,121 @@ exports.loginTeam = async (req, res) => {
     });
   } catch (error) {
     console.error("Login Error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Register an individual student
+exports.registerStudent = async (req, res) => {
+  try {
+    const {
+      name,
+      rollNumber,
+      branch,
+      section,
+      phoneNumber,
+      collegeEmail,
+      personalEmail,
+      participantType,
+      agreeTerms,
+      eventId,
+    } = req.body;
+
+    if (!name || !rollNumber || !branch || !phoneNumber || !personalEmail) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // Check duplicates in registrations
+    const existingRegistration = await Registration.findOne({
+      $or: [
+        { rollNumber },
+        { personalEmail },
+        { phoneNumber },
+      ],
+    });
+
+    if (existingRegistration) {
+      return res.status(400).json({ message: "Student already registered" });
+    }
+
+    // Check if this student is already part of a team
+    const existingInTeam = await Team.findOne({
+      $or: [
+        { "leader.rollNumber": rollNumber },
+        { "leader.personalEmail": personalEmail },
+        { "leader.phoneNumber": phoneNumber },
+        { "members.rollNumber": rollNumber },
+        { "members.personalEmail": personalEmail },
+        { "members.phoneNumber": phoneNumber },
+      ],
+    });
+
+    if (existingInTeam) {
+      return res.status(400).json({ message: "Student already registered in a team" });
+    }
+
+    // Determine event
+    let event = null;
+    if (eventId) event = eventId;
+    else {
+      const latestEvent = await Event.findOne().sort({ createdAt: -1 }).lean();
+      if (latestEvent) event = latestEvent._id;
+    }
+
+    const registration = await Registration.create({
+      name,
+      rollNumber,
+      branch,
+      section,
+      phoneNumber,
+      collegeEmail,
+      personalEmail,
+      participantType: participantType || "individual",
+      agreeTerms: !!agreeTerms,
+      event,
+    });
+
+    return res.status(201).json({ message: "Registration successful", registration });
+  } catch (error) {
+    console.error("Student Registration Error:", error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
+// Login for individual student
+exports.loginStudent = async (req, res) => {
+  try {
+    const { rollNumber, personalEmail } = req.body;
+
+    if (!rollNumber) {
+      return res.status(400).json({ message: "Roll number is required" });
+    }
+
+    const registration = await Registration.findOne({ rollNumber });
+    if (!registration) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+
+    if (personalEmail && registration.personalEmail !== personalEmail) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      { id: registration._id, role: "student" },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({ message: "Login successful", registration });
+  } catch (error) {
+    console.error("Student Login Error:", error);
     return res.status(500).json({ message: "Server error" });
   }
 };

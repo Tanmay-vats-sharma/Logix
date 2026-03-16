@@ -1,0 +1,109 @@
+Literature Review — Logix Project
+
+Project snapshot
+----------------
+Logix is a multi-repository project implementing an event/hackathon platform with:
+- Two React frontends (a public-facing `Frontend_Logix` and an `admin-panel`) built with Vite, React, Tailwind and Redux.
+- A Node/Express backend (`Backend_Logix`) with MongoDB models, REST routes, admin subroutes, file uploads, email utilities, and Ably-based real-time support.
+- Real-time pub/sub integration using Ably (client-side `ably` in frontends, `AblyService.js` in backend) and socket hooks.
+- Focused features include participant registration, submissions, teams, rounds, and admin controls (dashboards, event control, submissions review).
+
+This review compares Logix to related systems, identifies limitations in the space and in the code base, and synthesizes research gaps that Logix is well-positioned to address.
+
+1) Review of similar works or systems
+------------------------------------
+Commercial and open-source platforms provide overlapping functionality with Logix. Key categories and representative systems:
+
+- Event & registration management platforms
+  - Eventbrite, Cvent, Splash: polished registration, ticketing, attendee management and analytics emphasizing scalability, payments and integrations. They target broad events, not coding competitions.
+
+- Hackathon / competition platforms
+  - Devpost: hackathon hosting, submission management and judging workflows with strong UX for showcasing projects.
+  - HackerEarth/HackerRank: contest infrastructure for coding competitions and automated judging, strong judge pipelines and test harnesses.
+  - Kattis, Codeforces, AtCoder: online judges focused on algorithmic contests with robust test harnesses, high-throughput evaluation, and ranking.
+  - CTFd (Capture The Flag platform): open-source competition platform with scoring, challenges, and team management tailored for security CTFs.
+
+- Real-time collaboration & pub/sub providers
+  - Ably, Pusher, PubNub: managed pub/sub services for low-latency realtime messaging.
+  - Socket.io / WebSockets: self-hosted alternatives enabling bidirectional real-time communication.
+  - Firebase Realtime / Firestore: real-time DB plus auth and hosting for quick prototyping.
+
+- Specialized research and systems
+  - Codalab: experimental/competition platform for reproducible computational competitions and pipelines.
+  - Systems and papers on reliable pub/sub, real-time collaboration (CRDTs), and sandboxed code execution for secure evaluation.
+
+How Logix aligns
+- Logix combines aspects of event registration (teams, participants), submission and judging (submissions, rounds, admin review), with realtime features for event control and live dashboards. The use of Ably makes it suitable for low-latency admin-to-client updates (leaderboards, live announcements). The separation of admin and public frontend is consistent with other platforms' operational models.
+
+2) Limitations of existing systems (general) and observed in Logix
+-----------------------------------------------------------------
+General limitations across current platforms
+- Scaling real-time features: Pub/sub systems can be costly or brittle at high scale; push/update storms (many clients) cause bottlenecks.
+- Fairness and reproducibility: Automated judges and ranking systems sometimes lack transparent reproducibility, making results hard to audit.
+- Sandboxing/secure execution: Running arbitrary code safely at scale (for judging) needs careful sandboxing, resource control, and reproducibility.
+- Operational complexity: Maintaining secure auth, secrets, and multi-tenant isolation is non-trivial for smaller teams.
+- Limited research on UX-adaptive evaluation: e.g., dynamic test selection, fairness-aware timeouts, and progressive scoring.
+
+Specific limitations or concerns found in the Logix codebase (concrete, actionable)
+- Sensitive key exposure: `Backend_Logix/AblyService.js` contains a hard-coded Ably REST key string alongside a check for process.env.ABLY_API_KEY — this is a clear secret-management issue. Storing secrets in source is a security risk and a compliance problem.
+- Auth & password handling: The `Admin` model includes a `password` field, but I did not find explicit password hashing in the model file itself. (Controllers may hash; the reviewer should confirm the admin creation/login paths apply strong hashing like bcrypt or argon2.) If absent, plaintext or reversible storage is a critical vulnerability.
+- Missing tests & CI: There are no automated tests or test manifests in the repository. This limits safe refactoring, regression detection, and reproducibility of behavior.
+- Limited observability and metrics: While `morgan` and rate limiting are present on the backend, there's no clear telemetry (metrics, tracing) or production-grade logging/alerts to diagnose realtime or scaling issues.
+- Sandboxing & evaluation pipeline: The codebase contains submission handling, but I did not find a secure, explicit sandboxed execution pipeline for running contestant code. Production-grade judge infrastructure requires containerized/sandboxed execution with strict resource limits.
+- Environment/config composition: Frontends use `VITE_ADMIN_API_URL` and a backend route for token auth; however, the hard-coded fallback URLs and the hard-coded Ably key indicate environment management could be stricter (separate .env files per environment, secrets in vaults).
+- Frontend accessibility and testing: UI files are neatly structured, but no end-to-end tests (Cypress / Playwright) or accessibility checks are present.
+
+3) Research gaps identified (where Logix can contribute or be extended)
+------------------------------------------------------------------------
+The codebase and the problem space suggest several research and engineering gaps where Logix could become an interesting platform for study and innovation:
+
+A. Secure, scalable realtime event orchestration for coding competitions
+- Gap: Many event platforms either use managed pub/sub (Pusher/Ably) or self-hosted websockets but lack systematic, comparative evaluation of latency, cost, and fault-tolerance for contest workloads. Research could measure latency and consistency under different scaling patterns (leaderboard bursts, many simultaneous submissions) and propose hybrid architectures.
+- Opportunity: Use Logix as a testbed to benchmark Ably vs. self-hosted socket clusters, propose autoscaling strategies, or intelligent backpressure for leaderboard updates.
+
+B. Reproducible, auditable submission evaluation pipelines
+- Gap: While online judges exist, integrating submission evaluation with auditable logs, replayability (re-running the exact environment), and tamper-evident leaderboards is less explored in mainstream tools.
+- Opportunity: Extend Logix with a pipeline that captures environment specs, uses container snapshots, signs evaluation artifacts, and supports reproducible runs and audit trails for contest administrators.
+
+C. Fairness-aware scoring and adaptive test selection
+- Gap: Traditional scoring uses static test suites. Research could explore adaptive testing that reduces variance and improves fairness based on participant history, problem difficulty estimation, and time-of-submission factors.
+- Opportunity: Implement experimental scoring algorithms and measure how rank variance and fairness metrics change compared to baseline static testing.
+
+D. Secure on-demand sandboxed execution at scale
+- Gap: Running arbitrary user code safely (time/CPU/memory limits, file-system isolation) while keeping throughput high is a known hard problem.
+- Opportunity: Integrate lightweight sandboxing (gVisor, Firecracker microVMs, or language-level sandboxing) with a job queue and autoscaling workers to create a fast, secure judge service; benchmark cost/latency tradeoffs.
+
+E. Token and secret management for real-time auth flows
+- Gap: The presence of a hard-coded Ably key suggests a need for best-practice tooling and token exchange flows (short-lived tokens, fine-grained client identity, revocation).
+- Opportunity: Demonstrate a secure token issuance architecture (server-side token requests, short TTL tokens, key rotation) and provide a migration guide.
+
+F. Observability and automated incident response for real-time services
+- Gap: Tools to automatically detect, classify and mitigate realtime incidents (e.g., cascade disconnects, message storms) are underdeveloped for small/medium platforms.
+- Opportunity: Add telemetry, synthetic tests, and auto-remediation strategies (circuit breakers, message sampling) and evaluate their effectiveness.
+
+Actionable short-term fixes and experiments for Logix
+- Remove hard-coded secrets; migrate Ably keys to environment variables and use server-side token issuance only. Rotate compromised credentials immediately.
+- Add password hashing (bcrypt/argon2) in controller flows and require secure password policies. Add unit tests for auth flows.
+- Implement a sandboxed execution prototype for submissions (container-based or language-limited), plus a small fuzz test corpus to validate resource limits.
+- Add basic automated tests (unit for core services + integration smoke tests), and a simple CI pipeline (GitHub Actions) so future changes remain safe.
+- Add structured logging/metrics (Prometheus compatible counters, request latency histograms) and a dashboard to observe realtime load.
+
+Assumptions and limitations of this review
+- I examined a representative set of files (package.json, backend entry point, Ably service, models, frontend hooks, and the `StudentsTab` UI). I did not audit every controller or third-party config; some controllers may already implement best practices (e.g., password hashing or sandboxing). Where I call out an absence, it is based on files inspected; please verify controller implementations for any security-sensitive workflow.
+
+Closing summary
+----------------
+Logix is a pragmatic combination of modern frontend stacks (React + Vite + Tailwind + Redux) and a Node/Mongo backend with real-time features via Ably. The architecture suits hackathon-style events and live dashboards. The most immediate concerns are secret management and hardening of auth and execution pipelines. There is a strong research opportunity to use Logix as a platform to study secure, scalable realtime contest orchestration, reproducible evaluation, and fairness-aware scoring. Implementing a few concrete improvements (secret removal, hashing, sandboxing prototype, tests, telemetry) will raise the platform's production-readiness and enable rigorous experiments described above.
+
+Recommended next steps
+- Remove the hard-coded Ably key and verify env-only secret usage across repos.
+- Audit auth/registration controllers to confirm password hashing and token safety.
+- Add a minimal CI + unit test suite for core backend and frontend components.
+- Prototype a secure execution worker (container-based) and measure latency/cost.
+- Use the repo as an experimental platform for one research gap (e.g., fairness-aware scoring) and document experiments in a reproducible manner.
+
+References (selected)
+- Ably realtime messaging: https://ably.com
+- CTFd (open-source CTF platform): https://github.com/CTFd/CTFd
+- Codalab competitions and reproducible pipelines: https://codalab.org
+- Papers on reproducible benchmarking and sandboxing (survey papers exist across cloud and systems conferences).
