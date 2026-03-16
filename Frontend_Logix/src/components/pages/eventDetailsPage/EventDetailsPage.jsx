@@ -19,10 +19,10 @@ const EventDetailsPage = () => {
           className="text-center mb-16"
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-            Style Sprint
+            Keyboard Breaker
           </h1>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Race against time in Logix’s front-end showdown! Fix HTML & CSS fast and style your way to victory.
+            Test your speed and accuracy in Logix's high-energy typing competition.
           </p>
         </motion.div>
 
@@ -104,15 +104,15 @@ const EventDetailsPage = () => {
           <ul className="space-y-4 text-gray-300">
             <li>
               • <span className="font-medium">Who can participate? </span>
-              Open to all students passionate about front-end.
+              Open to all students who enjoy typing challenges.
             </li>
             <li>
               • <span className="font-medium">How does the timer work? </span>
-              Each round has a fixed countdown. Submit before time runs out!
+              Each round has a fixed countdown. Type and submit before time runs out.
             </li>
             <li>
               • <span className="font-medium">Do I need prior experience? </span>
-              Basic HTML & CSS knowledge is enough.
+              Basic typing familiarity is enough; no coding knowledge is required.
             </li>
             <li>
               • <span className="font-medium">Is it a team or solo event? </span>
@@ -154,7 +154,7 @@ const EventDetailsPage = () => {
           <h2 className="text-3xl font-bold mb-6 text-white">Not Registered yet?</h2>
           <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl"
             onClick={() => { navigate("/register") }}>
-            Register Your Team Now
+            Reserve Your Seat
           </button>
         </motion.div>
       </div>

@@ -1,24 +1,24 @@
 {
   "leftSection": {
-    "eventName": "Style Sprint",
-    "text": "Got doubts? Don’t worry—we’ve got you covered! Here you’ll find answers to the most common questions about Style Sprint, from how the timer works to who can participate. Focus on racing against time, fixing HTML & CSS, and styling your way to victory. Click on Learn More to know in detail about the event."
+    "eventName": "Keyboard Breaker",
+    "text": "Got doubts? Do not worry, we have got you covered. Here you will find answers to the most common questions about Keyboard Breaker, from how the timer works to who can participate. Focus on speed, consistency, and typing accuracy. Click on Learn More to know in detail about the event."
   },
   "faqs": [
     {
-      "question": "What is Style Sprint?",
-      "answer": "Style Sprint is a fast-paced coding challenge where participants fix HTML and CSS under a ticking timer."
+      "question": "What is Keyboard Breaker?",
+      "answer": "Keyboard Breaker is a fast-paced typing competition where participants are ranked by speed and accuracy under a ticking timer."
     },
     {
       "question": "Who can participate?",
-      "answer": "Anyone with basic knowledge of HTML and CSS, from beginners to advanced coders, is welcome to join."
+      "answer": "Anyone with basic typing familiarity, from beginners to advanced typists, is welcome to join."
     },
     {
       "question": "How does the timer work?",
-      "answer": "Each challenge comes with a set time limit. Participants must complete and submit their styled code before the timer runs out."
+      "answer": "Each typing round comes with a set time limit. Participants must complete and submit their attempt before the timer runs out."
     },
     {
       "question": "What do winners get?",
-      "answer": "Winners will earn recognition, certificates, and exciting prizes for their coding speed and creativity."
+      "answer": "Winners will earn recognition, certificates, and exciting prizes for outstanding typing speed and accuracy."
     }
   ]
 }

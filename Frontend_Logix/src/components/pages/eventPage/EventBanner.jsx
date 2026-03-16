@@ -15,12 +15,12 @@ const EventBanner = () => {
     seconds: 0
   });
 
-  const eventName = "Style Sprint"
-  const year = "2025"
-  const tagline = "Race against time in Logix’s front-end showdown! Fix HTML & CSS fast and style your way to victory."
+  const eventName = "Keyboard Breaker"
+  const year = "2026"
+  const tagline = "Test your speed and accuracy in Logix's high-energy typing competition."
 
   // Set your event date here (YYYY, MM-1, DD)
-  const eventDate = new Date(2025, 8, 17); // December 15, 2025
+  const eventDate = new Date(2026, 2, 19); // March 19, 2026
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -168,11 +168,21 @@ const EventBanner = () => {
               className="inline-flex items-center px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-all duration-300 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/register")}
+            >
+              Register Now
+              <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
+
+            {/* <motion.button 
+              className="inline-flex items-center px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-all duration-300 group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => navigate("/login")}
             >
               Login Now
               <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+            </motion.button> */}
             
             <motion.button 
               className="inline-flex items-center px-8 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-300 group border border-gray-600"
