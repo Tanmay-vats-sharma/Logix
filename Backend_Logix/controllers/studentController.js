@@ -187,6 +187,7 @@ exports.registerStudent = async (req, res) => {
       name,
       rollNumber,
       branch,
+      year,
       section,
       phoneNumber,
       collegeEmail,
@@ -196,8 +197,13 @@ exports.registerStudent = async (req, res) => {
       eventId,
     } = req.body;
 
-    if (!name || !rollNumber || !branch || !phoneNumber || !personalEmail) {
+    if (!name || !rollNumber || !branch || !year || !phoneNumber || !personalEmail) {
       return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const normalizedYear = String(year).trim();
+    if (!["1", "2", "3", "4"].includes(normalizedYear)) {
+      return res.status(400).json({ message: "Year must be one of 1, 2, 3, or 4" });
     }
 
     // Check duplicates in registrations
@@ -241,6 +247,7 @@ exports.registerStudent = async (req, res) => {
       name,
       rollNumber,
       branch,
+      year: normalizedYear,
       section,
       phoneNumber,
       collegeEmail,

@@ -11,6 +11,7 @@ const Registration = () => {
     name: "",
     rollNumber: "",
     branch: "",
+    year: "",
     section: "",
     phoneNumber: "",
     personalEmail: "",
@@ -34,6 +35,7 @@ const Registration = () => {
     }
 
     if (name === "branch" && !value) error = "Branch is required";
+    if (name === "year" && !value) error = "Year is required";
     if (name === "section" && !value) error = "Section is required";
     if (name === "phoneNumber" && !/^\d{10}$/.test(value)) error = "Valid 10-digit phone number required";
 
@@ -60,6 +62,7 @@ const Registration = () => {
       "name",
       "rollNumber",
       "branch",
+      "year",
       "section",
       "phoneNumber",
       "personalEmail",
@@ -120,6 +123,17 @@ const Registration = () => {
               type: "select",
               options: ["CSE", "IT", "ECE", "EE", "ME", "CE", "CSE DS", "CSE AIML", "CSE IOT", "CS"],
             },
+            {
+              label: "Year",
+              name: "year",
+              type: "select",
+              options: [
+                { label: "1st Year", value: "1" },
+                { label: "2nd Year", value: "2" },
+                { label: "3rd Year", value: "3" },
+                { label: "4th Year", value: "4" },
+              ],
+            },
             { label: "Section", name: "section", type: "text" },
             { label: "Phone Number", name: "phoneNumber", type: "tel" },
             { label: "Personal Email", name: "personalEmail", type: "email" },
@@ -133,10 +147,13 @@ const Registration = () => {
                   onChange={handleChange}
                   className={errors[field.name] ? "error" : ""}
                 >
-                  <option value="">Select Branch</option>
+                  <option value="">{field.name === "branch" ? "Select Branch" : "Select Year"}</option>
                   {field.options.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
+                    <option
+                      key={typeof opt === "string" ? opt : opt.value}
+                      value={typeof opt === "string" ? opt : opt.value}
+                    >
+                      {typeof opt === "string" ? opt : opt.label}
                     </option>
                   ))}
                 </select>

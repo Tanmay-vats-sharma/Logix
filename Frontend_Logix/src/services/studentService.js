@@ -8,6 +8,7 @@ export const registerStudent = async (formData) => {
       name: formData.name,
       rollNumber: formData.rollNumber,
       branch: formData.branch,
+      year: formData.year,
       section: formData.section,
       phoneNumber: formData.phoneNumber,
       personalEmail: formData.personalEmail,

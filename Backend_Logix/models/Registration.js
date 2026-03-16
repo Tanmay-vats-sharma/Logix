@@ -9,6 +9,11 @@ const individualSchema = new mongoose.Schema(
 		name: { type: String, required: [true, "Full name is required"], trim: true },
 		rollNumber: { type: String, required: [true, "Roll number is required"], unique: true, trim: true },
 		branch: { type: String, required: [true, "Branch is required"] },
+		year: {
+			type: String,
+			required: [true, "Year is required"],
+			enum: ["1", "2", "3", "4"],
+		},
 		section: { type: String },
 
 		// Contact
