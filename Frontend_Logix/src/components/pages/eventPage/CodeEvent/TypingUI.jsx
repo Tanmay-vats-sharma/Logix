@@ -1,5 +1,5 @@
 // TypingUI.jsx
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import useAbly from "../../../../hooks/useAbly";
 import { submitSubmission } from "../../../../services/submissionService";
 
@@ -15,7 +15,6 @@ const TypingUI = ({ isPublic }) => {
   const [startTime, setStartTime] = useState(null);
   const [typos, setTypos] = useState(0);
   const [currentError, setCurrentError] = useState(false);
-  const inputRef = useRef(null);
 
   // Team info
   const [team, setTeam] = useState(null);
@@ -42,7 +41,6 @@ const TypingUI = ({ isPublic }) => {
     setTypos(0);
     setCurrentError(false);
     setStartTime(Date.now());
-    inputRef.current?.focus();
   });
 
   // Timer
@@ -108,6 +106,14 @@ const TypingUI = ({ isPublic }) => {
       e.preventDefault();
     }
   };
+
+  // Capture typing without rendering an input box.
+  useEffect(() => {
+    if (isPublic || !isRunning || submitted) return;
+    const onKeyDown = (e) => handleKeyDown(e);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isPublic, isRunning, submitted, userInput, textToType, currentError]);
 
   // Submit
   const handleSubmit = async () => {
@@ -202,15 +208,9 @@ const TypingUI = ({ isPublic }) => {
             <pre className="text-lg mb-4 font-mono whitespace-pre-wrap">
               {renderText()}
             </pre>
-            <textarea
-              ref={inputRef}
-              value={userInput}
-              onKeyDown={handleKeyDown}
-              onPaste={(e) => e.preventDefault()}
-              disabled={!isRunning || submitted}
-              className="w-full h-32 p-4 bg-gray-700 text-white rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Start typing here..."
-            />
+            <p className="text-sm text-gray-300">
+              Start typing directly on the keyboard. No input box required.
+            </p>
           </div>
         </div>
       </div>
