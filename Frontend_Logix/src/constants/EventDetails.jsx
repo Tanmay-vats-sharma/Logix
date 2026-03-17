@@ -15,13 +15,23 @@ export const steps = [
   },
   {
     icon: <FaCalendarDay className="text-3xl text-blue-400" />,
-    title: "Step 2: Event Day Preparation",
-    description: "Prepare your keyboard and typing setup before the event.",
+    title: "Step 2: Join WhatsApp Group",
+    description: "Join the official WhatsApp group to receive updates and event instructions.",
     details: [
-      "Practice touch typing and improve accuracy",
-      "Use a stable keyboard and internet connection",
-      "Warm up with short timed typing tests",
-      "Keep your system charged and browser updated"
+      "Get announcements and important reminders from the organizing team",
+      "Stay informed about reporting time, venue updates, and final instructions",
+      "Use the group to quickly reach organizers if you face any issue",
+      <>
+        Join the WhatsApp group: {" "}
+        <a
+          href="https://chat.whatsapp.com/KJNbu7NZHfE5dP9V96nTcV"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-300 underline"
+        >
+          Click here
+        </a>
+      </>
     ],
     color: "bg-blue-900/60"
   },
