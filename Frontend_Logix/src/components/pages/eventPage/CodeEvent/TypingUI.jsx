@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import useAbly from "../../../../hooks/useAbly";
 import { submitSubmission } from "../../../../services/submissionService";
+import CodeRunner from "./CodeRunner";
 
 const calculateTypingStats = ({ typedChars, totalTextLength, typoCount, elapsedSeconds }) => {
   const safeTyped = Math.max(typedChars, 0);
@@ -41,6 +42,7 @@ const TypingUI = ({ isPublic }) => {
   const userInputRef = useRef("");
   const typosRef = useRef(0);
   const timeLeftRef = useRef(0);
+  const [showRunner, setShowRunner] = useState(false);
 
   // Team info
   const [team, setTeam] = useState(null);
@@ -243,6 +245,8 @@ const TypingUI = ({ isPublic }) => {
     try {
       const response = await submitSubmission(payload);
       console.log("Submission response:", response);
+      // open CodeRunner to run submitted text as HTML/CSS
+      setShowRunner(true);
       alert("✅ Typing test submitted!");
     } catch (err) {
       console.error("Submission failed:", err);
@@ -295,6 +299,7 @@ const TypingUI = ({ isPublic }) => {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gray-900 text-gray-100 p-4 md:p-8">
       <div className="max-w-[1600px] mx-auto">
         {/* Header */}
@@ -369,6 +374,16 @@ const TypingUI = ({ isPublic }) => {
         </div>
       </div>
     </div>
+    
+    {showRunner && (
+      <CodeRunner
+        initialHtml={userInputRef.current || userInput}
+        initialCss={""}
+        autoOpen={true}
+        onClose={() => setShowRunner(false)}
+      />
+    )}
+    </>
   );
 };
 
