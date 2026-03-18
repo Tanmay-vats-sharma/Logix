@@ -164,7 +164,7 @@ const EventBanner = () => {
             className="flex flex-col sm:flex-row justify-center gap-4"
             variants={itemVariants}
           >
-            <motion.button 
+            {/* <motion.button 
               className="inline-flex items-center px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-all duration-300 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -172,9 +172,9 @@ const EventBanner = () => {
             >
               Register Now
               <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </motion.button>
+            </motion.button> */}
 
-            {/* <motion.button 
+            <motion.button 
               className="inline-flex items-center px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg transition-all duration-300 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -182,7 +182,7 @@ const EventBanner = () => {
             >
               Login Now
               <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-            </motion.button> */}
+            </motion.button>
             
             <motion.button 
               className="inline-flex items-center px-8 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-lg transition-all duration-300 group border border-gray-600"

@@ -132,6 +132,23 @@ const TypingUI = ({ isPublic }) => {
       return;
     }
 
+    // Handle Enter key for newlines
+    if (e.key === 'Enter') {
+      const expected = textToType[userInput.length];
+      if (expected === '\n') {
+        setUserInput(prev => prev + '\n');
+        setCurrentError(false);
+        if (userInput.length + 1 === textToType.length) {
+          handleSubmit();
+        }
+      } else {
+        setTypos(prev => prev + 1);
+        setCurrentError(true);
+      }
+      e.preventDefault(); // prevent form submission
+      return;
+    }
+
     if (e.key.length === 1) { // printable character
       const expected = textToType[userInput.length];
       if (e.key === expected) {
