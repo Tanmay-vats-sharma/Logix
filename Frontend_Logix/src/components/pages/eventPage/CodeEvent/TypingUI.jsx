@@ -121,6 +121,11 @@ const TypingUI = ({ isPublic }) => {
   const handleKeyDown = (e) => {
     if (!isRunning || submitted) return;
 
+    // Prevent browser from scrolling the page on Space while typing.
+    if (e.key === ' ') {
+      e.preventDefault();
+    }
+
     if (e.key === 'Backspace') {
       // Allow backspace
       setUserInput(prev => {
