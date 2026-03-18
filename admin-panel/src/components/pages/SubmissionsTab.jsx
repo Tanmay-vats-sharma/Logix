@@ -119,7 +119,7 @@ const SubmissionsTab = () => {
         {/* Header */}
         <div className="flex items-center gap-2 mb-5">
           <FileCheck className="text-blue-400" size={24} />
-          <h2 className="text-xl font-semibold">Team Submissions</h2>
+          <h2 className="text-xl font-semibold">Submissions</h2>
         </div>
 
         {/* Controls */}
@@ -129,7 +129,7 @@ const SubmissionsTab = () => {
             <Search className="text-gray-400" size={18} />
             <input
               type="text"
-              placeholder="Search by Team ID or Name..."
+              placeholder="Search by Name, Roll or Team ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-3 py-2 rounded-lg bg-gray-700 text-gray-200 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -172,8 +172,8 @@ const SubmissionsTab = () => {
             <table className="min-w-full text-sm text-gray-300">
               <thead className="bg-gray-700 text-gray-200 uppercase text-xs">
                 <tr>
-                  <th className="px-5 py-3 text-left">Team Name</th>
-                  <th className="px-5 py-3 text-left">Team ID</th>
+                  <th className="px-5 py-3 text-left">Participant</th>
+                  <th className="px-5 py-3 text-left">Roll / Team ID</th>
                   <th className="px-5 py-3 text-left">Submissions</th>
                   <th className="px-5 py-3 text-left">Time Taken</th>
                   <th className="px-5 py-3 text-left">Correct Submissions</th>
@@ -189,7 +189,7 @@ const SubmissionsTab = () => {
                     const isQualified = qualifiedTeams.includes(submission?.teamId);
                     return (
                       <tr
-                        key={submission?._id || index}
+                        key={submission?.id || index}
                         className={`border-b border-gray-700 hover:bg-gray-700/50 transition-colors ${
                           isQualified ? "bg-green-900/40" : ""
                         }`}
@@ -217,7 +217,7 @@ const SubmissionsTab = () => {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="8" className="text-center px-5 py-6 text-gray-400">
+                    <td colSpan="9" className="text-center px-5 py-6 text-gray-400">
                       No submissions found
                     </td>
                   </tr>
