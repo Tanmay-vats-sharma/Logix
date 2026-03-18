@@ -1,5 +1,5 @@
 // TypingUI.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useAbly from "../../../../hooks/useAbly";
 import { submitSubmission } from "../../../../services/submissionService";
 
@@ -15,6 +15,9 @@ const TypingUI = ({ isPublic }) => {
   const [startTime, setStartTime] = useState(null);
   const [typos, setTypos] = useState(0);
   const [currentError, setCurrentError] = useState(false);
+  // finalStats stores the latest calculated stats shown on UI
+  const [finalStats, setFinalStats] = useState({ wpm: 0, accuracy: 0, typos: 0, completion: 0, precision: 0, typedChars: 0 });
+  const finalStatsRef = useRef(finalStats);
 
   // Team info
   const [team, setTeam] = useState(null);
@@ -56,7 +59,7 @@ const TypingUI = ({ isPublic }) => {
     return () => clearInterval(interval);
   }, [isRunning, submitted, timeLeft]);
 
-  // Calculate stats
+  // Calculate stats (used to update finalStats via useEffect)
   const calculateStats = () => {
     const typed = userInput.length;
     const totalTextLength = textToType.length;
@@ -65,10 +68,17 @@ const TypingUI = ({ isPublic }) => {
     const accuracy = completion * precision * 100;
     const timeElapsed = startTime ? (Date.now() - startTime) / 1000 / 60 : 0; // in minutes
     const wpm = timeElapsed > 0 ? (typed / 5) / timeElapsed : 0; // standard: 5 chars per word
-    return { wpm: Math.round(wpm), accuracy: Math.round(accuracy), typos };
+    return { wpm: Math.round(wpm), accuracy: Math.round(accuracy), typos, completion, precision, typedChars: typed };
   };
 
-  const { wpm, accuracy: acc } = calculateStats();
+  // Keep finalStats in sync with what UI shows. Do NOT recalculate during submit.
+  // Also update when `timeLeft` or `isRunning` changes so time-based stats (WPM) stay current.
+  useEffect(() => {
+    const stats = calculateStats();
+    const newStats = { wpm: stats.wpm, accuracy: stats.accuracy, typos: stats.typos, completion: stats.completion, precision: stats.precision, typedChars: stats.typedChars };
+    setFinalStats(newStats);
+    finalStatsRef.current = newStats; // keep ref in sync for immediate reads
+  }, [userInput, typos, textToType, startTime, timeLeft, isRunning]);
 
   // Format time
   const formatTime = (seconds) => {
@@ -118,13 +128,63 @@ const TypingUI = ({ isPublic }) => {
   // Submit
   const handleSubmit = async () => {
     if (isPublic || submitted) return;
-    setSubmitted(true);
+    // capture the latest stats snapshot from ref to guarantee it's the exact on-screen values
+    const statsToSend = finalStatsRef.current;
+    console.log("UI Stats:", statsToSend);
+
     setIsRunning(false);
     const timeTaken = time - timeLeft;
-    const stats = calculateStats();
-    const response = await submitSubmission({ timeTaken, wpm: stats.wpm, accuracy: stats.accuracy, typos: stats.typos });
-    console.log("Submission response:", response);
-    alert("✅ Typing test submitted!");
+
+    const payload = {
+      // event / round info
+      round,
+      question,
+
+      // the text and user input
+      textToType,
+      userInput,
+
+      // timing
+      timeConfigured: time,
+      timeLeftAtSubmit: timeLeft,
+      timeTaken,
+      startTime,
+      endTime: Date.now(),
+
+      // stats (from snapshot)
+      typedChars: statsToSend.typedChars,
+      completion: statsToSend.completion,
+      precision: statsToSend.precision,
+      wpm: statsToSend.wpm,
+      accuracy: statsToSend.accuracy,
+      typos: statsToSend.typos,
+
+      // metadata
+      isPublic: !!isPublic,
+    };
+
+    // attach team or student info when present in localStorage
+    try {
+      const team = localStorage.getItem("team");
+      const student = localStorage.getItem("student");
+      if (team) payload.team = JSON.parse(team);
+      if (student) payload.student = JSON.parse(student);
+    } catch (err) {
+      // ignore parse errors
+    }
+
+    console.log("Payload Sent:", payload);
+
+    try {
+      const response = await submitSubmission(payload);
+      console.log("Submission response:", response);
+      // mark submitted only after successfully sending the payload
+      setSubmitted(true);
+      alert("✅ Typing test submitted!");
+    } catch (err) {
+      console.error("Submission failed:", err);
+      alert("⚠️ Failed to submit typing test. Please try again.");
+    }
   };
 
   // Render text with highlights
@@ -182,13 +242,13 @@ const TypingUI = ({ isPublic }) => {
               ⏳ {formatTime(timeLeft)}
             </div>
             <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
-              <span>WPM: {wpm}</span>
+              <span>WPM: {finalStats.wpm}</span>
             </div>
             <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
-              <span>Accuracy: {acc}%</span>
+              <span>Accuracy: {finalStats.accuracy}%</span>
             </div>
             <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
-              <span>Typos: {typos}</span>
+              <span>Typos: {finalStats.typos}</span>
             </div>
             <button
               onClick={handleSubmit}

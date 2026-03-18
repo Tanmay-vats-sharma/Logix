@@ -6,8 +6,8 @@ const Registration = require("../../models/Registration");
 const getSubmissions = async (req, res) => {
   try {
     const submissions = await TeamResponse.find().select(
-      "submission timeTaken correctSubmission wpm accuracy typos team _id"
-    );
+      "submission timeTaken correctSubmission wpm accuracy typos completion precision typedChars startTime endTime textToType userInput team _id"
+    ).lean();
 
     // Resolve team -> Team or Registration (student solo event)
     const formatted = await Promise.all(
@@ -41,6 +41,13 @@ const getSubmissions = async (req, res) => {
           wpm: s.wpm,
           accuracy: s.accuracy,
           typos: s.typos,
+          completion: s.completion,
+          precision: s.precision,
+          typedChars: s.typedChars,
+          startTime: s.startTime,
+          endTime: s.endTime,
+          textToType: s.textToType,
+          userInput: s.userInput,
         };
       })
     );
