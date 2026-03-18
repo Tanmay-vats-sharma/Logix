@@ -3,6 +3,28 @@ import React, { useState, useEffect, useRef } from "react";
 import useAbly from "../../../../hooks/useAbly";
 import { submitSubmission } from "../../../../services/submissionService";
 
+const calculateTypingStats = ({ typedChars, totalTextLength, typoCount, elapsedSeconds }) => {
+  const safeTyped = Math.max(typedChars, 0);
+  const safeTotal = Math.max(totalTextLength, 0);
+  const safeTypos = Math.max(typoCount, 0);
+  const safeElapsed = Math.max(elapsedSeconds, 0);
+
+  const completion = safeTotal > 0 ? safeTyped / safeTotal : 0;
+  const precision = safeTyped + safeTypos > 0 ? safeTyped / (safeTyped + safeTypos) : 0;
+  const accuracy = completion * precision * 100;
+  const elapsedMinutes = safeElapsed / 60;
+  const wpm = elapsedMinutes > 0 ? (safeTyped / 5) / elapsedMinutes : 0;
+
+  return {
+    wpm: Math.round(wpm),
+    accuracy: Math.round(accuracy),
+    typos: safeTypos,
+    completion,
+    precision,
+    typedChars: safeTyped,
+  };
+};
+
 const TypingUI = ({ isPublic }) => {
   const [round, setRound] = useState("Round");
   const [question, setQuestion] = useState("");
@@ -15,9 +37,10 @@ const TypingUI = ({ isPublic }) => {
   const [startTime, setStartTime] = useState(null);
   const [typos, setTypos] = useState(0);
   const [currentError, setCurrentError] = useState(false);
-  // finalStats stores the latest calculated stats shown on UI
-  const [finalStats, setFinalStats] = useState({ wpm: 0, accuracy: 0, typos: 0, completion: 0, precision: 0, typedChars: 0 });
-  const finalStatsRef = useRef(finalStats);
+  const submitLockRef = useRef(false);
+  const userInputRef = useRef("");
+  const typosRef = useRef(0);
+  const timeLeftRef = useRef(0);
 
   // Team info
   const [team, setTeam] = useState(null);
@@ -33,6 +56,10 @@ const TypingUI = ({ isPublic }) => {
   // Ably listener
   useAbly("event-control", "start-question", (data) => {
     if (isPublic) return;
+    submitLockRef.current = false;
+    userInputRef.current = "";
+    typosRef.current = 0;
+    timeLeftRef.current = data?.time || 60;
     setRound("Typing Round");
     setQuestion("Type the given text as fast and accurately as possible");
     setTextToType(data?.text || "");
@@ -46,6 +73,18 @@ const TypingUI = ({ isPublic }) => {
     setStartTime(Date.now());
   });
 
+  useEffect(() => {
+    userInputRef.current = userInput;
+  }, [userInput]);
+
+  useEffect(() => {
+    typosRef.current = typos;
+  }, [typos]);
+
+  useEffect(() => {
+    timeLeftRef.current = timeLeft;
+  }, [timeLeft]);
+
   // Timer
   useEffect(() => {
     if (isPublic || !isRunning || submitted) return;
@@ -54,31 +93,22 @@ const TypingUI = ({ isPublic }) => {
       return;
     }
     const interval = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
+      setTimeLeft((prev) => {
+        const next = prev - 1;
+        timeLeftRef.current = next;
+        return next;
+      });
     }, 1000);
     return () => clearInterval(interval);
   }, [isRunning, submitted, timeLeft]);
 
-  // Calculate stats (used to update finalStats via useEffect)
-  const calculateStats = () => {
-    const typed = userInput.length;
-    const totalTextLength = textToType.length;
-    const completion = totalTextLength > 0 ? (typed / totalTextLength) : 0;
-    const precision = (typed + typos) > 0 ? (typed / (typed + typos)) : 0;
-    const accuracy = completion * precision * 100;
-    const timeElapsed = startTime ? (Date.now() - startTime) / 1000 / 60 : 0; // in minutes
-    const wpm = timeElapsed > 0 ? (typed / 5) / timeElapsed : 0; // standard: 5 chars per word
-    return { wpm: Math.round(wpm), accuracy: Math.round(accuracy), typos, completion, precision, typedChars: typed };
-  };
-
-  // Keep finalStats in sync with what UI shows. Do NOT recalculate during submit.
-  // Also update when `timeLeft` or `isRunning` changes so time-based stats (WPM) stay current.
-  useEffect(() => {
-    const stats = calculateStats();
-    const newStats = { wpm: stats.wpm, accuracy: stats.accuracy, typos: stats.typos, completion: stats.completion, precision: stats.precision, typedChars: stats.typedChars };
-    setFinalStats(newStats);
-    finalStatsRef.current = newStats; // keep ref in sync for immediate reads
-  }, [userInput, typos, textToType, startTime, timeLeft, isRunning]);
+  const elapsedSeconds = Math.max(time - timeLeft, 0);
+  const displayStats = calculateTypingStats({
+    typedChars: userInput.length,
+    totalTextLength: textToType.length,
+    typoCount: typos,
+    elapsedSeconds,
+  });
 
   // Format time
   const formatTime = (seconds) => {
@@ -93,7 +123,11 @@ const TypingUI = ({ isPublic }) => {
 
     if (e.key === 'Backspace') {
       // Allow backspace
-      setUserInput(prev => prev.slice(0, -1));
+      setUserInput(prev => {
+        const next = prev.slice(0, -1);
+        userInputRef.current = next;
+        return next;
+      });
       setCurrentError(false); // reset error on backspace
       return;
     }
@@ -101,13 +135,19 @@ const TypingUI = ({ isPublic }) => {
     if (e.key.length === 1) { // printable character
       const expected = textToType[userInput.length];
       if (e.key === expected) {
-        setUserInput(prev => prev + e.key);
+        const nextInput = userInput + e.key;
+        userInputRef.current = nextInput;
+        setUserInput(nextInput);
         setCurrentError(false);
-        if (userInput.length + 1 === textToType.length) {
-          handleSubmit();
+        if (nextInput.length === textToType.length) {
+          handleSubmit({ nextInput });
         }
       } else {
-        setTypos(prev => prev + 1);
+        setTypos(prev => {
+          const next = prev + 1;
+          typosRef.current = next;
+          return next;
+        });
         setCurrentError(true);
         e.preventDefault(); // prevent typing wrong letter
       }
@@ -126,14 +166,22 @@ const TypingUI = ({ isPublic }) => {
   }, [isPublic, isRunning, submitted, userInput, textToType, currentError]);
 
   // Submit
-  const handleSubmit = async () => {
-    if (isPublic || submitted) return;
-    // capture the latest stats snapshot from ref to guarantee it's the exact on-screen values
-    const statsToSend = finalStatsRef.current;
-    console.log("UI Stats:", statsToSend);
-
+  const handleSubmit = async (options = {}) => {
+    if (isPublic || submitted || submitLockRef.current) return;
+    submitLockRef.current = true;
+    setSubmitted(true);
     setIsRunning(false);
-    const timeTaken = time - timeLeft;
+
+    const nextInput = typeof options.nextInput === "string" ? options.nextInput : userInputRef.current;
+    const latestTypos = typosRef.current;
+    const latestTimeLeft = timeLeftRef.current;
+    const timeTaken = Math.max(time - latestTimeLeft, 0);
+    const statsToSend = calculateTypingStats({
+      typedChars: nextInput.length,
+      totalTextLength: textToType.length,
+      typoCount: latestTypos,
+      elapsedSeconds: timeTaken,
+    });
 
     const payload = {
       // event / round info
@@ -142,11 +190,11 @@ const TypingUI = ({ isPublic }) => {
 
       // the text and user input
       textToType,
-      userInput,
+      userInput: nextInput,
 
       // timing
       timeConfigured: time,
-      timeLeftAtSubmit: timeLeft,
+      timeLeftAtSubmit: latestTimeLeft,
       timeTaken,
       startTime,
       endTime: Date.now(),
@@ -178,11 +226,12 @@ const TypingUI = ({ isPublic }) => {
     try {
       const response = await submitSubmission(payload);
       console.log("Submission response:", response);
-      // mark submitted only after successfully sending the payload
-      setSubmitted(true);
       alert("✅ Typing test submitted!");
     } catch (err) {
       console.error("Submission failed:", err);
+      submitLockRef.current = false;
+      setSubmitted(false);
+      setIsRunning(true);
       alert("⚠️ Failed to submit typing test. Please try again.");
     }
   };
@@ -242,13 +291,13 @@ const TypingUI = ({ isPublic }) => {
               ⏳ {formatTime(timeLeft)}
             </div>
             <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
-              <span>WPM: {finalStats.wpm}</span>
+              <span>WPM: {displayStats.wpm}</span>
             </div>
             <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
-              <span>Accuracy: {finalStats.accuracy}%</span>
+              <span>Accuracy: {displayStats.accuracy}%</span>
             </div>
             <div className="bg-gray-800 px-6 py-3 rounded-lg shadow-md border border-gray-700">
-              <span>Typos: {finalStats.typos}</span>
+              <span>Typos: {displayStats.typos}</span>
             </div>
             <button
               onClick={handleSubmit}
