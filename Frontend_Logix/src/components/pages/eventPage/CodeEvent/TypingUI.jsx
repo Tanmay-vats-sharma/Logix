@@ -255,15 +255,43 @@ const TypingUI = ({ isPublic }) => {
 
   // Render text with highlights
   const renderText = () => {
-    return textToType.split('').map((char, i) => {
+    const chars = textToType.split('');
+    const rendered = chars.map((char, i) => {
       let className = '';
       if (i < userInput.length) {
         className = 'bg-green-500 text-white'; // since only correct are added
       } else if (i === userInput.length && currentError) {
         className = 'bg-red-500 text-white'; // highlight current expected letter in red on error
+      } else if (i === userInput.length) {
+        className = 'bg-yellow-500/30 text-white';
       }
-      return <span key={i} className={className}>{char}</span>;
+      const isCursor = i === userInput.length;
+
+      // Show cursor before newline since newline itself is not visible.
+      if (isCursor && char === '\n') {
+        return (
+          <span key={i}>
+            <span className="inline-block w-[2px] h-5 align-middle bg-yellow-300 animate-pulse mr-[1px]" />
+            {char}
+          </span>
+        );
+      }
+
+      return (
+        <span key={i} className={className}>
+          {char}
+          {isCursor && <span className="inline-block w-[2px] h-5 align-middle bg-yellow-300 animate-pulse ml-[1px]" />}
+        </span>
+      );
     });
+
+    if (userInput.length === chars.length) {
+      rendered.push(
+        <span key="cursor-end" className="inline-block w-[2px] h-5 align-middle bg-yellow-300 animate-pulse ml-[1px]" />
+      );
+    }
+
+    return rendered;
   };
 
   return (
