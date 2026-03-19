@@ -40,6 +40,8 @@ const TypingUI = ({ isPublic }) => {
   const [currentError, setCurrentError] = useState(false);
   const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
   const [codePreviewText, setCodePreviewText] = useState("");
+  const [isQualificationModalOpen, setIsQualificationModalOpen] = useState(false);
+  const [qualificationStatus, setQualificationStatus] = useState(null);
   const submitLockRef = useRef(false);
   const userInputRef = useRef("");
   const typosRef = useRef(0);
@@ -88,6 +90,53 @@ const TypingUI = ({ isPublic }) => {
     const previewText = userInputRef.current || userInput;
     setCodePreviewText(previewText || "No text available to preview.");
     setIsCodeModalOpen(true);
+  });
+
+  useAbly("event-control", "qualify", (data) => {
+    if (isPublic) return;
+
+    const selectedRollNumbers = Array.isArray(data?.rollNumbers)
+      ? data.rollNumbers.map((value) => String(value).trim())
+      : [];
+
+    const localRollNumbers = [];
+
+    try {
+      const studentRaw = localStorage.getItem("student");
+      if (studentRaw) {
+        const studentParsed = JSON.parse(studentRaw);
+        const studentRoll =
+          studentParsed?.registration?.rollNumber ||
+          studentParsed?.student?.rollNumber ||
+          studentParsed?.rollNumber;
+        if (studentRoll) localRollNumbers.push(String(studentRoll).trim());
+      }
+    } catch (err) {
+      // ignore parse errors
+    }
+
+    try {
+      const teamRaw = localStorage.getItem("team");
+      if (teamRaw) {
+        const teamParsed = JSON.parse(teamRaw);
+        const teamData = teamParsed?.team || teamParsed;
+        const leaderRoll = teamData?.leader?.rollNumber;
+        if (leaderRoll) localRollNumbers.push(String(leaderRoll).trim());
+
+        const memberRolls = Array.isArray(teamData?.members)
+          ? teamData.members.map((member) => member?.rollNumber).filter(Boolean)
+          : [];
+        localRollNumbers.push(...memberRolls.map((roll) => String(roll).trim()));
+      }
+    } catch (err) {
+      // ignore parse errors
+    }
+
+    const uniqueLocalRolls = [...new Set(localRollNumbers)];
+    const isSelected = uniqueLocalRolls.some((roll) => selectedRollNumbers.includes(roll));
+
+    setQualificationStatus(isSelected ? "selected" : "not-selected");
+    setIsQualificationModalOpen(true);
   });
 
   useEffect(() => {
@@ -415,6 +464,26 @@ const TypingUI = ({ isPublic }) => {
                   </pre>
                 )}
               </div>
+            </div>
+          </div>
+        )}
+
+        {isQualificationModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+            <div className="w-full max-w-lg rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-2xl text-center">
+              <h2 className="text-2xl font-bold text-gray-100 mb-3">Qualification Result</h2>
+              {qualificationStatus === "selected" ? (
+                <p className="text-green-400 text-lg">You are selected for the next round.</p>
+              ) : (
+                <p className="text-yellow-300 text-lg">Better luck next time.</p>
+              )}
+              <button
+                type="button"
+                onClick={() => setIsQualificationModalOpen(false)}
+                className="mt-5 rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-gray-200 transition hover:bg-gray-700"
+              >
+                Close
+              </button>
             </div>
           </div>
         )}

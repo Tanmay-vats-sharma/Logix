@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { FileCheck, Search, X, ArrowUpDown, Trophy } from "lucide-react";
 import { getSubmissions, updateCorrectSubmission } from "../../services/submissionService";
 import { toast } from "react-toastify";
+import { getChannel } from "../../utils/ably";
 
 const SubmissionsTab = () => {
+  const channel = getChannel("event-control");
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
@@ -109,7 +111,27 @@ const SubmissionsTab = () => {
       return (a.typos ?? 0) - (b.typos ?? 0);
     });
 
-    setQualifiedTeams(sortedTeams.slice(0, count).map((t) => t.teamId));
+    const selected = sortedTeams.slice(0, count);
+    const selectedRollNumbers = [
+      ...new Set(
+        selected
+          .flatMap((entry) =>
+            Array.isArray(entry?.rollNumbers) && entry.rollNumbers.length > 0
+              ? entry.rollNumbers
+              : [entry?.teamId]
+          )
+          .filter(Boolean)
+          .map((value) => String(value).trim())
+      ),
+    ];
+
+    setQualifiedTeams(selected.map((t) => t.teamId));
+    channel.publish("qualify", {
+      rollNumbers: selectedRollNumbers,
+      totalQualified: count,
+      message: "qualify-result",
+    });
+
     toast.success(`${count} teams qualified successfully!`);
   };
 

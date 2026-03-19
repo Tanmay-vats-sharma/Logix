@@ -14,19 +14,27 @@ const getSubmissions = async (req, res) => {
       submissions.map(async (s) => {
         let teamName = null;
         let teamId = null;
+        let rollNumbers = [];
 
         // Try Team first
         if (s.team) {
-          const teamDoc = await Team.findById(s.team).select("teamName teamId").lean();
+          const teamDoc = await Team.findById(s.team)
+            .select("teamName teamId leader.rollNumber members.rollNumber")
+            .lean();
           if (teamDoc) {
             teamName = teamDoc.teamName;
             teamId = teamDoc.teamId;
+            rollNumbers = [
+              teamDoc?.leader?.rollNumber,
+              ...(teamDoc?.members || []).map((m) => m?.rollNumber),
+            ].filter(Boolean);
           } else {
             // Fallback: maybe it's a Registration (solo student)
             const reg = await Registration.findById(s.team).select("name rollNumber").lean();
             if (reg) {
               teamName = reg.name;
               teamId = reg.rollNumber;
+              rollNumbers = reg.rollNumber ? [reg.rollNumber] : [];
             }
           }
         }
@@ -35,6 +43,7 @@ const getSubmissions = async (req, res) => {
           id: s._id,
           teamId,
           teamName,
+          rollNumbers,
           submission: s.submission,
           timeTaken: s.timeTaken,
           correctSubmission: s.correctSubmission,
