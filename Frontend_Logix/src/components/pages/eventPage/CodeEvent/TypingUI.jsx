@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import useAbly from "../../../../hooks/useAbly";
 import { submitSubmission } from "../../../../services/submissionService";
+import CodeRunner from "./CodeRunner";
 
 const calculateTypingStats = ({ typedChars, totalTextLength, typoCount, elapsedSeconds }) => {
   const safeTyped = Math.max(typedChars, 0);
@@ -37,6 +38,8 @@ const TypingUI = ({ isPublic }) => {
   const [startTime, setStartTime] = useState(null);
   const [typos, setTypos] = useState(0);
   const [currentError, setCurrentError] = useState(false);
+  const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
+  const [codePreviewText, setCodePreviewText] = useState("");
   const submitLockRef = useRef(false);
   const userInputRef = useRef("");
   const typosRef = useRef(0);
@@ -71,6 +74,20 @@ const TypingUI = ({ isPublic }) => {
     setTypos(0);
     setCurrentError(false);
     setStartTime(Date.now());
+  });
+
+  useAbly("event-control", "view-code", (data) => {
+    if (isPublic) return;
+    const command = data?.action || data?.message;
+
+    if (command === "close") {
+      setIsCodeModalOpen(false);
+      return;
+    }
+
+    const previewText = userInputRef.current || userInput;
+    setCodePreviewText(previewText || "No text available to preview.");
+    setIsCodeModalOpen(true);
   });
 
   useEffect(() => {
@@ -372,6 +389,35 @@ const TypingUI = ({ isPublic }) => {
             </p>
           </div>
         </div>
+
+        {/* Code Preview Modal triggered from admin event-control:view-code */}
+        {isCodeModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+            <div className="w-full max-w-4xl rounded-xl border border-gray-700 bg-gray-900 shadow-2xl">
+              <div className="flex items-center justify-between border-b border-gray-700 px-6 py-4">
+                <h2 className="text-xl font-semibold text-gray-100">Code Preview</h2>
+                <button
+                  type="button"
+                  onClick={() => setIsCodeModalOpen(false)}
+                  className="rounded-md bg-gray-800 px-3 py-1.5 text-sm font-medium text-gray-200 transition hover:bg-gray-700"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="max-h-[70vh] overflow-auto px-6 py-5">
+                {codePreviewText ? (
+                  <div className="h-[60vh]">
+                    <CodeRunner code={codePreviewText} />
+                  </div>
+                ) : (
+                  <pre className="whitespace-pre-wrap break-words rounded-lg bg-gray-950 p-4 text-sm text-gray-100">
+                    No text available to preview.
+                  </pre>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
